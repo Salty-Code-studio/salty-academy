@@ -92,13 +92,30 @@
   .pack .bar i { display:block; height:5px; border-radius:99px; background:currentColor; }
   .pack .actions { display:flex; align-items:center; justify-content:space-between; gap:.8rem; flex-wrap:wrap; }
   .pack .actions .textlink { color:inherit; }
-  .pack.c0 { background:var(--teal); color:var(--teal-ink); }
-  .pack.c1 { background:var(--blue); color:var(--ink); }
-  .pack.c2 { background:var(--sandcard); color:var(--ink); }
-  .pack.c3 { background:var(--clay); color:var(--ink); }
-  .pack.c0 .btn { background:var(--coral); color:#fff; }
-  .pack.c1 .btn, .pack.c2 .btn, .pack.c3 .btn { background:var(--teal); color:var(--teal-ink); }
   .pack .done { font-size:.78rem; font-weight:700; letter-spacing:.08em; }
+  .herorow { display:flex; gap:2.5rem; align-items:center; justify-content:space-between; flex-wrap:wrap; }
+  .herorow .htext { flex:1 1 340px; }
+  .donutwrap { text-align:center; }
+  .donutwrap .dlabel { font-family:ui-monospace,"SF Mono",Menlo,monospace; font-size:.68rem;
+    letter-spacing:.16em; text-transform:uppercase; color:var(--soft); margin-top:.5rem; }
+  .legend { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:.4rem 1.2rem; margin:1.2rem 0; }
+  .legend .li { display:flex; align-items:center; gap:.55rem; font-size:.88rem; }
+  .legend .dot { width:.7rem; height:.7rem; border-radius:3px; flex:none; }
+  .legend .pct { margin-left:auto; font-weight:700; font-variant-numeric:tabular-nums; }
+  .ladder { display:flex; gap:.4rem; flex-wrap:wrap; margin:1rem 0 1.4rem; }
+  .ladder .stepp { flex:1 1 100px; background:var(--paper); border:1.5px solid var(--line);
+    border-radius:12px; padding:.7rem .5rem; text-align:center; }
+  .ladder .stepp .e { font-size:1.5rem; }
+  .ladder .stepp .n2 { font-weight:700; font-size:.8rem; margin-top:.15rem; }
+  .ladder .stepp .x { font-family:ui-monospace,"SF Mono",Menlo,monospace; font-size:.64rem; color:var(--soft); }
+  .ladder .stepp.now { border-color:var(--coral); background:#fdf1ec; }
+  .ladder .stepp.past { opacity:.55; }
+  .ladder .stepp.next2 { border-style:dashed; }
+  .hist { border-top:1px solid var(--line); }
+  .hist .hrow { display:flex; align-items:center; gap:.9rem; padding:.6rem 0; border-bottom:1px solid var(--line); font-size:.9rem; }
+  .hist .hdate { font-family:ui-monospace,"SF Mono",Menlo,monospace; font-size:.72rem; color:var(--soft); flex:none; width:7.5rem; }
+  .hist .htag { color:#fff; border-radius:999px; padding:.15rem .6rem; font-size:.72rem; font-weight:700; flex:none; }
+  .hist .hscore { margin-left:auto; font-weight:700; font-variant-numeric:tabular-nums; }
   /* teaser */
   .teaser { border:1px solid var(--line); border-radius:14px; background:var(--paper);
     padding:1.3rem 1.5rem; display:flex; gap:1.2rem; align-items:center; flex-wrap:wrap; margin:1.6rem 0; }
@@ -245,8 +262,27 @@ var META = {
   m5:{big:"SYSTEMS", desc:"Databases, APIs and booking engines: how business software fits together."},
   m6:{big:"SELL",    desc:"The conversation spine, insider questions, and stories that carry proof."}
 };
+var THEMES = {
+  p1:{acc:"#D65F46", ink:"#EFE9DB", btn:"#E8735A", btnInk:"#fff",
+      g:"radial-gradient(circle at 85% 10%, rgba(232,115,90,.5), transparent 55%), linear-gradient(140deg,#1E3A3D,#10262A)"},
+  p2:{acc:"#5E8CA7", ink:"#26393E", btn:"#1E3A3D", btnInk:"#EFE9DB",
+      g:"radial-gradient(circle at 85% 10%, rgba(255,255,255,.55), transparent 55%), linear-gradient(140deg,#AFCBDC,#8DB2C8)"},
+  m1:{acc:"#A08A55", ink:"#26393E", btn:"#1E3A3D", btnInk:"#EFE9DB",
+      g:"radial-gradient(circle at 85% 10%, rgba(255,255,255,.6), transparent 55%), linear-gradient(140deg,#EFE6CF,#DCCFAE)"},
+  m2:{acc:"#C97B5A", ink:"#26393E", btn:"#1E3A3D", btnInk:"#EFE9DB",
+      g:"radial-gradient(circle at 85% 10%, rgba(255,255,255,.5), transparent 55%), linear-gradient(140deg,#EFC5B0,#E0A288)"},
+  m3:{acc:"#3F7D5F", ink:"#EAE6D8", btn:"#6FAE8C", btnInk:"#0F241B",
+      g:"radial-gradient(circle at 85% 10%, rgba(214,196,120,.35), transparent 55%), linear-gradient(140deg,#2E5946,#183A2D)"},
+  m4:{acc:"#5F76C7", ink:"#E7E9F2", btn:"#8DA2E8", btnInk:"#131A33",
+      g:"radial-gradient(circle at 85% 10%, rgba(141,162,232,.4), transparent 55%), linear-gradient(140deg,#2B3654,#171F3A)"},
+  m5:{acc:"#3E8A96", ink:"#E4EAEA", btn:"#57A7B3", btnInk:"#0E2226",
+      g:"radial-gradient(circle at 85% 10%, rgba(87,167,179,.35), transparent 55%), linear-gradient(140deg,#33454C,#1B2A30)"},
+  m6:{acc:"#B0452F", ink:"#F6E7DC", btn:"#E8735A", btnInk:"#fff",
+      g:"radial-gradient(circle at 85% 10%, rgba(255,170,120,.4), transparent 55%), linear-gradient(140deg,#8A4432,#54251B)"}
+};
+function TH(id){ return THEMES[id] || THEMES.p1; }
 var KEY = "salty-academy-game-v1";
-var RANKS = [[0,"Deckhand"],[150,"Beachcomber"],[400,"Wave Rider"],[800,"Reef Captain"],[1400,"Harbor Master"],[2200,"Salty Legend"]];
+var RANKS = [[0,"Worm","🪱"],[150,"Bait","🪝"],[400,"Small Fish","🐡"],[800,"Fish","🐠"],[1400,"Big Tuna","🐟"],[2200,"Boat","🚤"],[3200,"Fleet","⛵"]];
 var XP = { sprint:10, cards:5, speak:8, bossQ:10, bossPass:50 };
 var CONF_BONUS = { guess:0, pretty:1, know:3 };
 var BOSS_N = 10, BOSS_PASS = 8;
@@ -270,7 +306,9 @@ function touchStreak(){
   if (p.streak >= 7) grant("streak7");
   save();
 }
-function rank(xp){ var r = RANKS[0][1]; RANKS.forEach(function(x){ if (xp>=x[0]) r=x[1]; }); return r; }
+function rankObj(xp){ var r = RANKS[0]; RANKS.forEach(function(x){ if (xp>=x[0]) r=x; }); return r; }
+function rank(xp){ return rankObj(xp)[1]; }
+function rankIco(xp){ return rankObj(xp)[2]; }
 function nextRank(xp){ for (var i=0;i<RANKS.length;i++){ if (xp<RANKS[i][0]) return RANKS[i]; } return null; }
 var BADGES = {
   streak7:{ico:"🔥",name:"7-day streak"},
@@ -333,12 +371,28 @@ function syncNav(){
   var np=document.getElementById("navplayer");
   np.textContent = S.current ? S.current : "Player";
 }
-function ring(pct){
+function ring(pct, color){
   var r=17, c=2*Math.PI*r, off=c*(1-pct/100);
   return '<span class="ring"><svg viewBox="0 0 42 42">'
     + '<circle class="bg" cx="21" cy="21" r="'+r+'" fill="none" stroke-width="4"/>'
-    + '<circle class="fg" cx="21" cy="21" r="'+r+'" fill="none" stroke-width="4" stroke-linecap="round" stroke-dasharray="'+c+'" stroke-dashoffset="'+off+'"/>'
+    + '<circle class="fg" cx="21" cy="21" r="'+r+'" fill="none" stroke-width="4" stroke-linecap="round" stroke-dasharray="'+c+'" stroke-dashoffset="'+off+'"'+(color?' style="stroke:'+color+'"':'')+'/>'
     + '<text x="21" y="25" text-anchor="middle">'+pct+'</text></svg></span>';
+}
+function donut(size, label){
+  var w = Math.round(size*0.1), r = (size - w - 2)/2, cx = size/2, c = 2*Math.PI*r;
+  var segLen = c/MODS.length, gap = Math.max(2, c*0.008), base = segLen - gap;
+  var svg = '<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'">';
+  MODS.forEach(function(m,i){
+    var a = TH(m.id).acc, frac = mastery(m)/100;
+    var rot = 'transform="rotate('+(i*(360/MODS.length)-90)+' '+cx+' '+cx+')"';
+    svg += '<circle cx="'+cx+'" cy="'+cx+'" r="'+r+'" fill="none" stroke="'+a+'" stroke-opacity=".18" stroke-width="'+w+'" stroke-dasharray="'+base+' '+(c-base)+'" '+rot+'/>';
+    if (frac>0.01) svg += '<circle cx="'+cx+'" cy="'+cx+'" r="'+r+'" fill="none" stroke="'+a+'" stroke-width="'+w+'" stroke-linecap="round" stroke-dasharray="'+(base*frac)+' '+(c-base*frac)+'" '+rot+'/>';
+  });
+  var p = P();
+  svg += '<text x="'+cx+'" y="'+(cx-size*0.02)+'" text-anchor="middle" style="font-size:'+(size*0.22)+'px">'+rankIco(p.xp)+'</text>'
+    + '<text x="'+cx+'" y="'+(cx+size*0.16)+'" text-anchor="middle" style="font-size:'+(size*0.085)+'px;font-weight:700;fill:var(--ink)">'+p.xp+' xp</text>'
+    + '</svg>';
+  return '<div class="donutwrap">'+svg+(label?'<div class="dlabel">'+esc(label)+'</div>':'')+'</div>';
 }
 
 /* ---------- views ---------- */
@@ -348,13 +402,15 @@ function learn(){
   view="learn"; if(!guard()) return;
   touchStreak();
   var p = P(), nr = nextRank(p.xp);
-  var h = '<p class="eyebrow">Your next five minutes</p>'
+  var h = '<div class="herorow"><div class="htext">'
+    + '<p class="eyebrow">Your next five minutes</p>'
     + '<h1>Less script.<br><span class="dim">More understanding.</span></h1>'
     + '<p class="sub">Pick a subject. Test what sticks. Say it your way.</p>'
     + '<div class="chips">'
-    + '<span class="chip">⚡ <b>'+p.xp+'</b> xp · '+esc(rank(p.xp))+(nr? ' <span class="muted">('+(nr[0]-p.xp)+' to '+esc(nr[1])+')</span>':'')+'</span>'
+    + '<span class="chip">'+rankIco(p.xp)+' <b>'+esc(rank(p.xp))+'</b>'+(nr? ' <span class="muted">· '+(nr[0]-p.xp)+' xp to '+nr[2]+' '+esc(nr[1])+'</span>':'')+'</span>'
     + '<span class="chip">🔥 <b>'+p.streak+'</b> day'+(p.streak===1?'':'s')+'</span>'
-    + '<span class="chip">🎓 <b>'+totalMastery()+'%</b> overall</span>'
+    + '</div></div>'
+    + '<div onclick="GA.nav(\'progress\')" style="cursor:pointer">'+donut(150,"Your catch so far")+'</div>'
     + '</div>';
   if (p.last && p.last.mod && mod(p.last.mod)){
     var lm = mod(p.last.mod);
@@ -371,7 +427,8 @@ function learn(){
   MODS.forEach(function(m,i){
     var rc = recalled(m), tot = (m.cards||[]).length, rev = toRevisit(m), pct = mastery(m);
     var meta = META[m.id]||{big:m.num,desc:""};
-    h += '<div class="pack c'+(i%4)+'">'
+    var t = TH(m.id);
+    h += '<div class="pack" style="background:'+t.g+';color:'+t.ink+'">'
       + '<div class="rowtop"><span class="numpill">'+("0"+(i+1)).slice(-2)+' / '+m.num+'</span><span>'+tot+' terms</span></div>'
       + '<div class="big">'+esc(meta.big)+'</div>'
       + '<h3>'+esc(m.title)+'</h3>'
@@ -379,7 +436,7 @@ function learn(){
       + '<div class="recall"><span>'+rc+' of '+tot+' recalled</span><span>'+(rev? rev+' to revisit':'')+'</span></div>'
       + '<div class="bar"><i style="width:'+pct+'%"></i></div>'
       + '<div class="actions">'
-      + '<button class="btn" onclick="GA.sprintRun(\''+m.id+'\')">Start a Sprint ↗</button>'
+      + '<button class="btn" style="background:'+t.btn+';color:'+t.btnInk+'" onclick="GA.sprintRun(\''+m.id+'\')">Start a Sprint ↗</button>'
       + '<button class="textlink" onclick="GA.cards(\''+m.id+'\')">Flashcards</button>'
       + '</div>'
       + (P().boss[m.id] ? '<div class="done" style="margin-top:.9rem">✓ '+m.num+' MASTERED</div>'
@@ -419,15 +476,20 @@ function sprintHome(){
   view="sprint"; if(!guard()) return;
   var h = '<p class="eyebrow">Salty Sprint</p>'
     + '<h1>Eight questions.<br><span class="dim">Zero pressure.</span></h1>'
-    + '<p class="sub">Pick a pack. Every answer gets an explanation, and you say how sure you are before you check. The mastery round is the boss: ten questions, eight needed.</p>';
+    + '<p class="sub">Pick a pack. Every answer gets an explanation, and you say how sure you are before you check. The mastery round is the boss: ten questions, eight needed.</p>'
+    + '<div class="panel" style="max-width:640px;margin:0 0 1.6rem"><p class="eyebrow" style="margin-bottom:.5rem">What a Sprint trains, and how to get the most out of it</p>'
+    + '<p class="muted" style="margin-bottom:.4rem"><b style="color:var(--ink)">Say it before you tap.</b> Answer out loud first, then pick. The goal is not the score, it is being able to say this to a client later.</p>'
+    + '<p class="muted" style="margin-bottom:.4rem"><b style="color:var(--ink)">Be honest on the confidence chips.</b> Knowing what you know is the skill. A confident miss jumps to the front of your review queue on purpose.</p>'
+    + '<p class="muted" style="margin-bottom:.4rem"><b style="color:var(--ink)">Read every explanation.</b> That one line under the answer is where the learning lives, right or wrong.</p>'
+    + '<p class="muted" style="margin:0"><b style="color:var(--ink)">Missed items come back.</b> Nothing is lost: everything you miss returns in Review until it sticks.</p></div>';
   MODS.forEach(function(m){
-    var passed = P().boss[m.id];
-    h += '<div class="rowitem"><span class="ico">'+m.icon+'</span>'
+    var passed = P().boss[m.id], t = TH(m.id);
+    h += '<div class="rowitem" style="border-left:6px solid '+t.acc+'"><span class="ico">'+m.icon+'</span>'
       + '<div class="grow"><h3>'+m.num+' · '+esc(m.title)+'</h3>'
       + '<div class="sub2">'+(passed?'✓ mastered':'mastery round not yet beaten')+'</div></div>'
-      + ring(mastery(m))
-      + '<button class="btn" onclick="GA.sprintRun(\''+m.id+'\')">Sprint</button>'
-      + '<button class="btn ghost" onclick="GA.bossRun(\''+m.id+'\')">Mastery</button>'
+      + ring(mastery(m), t.acc)
+      + '<button class="btn" style="background:'+t.acc+';color:#fff" onclick="GA.sprintRun(\''+m.id+'\')">Sprint</button>'
+      + '<button class="btn ghost" style="color:'+t.acc+';border-color:'+t.acc+'" onclick="GA.bossRun(\''+m.id+'\')">Mastery</button>'
       + '</div>';
   });
   render(h);
@@ -442,21 +504,24 @@ function speakHome(filter){
     + '<div class="chips" style="margin-bottom:.4rem">'
     + '<button class="chip'+(filter==="all"?" on":"")+'" onclick="GA.speakFilter(\'all\')">All packs</button>';
   MODS.forEach(function(m){
-    if (m.speak && m.speak.length)
-      h += '<button class="chip'+(filter===m.id?" on":"")+'" onclick="GA.speakFilter(\''+m.id+'\')">'+m.num+'</button>';
+    if (m.speak && m.speak.length){
+      var t = TH(m.id), on = filter===m.id;
+      h += '<button class="chip" style="'+(on?'background:'+t.acc+';color:#fff;border-color:'+t.acc:'color:'+t.acc+';border-color:'+t.acc)+'" onclick="GA.speakFilter(\''+m.id+'\')">'+m.num+'</button>';
+    }
   });
   h += '</div><div class="speakgrid">';
   var n = 0;
   MODS.forEach(function(m){
     if (!m.speak || (filter!=="all" && filter!==m.id)) return;
+    var t = TH(m.id);
     m.speak.forEach(function(s,i){
       n++;
       var done = P().correct["s:"+m.id+":"+i];
-      h += '<button class="scard" onclick="GA.speakOne(\''+m.id+'\','+i+')">'
-        + '<span class="n">'+("0"+n).slice(-2)+' · 30 seconds · '+m.num+(done?' · ✓ done':'')+'</span>'
+      h += '<button class="scard" style="border-top:4px solid '+t.acc+'" onclick="GA.speakOne(\''+m.id+'\','+i+')">'
+        + '<span class="n" style="color:'+t.acc+'">'+("0"+n).slice(-2)+' · 30 seconds · '+m.num+(done?' · ✓ done':'')+'</span>'
         + '<h3>'+esc(s.prompt)+'</h3>'
         + '<span class="words">'+s.words.map(esc).join(" · ")+'</span>'
-        + '<span class="go"><span>Give it a go</span><span>↗</span></span>'
+        + '<span class="go"><span>Give it a go</span><span style="color:'+t.acc+'">↗</span></span>'
         + '</button>';
     });
   });
@@ -473,15 +538,18 @@ function libraryView(filter){
     + '<div class="chips" style="margin-bottom:.6rem">'
     + '<button class="chip'+(filter==="all"?" on":"")+'" onclick="GA.libTab(\'all\')">All packs</button>';
   MODS.forEach(function(m){
-    if (m.cards && m.cards.length)
-      h += '<button class="chip'+(filter===m.id?" on":"")+'" onclick="GA.libTab(\''+m.id+'\')">'+m.num+'</button>';
+    if (m.cards && m.cards.length){
+      var t = TH(m.id), on = filter===m.id;
+      h += '<button class="chip" style="'+(on?'background:'+t.acc+';color:#fff;border-color:'+t.acc:'color:'+t.acc+';border-color:'+t.acc)+'" onclick="GA.libTab(\''+m.id+'\')">'+m.num+'</button>';
+    }
   });
   h += '</div><input type="text" id="libsearch" placeholder="Search a term..." oninput="GA.libFilter(this.value)" autocomplete="off">';
   MODS.forEach(function(m){
     if (!m.cards || !m.cards.length || (filter!=="all" && filter!==m.id)) return;
-    h += '<p class="eyebrow" style="margin-top:1.6rem">'+m.icon+' '+m.num+' · '+esc(m.title)+'</p>';
+    var t = TH(m.id);
+    h += '<p class="eyebrow" style="margin-top:1.6rem;color:'+t.acc+'">'+m.icon+' '+m.num+' · '+esc(m.title)+'</p>';
     m.cards.forEach(function(c){
-      h += '<details class="lib-item" data-term="'+esc((c.t+" "+c.d).toLowerCase())+'">'
+      h += '<details class="lib-item" style="border-left:4px solid '+t.acc+'" data-term="'+esc((c.t+" "+c.d).toLowerCase())+'">'
         + '<summary>'+esc(c.t)+'</summary>'
         + '<p>'+esc(c.d)+'</p>'
         + '<p class="say">&ldquo;'+esc(c.s)+'&rdquo;</p></details>';
@@ -492,12 +560,48 @@ function libraryView(filter){
 
 function progressView(){
   view="progress"; if(!guard()) return;
+  var p = P(), nr = nextRank(p.xp);
   var names = Object.keys(S.players).sort(function(a,b){ return S.players[b].xp - S.players[a].xp; });
   var h = '<p class="eyebrow">Progress</p>'
-    + '<h1>'+esc(S.current)+' <span class="dim">· '+esc(rank(P().xp))+'</span></h1>'
-    + '<div class="panel" style="max-width:640px"><table class="lb"><tr><th>#</th><th>Player</th><th>XP</th><th>Rank</th><th>🔥 Streak</th></tr>';
+    + '<h1>'+esc(S.current)+' <span class="dim">· '+rankIco(p.xp)+' '+esc(rank(p.xp))+'</span></h1>'
+    + '<div class="herorow" style="align-items:flex-start">'
+    + donut(220,"Your catch, pack by pack")
+    + '<div style="flex:1 1 320px"><div class="legend">';
+  MODS.forEach(function(m){
+    var t = TH(m.id);
+    h += '<div class="li"><span class="dot" style="background:'+t.acc+'"></span>'
+      + '<span>'+m.num+' · '+esc((META[m.id]||{}).big||m.title)+'</span>'
+      + '<span class="pct" style="color:'+t.acc+'">'+mastery(m)+'%</span></div>';
+  });
+  h += '</div></div></div>';
+  h += '<h2>The catch ladder</h2>'
+    + '<p class="muted" style="margin-top:-.4rem">Every sprint, card and prompt feeds the line. From worm to fleet.</p>'
+    + '<div class="ladder">';
+  var cur = rankObj(p.xp);
+  RANKS.forEach(function(rk,i){
+    var cls = rk[0]===cur[0] ? "now" : (p.xp>=rk[0] ? "past" : (nr && rk[0]===nr[0] ? "next2" : ""));
+    h += '<div class="stepp '+cls+'"><div class="e">'+rk[2]+'</div><div class="n2">'+esc(rk[1])+'</div><div class="x">'+rk[0]+' xp</div></div>';
+  });
+  h += '</div>';
+  if (nr) h += '<p class="muted">'+(nr[0]-p.xp)+' xp until you are '+nr[2]+' <b>'+esc(nr[1])+'</b>.</p>';
+  if (p.history && p.history.length){
+    h += '<h2>Recent rounds</h2><div class="hist">';
+    p.history.slice().reverse().slice(0,12).forEach(function(e){
+      var m = e.pack ? mod(e.pack) : null;
+      var t = m ? TH(m.id) : null;
+      var d = new Date(e.t);
+      var when = d.toLocaleDateString(undefined,{day:"numeric",month:"short"}) + " · " + d.toLocaleTimeString(undefined,{hour:"2-digit",minute:"2-digit"});
+      h += '<div class="hrow"><span class="hdate">'+esc(when)+'</span>'
+        + (m ? '<span class="htag" style="background:'+t.acc+'">'+m.num+'</span>' : '<span class="htag" style="background:var(--soft)">MIX</span>')
+        + '<span>'+esc(e.label)+'</span>'
+        + '<span class="hscore">'+(e.n? e.score+"/"+e.n : "")+'</span></div>';
+    });
+    h += '</div>';
+  }
+  h += '<h2>Leaderboard</h2><div class="panel" style="max-width:640px"><table class="lb"><tr><th>#</th><th>Player</th><th>XP</th><th>Catch</th><th>🔥 Streak</th></tr>';
   names.forEach(function(n,i){
-    h += '<tr class="'+(i===0?'rank1':'')+'"><td>'+(i+1)+'</td><td>'+esc(n)+'</td><td>'+S.players[n].xp+'</td><td>'+esc(rank(S.players[n].xp))+'</td><td>'+S.players[n].streak+'</td></tr>';
+    var px = S.players[n].xp;
+    h += '<tr class="'+(i===0?'rank1':'')+'"><td>'+(i+1)+'</td><td>'+esc(n)+'</td><td>'+px+'</td><td>'+rankIco(px)+' '+esc(rank(px))+'</td><td>'+S.players[n].streak+'</td></tr>';
   });
   h += '</table></div><h2>Badges</h2><div>';
   Object.keys(BADGES).forEach(function(id){
@@ -551,8 +655,9 @@ function reviewRun(){
 }
 function ideaScreen(m, mode){
   view = "sprint";
+  var t = TH(m.id);
   render(playbar(m.num+' · '+(mode==="boss"?"Mastery round":"Salty Sprint"))
-    + '<div class="narrow"><div class="idea">'
+    + '<div class="narrow"><div class="idea" style="background:'+t.g+';color:'+t.ink+'">'
     + '<p class="eyebrow">Before you start</p>'
     + '<div class="big" style="font-size:1.15rem;margin-bottom:.3rem">One idea to hold on to.</div>'
     + '<div class="big" style="color:#D8CDB4">'+esc(m.idea||"")+'</div>'
@@ -625,6 +730,10 @@ function renderMC(it){
 function results(){
   if (!run) return learn();
   var p=P(), n=run.items.length, sc=run.score, m=run.mod;
+  var labels = {sprint:"Salty Sprint", boss:"Mastery round", cards:"Flashcards", speak:"Talk from Three", review:"Review"};
+  if (!p.history) p.history = [];
+  p.history.push({ t: Date.now(), pack: m?m.id:null, label: labels[run.mode]||run.mode, score: sc, n: n });
+  if (p.history.length > 40) p.history = p.history.slice(-40);
   var passedBoss=false, perfect=false;
   if (run.mode==="boss" && m){
     if (sc>=BOSS_PASS){ passedBoss=true;
