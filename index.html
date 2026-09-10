@@ -4,107 +4,228 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Salty Academy · The Game</title>
+<title>Salty Academy · Learn it. Say it.</title>
 <style>
   :root {
-    --sand:#F5F1E8; --ink:#16282E; --surf:#0E7C86; --dune:#8A7F6A;
-    --hairline:#DDD5C4; --card:#FDFBF6; --surf-soft:rgba(14,124,134,.08);
+    --cream:#F2EDE3; --paper:#FBF8F1; --ink:#26393E; --soft:#5E6E6E;
+    --teal:#1E3A3D; --teal-ink:#EFE9DB; --coral:#E8735A; --coral-dark:#D65F46;
+    --line:#DCD3C2; --blue:#9DBFD2; --sandcard:#E7DEC9; --clay:#E9B9A5;
     --good:#2E7D4F; --bad:#B4452F; --gold:#B98A2E;
   }
-  @media (prefers-color-scheme: dark) {
-    :root { --sand:#0F1B1E; --ink:#EDE6D6; --surf:#4FB3BC; --dune:#9A917E;
-      --hairline:#24373C; --card:#152427; --surf-soft:rgba(79,179,188,.1);
-      --good:#5BB884; --bad:#E07856; --gold:#D9AC55; }
-  }
   * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-  body { background:var(--sand); color:var(--ink); margin:0;
-    font-family:"Avenir Next","Helvetica Neue",-apple-system,sans-serif;
-    font-size:1rem; line-height:1.5; }
-  .app { max-width:520px; margin:0 auto; padding:1.2rem 1.1rem 5.5rem; min-height:100vh; }
-  .mark { font-weight:700; font-size:1rem; letter-spacing:.02em; color:var(--surf); }
+  html { scroll-behavior:smooth; }
+  body { background:var(--cream); color:var(--ink); margin:0;
+    font-family:"Avenir Next","Helvetica Neue",-apple-system,"Segoe UI",sans-serif;
+    font-size:1rem; line-height:1.55; }
+  .mono { font-family:ui-monospace,"SF Mono",Menlo,monospace; }
+  /* header */
+  header.top { background:var(--teal); color:var(--teal-ink); }
+  .topin { max-width:1060px; margin:0 auto; padding:1rem 1.2rem;
+    display:flex; align-items:center; gap:1rem; flex-wrap:wrap; }
+  .wordmark { line-height:1.1; margin-right:auto; cursor:pointer; }
+  .wordmark .wm { font-weight:700; font-size:1.25rem; letter-spacing:-.01em; }
+  .wordmark .wm .tilde { color:var(--coral); letter-spacing:-.12em; margin-right:.35rem; }
+  .wordmark .wm .a { color:var(--coral); }
+  .wordmark .by { font-family:ui-monospace,"SF Mono",Menlo,monospace;
+    font-size:.6rem; letter-spacing:.22em; color:#9DB0AC; margin-top:.15rem; }
+  nav.main { display:flex; gap:.25rem; flex-wrap:wrap; align-items:center; }
+  nav.main button { font:inherit; font-weight:600; font-size:.9rem; cursor:pointer;
+    background:transparent; color:var(--teal-ink); border:none; border-radius:999px;
+    padding:.55rem 1rem; white-space:nowrap; }
+  nav.main button.active { background:var(--paper); color:var(--ink); }
+  nav.main button.player { color:var(--coral); font-weight:700; }
+  .strip { border-bottom:1px solid var(--line); }
+  .stripin { max-width:1060px; margin:0 auto; padding:.7rem 1.2rem;
+    display:flex; justify-content:space-between; gap:1rem;
+    font-family:ui-monospace,"SF Mono",Menlo,monospace; font-size:.68rem;
+    letter-spacing:.16em; color:var(--soft); text-transform:uppercase; }
+  /* layout */
+  .page { max-width:1060px; margin:0 auto; padding:2.2rem 1.2rem 5rem; }
+  .narrow { max-width:640px; }
   .eyebrow { font-family:ui-monospace,"SF Mono",Menlo,monospace; font-size:.68rem;
-    letter-spacing:.14em; text-transform:uppercase; color:var(--dune); margin:0 0 .4rem; }
-  h1 { font-weight:700; font-size:1.7rem; letter-spacing:-.015em; line-height:1.1; margin:.3rem 0 .8rem; }
-  h2 { font-weight:700; font-size:1.2rem; margin:0 0 .6rem; }
-  p { margin:0 0 .8rem; }
-  .muted { color:var(--dune); font-size:.9rem; }
-  button { font:inherit; cursor:pointer; border:none; border-radius:10px; }
-  .btn { display:block; width:100%; padding:.95rem 1.1rem; margin:.5rem 0;
-    background:var(--surf); color:#fff; font-weight:600; font-size:1rem; text-align:center; }
-  .btn.ghost { background:transparent; color:var(--surf); border:1.5px solid var(--surf); }
-  .btn.quiet { background:var(--card); color:var(--ink); border:1px solid var(--hairline); }
-  .btn:active { transform:scale(.985); }
-  .panel { background:var(--card); border:1px solid var(--hairline); border-radius:14px;
-    padding:1.1rem 1.2rem; margin:.7rem 0; }
-  .row { display:flex; align-items:center; gap:.8rem; }
-  .grow { flex:1; }
-  .statbar { display:flex; gap:.6rem; margin:.8rem 0 1rem; flex-wrap:wrap; }
-  .chip { background:var(--card); border:1px solid var(--hairline); border-radius:999px;
-    padding:.35rem .8rem; font-size:.8rem; font-weight:600; white-space:nowrap; }
-  .chip b { color:var(--surf); }
-  .modcard { display:flex; gap:.9rem; align-items:center; width:100%; text-align:left;
-    background:var(--card); border:1px solid var(--hairline); border-radius:14px;
-    padding:1rem 1.1rem; margin:.55rem 0; color:var(--ink); }
-  .modcard .ico { font-size:1.5rem; width:2.2rem; text-align:center; }
-  .modcard h3 { margin:0; font-size:1rem; font-weight:600; }
-  .modcard .sub { font-size:.78rem; color:var(--dune); margin-top:.15rem; }
-  .ring { width:44px; height:44px; flex:none; }
-  .ring svg { width:44px; height:44px; transform:rotate(-90deg); }
-  .ring .bg { stroke:var(--hairline); }
-  .ring .fg { stroke:var(--surf); transition:stroke-dashoffset .5s; }
-  .ring text { transform:rotate(90deg); transform-origin:22px 22px;
-    font-size:11px; font-weight:700; fill:var(--ink); }
-  .badge { display:inline-flex; align-items:center; gap:.4rem; background:var(--surf-soft);
-    border:1px solid var(--surf); color:var(--surf); border-radius:999px;
-    padding:.3rem .75rem; font-size:.78rem; font-weight:600; margin:.2rem .25rem .2rem 0; }
-  .badge.locked { opacity:.35; border-color:var(--hairline); color:var(--dune); background:transparent; }
-  /* play screens */
-  .qtext { font-size:1.12rem; font-weight:600; line-height:1.45; margin:.9rem 0 1rem; }
-  .opt { display:block; width:100%; text-align:left; padding:.9rem 1rem; margin:.45rem 0;
-    background:var(--card); border:1.5px solid var(--hairline); border-radius:12px;
-    color:var(--ink); font-size:.95rem; line-height:1.4; }
-  .opt.correct { border-color:var(--good); background:color-mix(in srgb, var(--good) 12%, var(--card)); }
-  .opt.wrong { border-color:var(--bad); background:color-mix(in srgb, var(--bad) 12%, var(--card)); }
+    letter-spacing:.18em; text-transform:uppercase; color:var(--soft); margin:0 0 .7rem; }
+  h1 { font-weight:700; font-size:clamp(2rem,4.5vw,3.1rem); line-height:1.05;
+    letter-spacing:-.02em; margin:.2rem 0 1rem; }
+  h1 .dim { color:#7A8A89; }
+  h2 { font-weight:700; font-size:1.25rem; margin:2.2rem 0 .9rem; }
+  p { margin:0 0 .9rem; }
+  .sub { font-size:1.08rem; color:var(--soft); max-width:38rem; }
+  .muted { color:var(--soft); font-size:.9rem; }
+  button { font:inherit; cursor:pointer; }
+  .btn { display:inline-block; border:none; border-radius:999px; padding:.8rem 1.6rem;
+    background:var(--coral); color:#fff; font-weight:600; font-size:.95rem; }
+  .btn:active { transform:scale(.98); }
+  .btn.dark { background:var(--teal); color:var(--teal-ink); }
+  .btn.ghost { background:transparent; color:var(--ink); border:1.5px solid var(--ink); }
+  .btn.wide { display:block; width:100%; text-align:center; margin:.5rem 0; }
+  .textlink { background:none; border:none; padding:0; color:var(--ink);
+    font-weight:600; text-decoration:underline; text-underline-offset:3px; }
+  .panel { background:var(--paper); border:1px solid var(--line); border-radius:14px;
+    padding:1.2rem 1.4rem; }
+  /* resume banner */
+  .resume { border:1.5px solid var(--coral); border-radius:14px; background:var(--paper);
+    padding:1.1rem 1.4rem; display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
+    margin:1.6rem 0; }
+  .resume .grow { flex:1 1 240px; }
+  .resume b { font-size:1.02rem; }
+  /* stats */
+  .chips { display:flex; gap:.5rem; flex-wrap:wrap; margin:1.1rem 0 0; }
+  .chip { background:var(--paper); border:1px solid var(--line); border-radius:999px;
+    padding:.35rem .85rem; font-size:.82rem; font-weight:600; white-space:nowrap; }
+  .chip b { color:var(--coral); }
+  button.chip { cursor:pointer; }
+  button.chip.on { border-color:var(--ink); background:var(--teal); color:var(--teal-ink); }
+  /* pack grid */
+  .packs { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:1.2rem; margin:1.2rem 0; }
+  .pack { border-radius:16px; padding:1.5rem 1.5rem 1.4rem; display:flex;
+    flex-direction:column; min-height:330px; }
+  .pack .rowtop { display:flex; justify-content:space-between; align-items:center;
+    font-family:ui-monospace,"SF Mono",Menlo,monospace; font-size:.72rem; letter-spacing:.12em; }
+  .pack .numpill { border:1px solid currentColor; border-radius:999px; padding:.25rem .8rem; opacity:.85; }
+  .pack .big { font-weight:800; font-size:clamp(2.6rem,6vw,3.6rem); letter-spacing:-.02em;
+    line-height:1; margin:1.6rem 0 .6rem; }
+  .pack h3 { margin:0 0 .4rem; font-size:1.22rem; font-weight:700; }
+  .pack .desc { font-size:.95rem; opacity:.85; margin:0 0 1rem; flex:1; }
+  .pack .recall { display:flex; justify-content:space-between; font-size:.82rem; opacity:.9; margin-bottom:.4rem; }
+  .pack .bar { height:5px; border-radius:99px; background:rgba(128,128,128,.28); margin-bottom:1.1rem; }
+  .pack .bar i { display:block; height:5px; border-radius:99px; background:currentColor; }
+  .pack .actions { display:flex; align-items:center; justify-content:space-between; gap:.8rem; flex-wrap:wrap; }
+  .pack .actions .textlink { color:inherit; }
+  .pack.c0 { background:var(--teal); color:var(--teal-ink); }
+  .pack.c1 { background:var(--blue); color:var(--ink); }
+  .pack.c2 { background:var(--sandcard); color:var(--ink); }
+  .pack.c3 { background:var(--clay); color:var(--ink); }
+  .pack.c0 .btn { background:var(--coral); color:#fff; }
+  .pack.c1 .btn, .pack.c2 .btn, .pack.c3 .btn { background:var(--teal); color:var(--teal-ink); }
+  .pack .done { font-size:.78rem; font-weight:700; letter-spacing:.08em; }
+  /* teaser */
+  .teaser { border:1px solid var(--line); border-radius:14px; background:var(--paper);
+    padding:1.3rem 1.5rem; display:flex; gap:1.2rem; align-items:center; flex-wrap:wrap; margin:1.6rem 0; }
+  .teaser .q { color:var(--coral); font-size:2rem; font-weight:800; line-height:1; }
+  .teaser .grow { flex:1 1 260px; }
+  /* list rows (sprint chooser) */
+  .rowitem { display:flex; align-items:center; gap:1rem; background:var(--paper);
+    border:1px solid var(--line); border-radius:14px; padding:1rem 1.2rem; margin:.6rem 0; flex-wrap:wrap; }
+  .rowitem .ico { font-size:1.4rem; }
+  .rowitem .grow { flex:1 1 200px; }
+  .rowitem h3 { margin:0; font-size:1rem; }
+  .rowitem .sub2 { font-size:.78rem; color:var(--soft); margin-top:.1rem; }
+  .ring { width:42px; height:42px; flex:none; }
+  .ring svg { width:42px; height:42px; transform:rotate(-90deg); }
+  .ring .bg { stroke:var(--line); }
+  .ring .fg { stroke:var(--coral); transition:stroke-dashoffset .5s; }
+  .ring text { transform:rotate(90deg); transform-origin:21px 21px; font-size:11px; font-weight:700; fill:var(--ink); }
+  /* speak cards */
+  .speakgrid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1rem; margin:1.2rem 0; }
+  .scard { background:var(--paper); border:1px solid var(--line); border-radius:14px;
+    padding:1.2rem 1.3rem; text-align:left; display:flex; flex-direction:column; gap:.3rem; }
+  .scard .n { font-family:ui-monospace,"SF Mono",Menlo,monospace; font-size:.68rem;
+    letter-spacing:.14em; color:var(--soft); text-transform:uppercase; }
+  .scard h3 { margin:.2rem 0; font-size:1.15rem; }
+  .scard .words { color:var(--soft); font-size:.92rem; }
+  .scard .go { border-top:1px solid var(--line); margin-top:.9rem; padding-top:.7rem;
+    display:flex; justify-content:space-between; font-weight:600; font-size:.92rem; }
+  /* library */
+  .lib-item { background:var(--paper); border:1px solid var(--line); border-radius:12px;
+    padding:.85rem 1.1rem; margin:.45rem 0; }
+  .lib-item summary { cursor:pointer; font-weight:600; }
+  .lib-item p { margin:.5rem 0 .15rem; font-size:.93rem; }
+  .lib-item .say { font-style:italic; color:var(--coral-dark); margin:0; }
+  input[type=text] { font:inherit; width:100%; max-width:420px; padding:.8rem 1.1rem;
+    border-radius:999px; border:1.5px solid var(--line); background:var(--paper);
+    color:var(--ink); margin:.4rem 0 1rem; }
+  input[type=text]:focus { outline:2px solid var(--coral); border-color:var(--coral); }
+  /* play flow */
+  .playbar { display:flex; align-items:center; gap:1rem; margin-bottom:1rem;
+    font-family:ui-monospace,"SF Mono",Menlo,monospace; font-size:.7rem;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--soft); }
+  .playbar button { background:none; border:none; color:var(--coral); font-weight:700;
+    font-family:inherit; letter-spacing:inherit; font-size:inherit; padding:0; }
+  .playbar .grow { flex:1; }
+  .progressline { height:5px; background:var(--line); border-radius:99px; margin:.2rem 0 1.6rem; }
+  .progressline i { display:block; height:5px; border-radius:99px; background:var(--coral); transition:width .3s; }
+  .qtext { font-size:1.35rem; font-weight:700; line-height:1.35; margin:.4rem 0 1.2rem; letter-spacing:-.01em; }
+  .quote { border-left:3px solid var(--blue); background:var(--paper); border-radius:0 10px 10px 0;
+    padding:.9rem 1.1rem; font-size:1.05rem; margin:0 0 1.2rem; }
+  .opt { display:flex; gap:.9rem; width:100%; text-align:left; padding:1rem 1.15rem; margin:.5rem 0;
+    background:var(--paper); border:1.5px solid var(--line); border-radius:14px;
+    color:var(--ink); font-size:.97rem; line-height:1.45; align-items:baseline; }
+  .opt .letter { font-family:ui-monospace,"SF Mono",Menlo,monospace; font-size:.75rem;
+    border:1px solid var(--line); border-radius:8px; padding:.15rem .45rem; flex:none; }
+  .opt.correct { border-color:var(--good); background:#eaf3ec; }
+  .opt.wrong { border-color:var(--bad); background:#f7e9e4; }
   .opt:disabled { cursor:default; }
-  .why { border-left:2.5px solid var(--surf); background:var(--surf-soft);
-    padding:.7rem .9rem; border-radius:0 10px 10px 0; font-size:.9rem; margin:.7rem 0; }
-  .progressline { height:5px; background:var(--hairline); border-radius:99px; margin:.4rem 0 .9rem; }
-  .progressline i { display:block; height:5px; border-radius:99px; background:var(--surf);
-    transition:width .3s; }
+  .why { border-left:3px solid var(--coral); background:var(--paper);
+    padding:.85rem 1.1rem; border-radius:0 10px 10px 0; font-size:.93rem; margin:1rem 0; }
+  .confrow { display:flex; gap:.5rem; flex-wrap:wrap; margin:.4rem 0 1rem; }
+  .confrow .chip.sel { border-color:var(--coral); color:var(--coral-dark); }
+  /* idea interstitial */
+  .idea { background:var(--teal); color:var(--teal-ink); border-radius:16px; padding:2rem 1.8rem; margin:.5rem 0 1.2rem; }
+  .idea .eyebrow { color:var(--blue); }
+  .idea .big { font-size:clamp(1.4rem,3vw,1.9rem); font-weight:700; line-height:1.35; margin:.5rem 0 1rem; letter-spacing:-.01em; }
+  .idea .mono-steps { font-family:ui-monospace,"SF Mono",Menlo,monospace; font-size:.78rem; color:var(--blue); margin-bottom:1.4rem; }
   /* flashcard */
-  .flash { perspective:1000px; margin:1rem 0; }
-  .flashinner { position:relative; min-height:180px; transform-style:preserve-3d;
-    transition:transform .45s; }
+  .flash { perspective:1000px; margin:1rem 0; max-width:560px; }
+  .flashinner { position:relative; min-height:200px; transform-style:preserve-3d; transition:transform .45s; }
   .flash.flipped .flashinner { transform:rotateY(180deg); }
   .face { position:absolute; inset:0; backface-visibility:hidden; display:flex;
     flex-direction:column; justify-content:center; align-items:center; text-align:center;
-    background:var(--card); border:1px solid var(--hairline); border-radius:16px; padding:1.3rem; }
-  .face.back { transform:rotateY(180deg); justify-content:center; }
-  .face .term { font-size:1.35rem; font-weight:700; }
-  .face .def { font-size:.95rem; margin:.3rem 0 .5rem; }
-  .face .say { font-family:Georgia,serif; font-style:italic; color:var(--surf); font-size:.95rem; }
-  @media (prefers-reduced-motion: reduce) { .flashinner { transition:none; } .fg { transition:none; } }
-  .topnav { display:flex; align-items:center; gap:.7rem; margin-bottom:.8rem; }
-  .back { background:none; color:var(--surf); font-weight:600; font-size:.9rem; padding:.3rem .2rem; }
-  .result-big { font-size:3rem; text-align:center; margin:.8rem 0 .2rem; }
+    background:var(--paper); border:1px solid var(--line); border-radius:16px; padding:1.4rem; }
+  .face.back { transform:rotateY(180deg); }
+  .face .term { font-size:1.5rem; font-weight:700; letter-spacing:-.01em; }
+  .face .def { font-size:.97rem; margin:.3rem 0 .5rem; }
+  .face .say { font-style:italic; color:var(--coral-dark); font-size:.95rem; }
+  .wordchips { display:flex; gap:.6rem; flex-wrap:wrap; margin:1rem 0 1.2rem; }
+  .wordchips .chip { font-size:1.02rem; padding:.55rem 1.2rem; }
+  /* results */
+  .result-big { font-size:3.2rem; margin:.6rem 0 .2rem; }
   .center { text-align:center; }
-  .playerpick { display:flex; gap:.6rem; flex-wrap:wrap; margin:.8rem 0; }
-  .playerpick .btn { width:auto; flex:1 1 40%; }
-  input[type=text] { font:inherit; width:100%; padding:.85rem 1rem; border-radius:10px;
-    border:1.5px solid var(--hairline); background:var(--card); color:var(--ink); margin:.4rem 0; }
-  input[type=text]:focus { outline:2px solid var(--surf); border-color:var(--surf); }
-  table.lb { width:100%; border-collapse:collapse; font-size:.92rem; }
-  table.lb td, table.lb th { padding:.55rem .4rem; border-bottom:1px solid var(--hairline); text-align:left; }
-  table.lb th { font-family:ui-monospace,monospace; font-size:.68rem; letter-spacing:.12em;
-    text-transform:uppercase; color:var(--dune); font-weight:500; }
+  /* leaderboard */
+  table.lb { width:100%; border-collapse:collapse; font-size:.93rem; }
+  table.lb td, table.lb th { padding:.6rem .5rem; border-bottom:1px solid var(--line); text-align:left; }
+  table.lb th { font-family:ui-monospace,"SF Mono",Menlo,monospace; font-size:.66rem;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--soft); font-weight:500; }
   .rank1 td { color:var(--gold); font-weight:700; }
-  a { color:var(--surf); }
-  .footerline { margin-top:2rem; text-align:center; font-family:ui-monospace,monospace;
-    font-size:.65rem; letter-spacing:.1em; text-transform:uppercase; color:var(--dune); }
+  .badge { display:inline-flex; align-items:center; gap:.4rem; background:#fff;
+    border:1px solid var(--coral); color:var(--coral-dark); border-radius:999px;
+    padding:.3rem .8rem; font-size:.8rem; font-weight:600; margin:.2rem .25rem .2rem 0; }
+  .badge.locked { opacity:.35; border-color:var(--line); color:var(--soft); }
+  footer.bottom { border-top:1px solid var(--line); }
+  .bottomin { max-width:1060px; margin:0 auto; padding:1rem 1.2rem;
+    display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap;
+    font-size:.82rem; color:var(--soft); }
+  .playerpick { display:flex; gap:.6rem; flex-wrap:wrap; margin:1rem 0; }
+  a { color:var(--ink); }
+  @media (prefers-reduced-motion: reduce) { .flashinner, .fg, .progressline i { transition:none; } }
+  @media (max-width:640px){
+    .topin { padding:.85rem 1rem; }
+    nav.main { width:100%; overflow-x:auto; }
+    .pack { min-height:0; }
+  }
 </style>
 </head>
 <body>
-<div class="app" id="app"></div>
+<header class="top"><div class="topin">
+  <div class="wordmark" onclick="GA.nav('learn')">
+    <div class="wm"><span class="tilde">~&lt;</span>salty<span class="a">academy.</span></div>
+    <div class="by">BY SALTY CODE STUDIO</div>
+  </div>
+  <nav class="main" id="nav">
+    <button data-v="learn" onclick="GA.nav('learn')">My learning</button>
+    <button data-v="sprint" onclick="GA.nav('sprint')">Salty Sprint</button>
+    <button data-v="speak" onclick="GA.nav('speak')">Speaking practice</button>
+    <button data-v="library" onclick="GA.nav('library')">Term library</button>
+    <button class="player" id="navplayer" onclick="GA.nav('progress')"></button>
+  </nav>
+</div></header>
+<div class="strip"><div class="stripin"><span>// Learn it. Say it.</span><span>Internal studio training</span></div></div>
+<main class="page" id="app"></main>
+<footer class="bottom"><div class="bottomin">
+  <span>Built with sea salt. Learned by doing.</span>
+  <span>~&lt; salty code studio</span>
+</div></footer>
+
 <script src="data1.js"></script>
 <script src="data2.js"></script>
 <script src="data3.js"></script>
@@ -114,9 +235,19 @@
 var MODS = (window.ACADEMY_PART1||[]).concat(window.ACADEMY_PART2||[]);
 var EXTRAS = window.ACADEMY_EXTRAS||{};
 MODS.forEach(function(m){ var e=EXTRAS[m.id]; if(e){ m.idea=e.idea; m.speak=e.speak; } });
+var META = {
+  p1:{big:"CONVERT", desc:"Why websites lose customers, and the speed-clarity-proof fix."},
+  p2:{big:"UNBLOCK", desc:"Find the bottleneck, untangle the terminology, explain the useful fix."},
+  m1:{big:"BUILD",   desc:"Understand the terms, spot the friction, and explain what a website actually does."},
+  m2:{big:"BRAND",   desc:"Diagnose positioning, perceived value and consistency like an advisor."},
+  m3:{big:"GROW",    desc:"The pipeline, the garden and the faucet, and marketing without the jargon."},
+  m4:{big:"AI",      desc:"Models, prompts and agents, explained as time saved instead of hype."},
+  m5:{big:"SYSTEMS", desc:"Databases, APIs and booking engines: how business software fits together."},
+  m6:{big:"SELL",    desc:"The conversation spine, insider questions, and stories that carry proof."}
+};
 var KEY = "salty-academy-game-v1";
 var RANKS = [[0,"Deckhand"],[150,"Beachcomber"],[400,"Wave Rider"],[800,"Reef Captain"],[1400,"Harbor Master"],[2200,"Salty Legend"]];
-var XP = { quiz:10, card:5, translate:12, diagnose:12, speak:8, bossQ:10, bossPass:50 };
+var XP = { sprint:10, cards:5, speak:8, bossQ:10, bossPass:50 };
 var CONF_BONUS = { guess:0, pretty:1, know:3 };
 var BOSS_N = 10, BOSS_PASS = 8;
 
@@ -143,13 +274,12 @@ function rank(xp){ var r = RANKS[0][1]; RANKS.forEach(function(x){ if (xp>=x[0])
 function nextRank(xp){ for (var i=0;i<RANKS.length;i++){ if (xp<RANKS[i][0]) return RANKS[i]; } return null; }
 var BADGES = {
   streak7:{ico:"🔥",name:"7-day streak"},
-  perfect:{ico:"💯",name:"Perfect boss"},
+  perfect:{ico:"💯",name:"Perfect mastery round"},
   words:{ico:"📖",name:"Word collector"},
   master:{ico:"🏆",name:"Academy Master"}
 };
 MODS.forEach(function(m){ BADGES["boss-"+m.id] = {ico:m.icon, name:m.num+" mastered"}; });
 function grant(id){ var p=P(); if (p.badges.indexOf(id)<0){ p.badges.push(id); save(); } }
-
 function itemsOf(m){
   var out = [];
   (m.cards||[]).forEach(function(c,i){ out.push("c:"+m.id+":"+i); });
@@ -167,175 +297,286 @@ function totalMastery(){
   var s=0; MODS.forEach(function(m){ s+=mastery(m); });
   return Math.round(s/MODS.length);
 }
-function markCorrect(id){ var p=P(); if(!p.correct[id]){ p.correct[id]=1; } save(); checkWords(); }
+function recalled(m){
+  var p=P(), n=0;
+  (m.cards||[]).forEach(function(c,i){ if (p.correct["c:"+m.id+":"+i]) n++; });
+  return n;
+}
+function toRevisit(m){
+  var p=P(), n=0;
+  p.wrongQueue.forEach(function(id){ if (id.split(":")[1]===m.id) n++; });
+  return n;
+}
+function markCorrect(id){ var p=P(); if(!p.correct[id]){ p.correct[id]=1; } save(); checkAll(); }
 function markWrong(id){ var p=P(); if (p.wrongQueue.indexOf(id)<0) p.wrongQueue.push(id); save(); }
 function clearWrong(id){ var p=P(); var i=p.wrongQueue.indexOf(id); if(i>=0) p.wrongQueue.splice(i,1); save(); }
-function checkWords(){
+function checkAll(){
   var p=P(), all=true;
   MODS.forEach(function(m){ (m.cards||[]).forEach(function(c,i){ if(!p.correct["c:"+m.id+":"+i]) all=false; }); });
   if (all) grant("words");
-  var allBoss = MODS.every(function(m){ return p.boss[m.id]; });
-  if (allBoss) grant("master");
+  if (MODS.every(function(m){ return p.boss[m.id]; })) grant("master");
 }
 function addXP(n){ var p=P(); var before=rank(p.xp); p.xp+=n; save();
   if (rank(p.xp)!==before) toastRank = rank(p.xp); }
 var toastRank = null;
-
 function shuffle(a){ a=a.slice(); for (var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
 function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
 function el(html){ var d=document.createElement("div"); d.innerHTML=html; return d; }
+function mod(id){ return MODS.filter(function(x){return x.id===id;})[0]; }
 var app = document.getElementById("app");
-function render(html){ app.innerHTML = html; window.scrollTo(0,0); }
-
-/* ---------- screens ---------- */
-function home(){
-  var names = Object.keys(S.players);
-  if (!S.current || !S.players[S.current]) { return pickPlayer(); }
-  touchStreak();
-  var p = P();
-  var nr = nextRank(p.xp);
-  var h = '<div class="row"><span class="mark">~&lt; salty academy</span><span class="grow"></span>'
-    + '<button class="back" onclick="GA.pick()">'+esc(S.current)+' ↺</button></div>'
-    + '<p class="eyebrow" style="margin-top:1.2rem">'+esc(rank(p.xp))+(nr? ' · '+(nr[0]-p.xp)+' xp to '+esc(nr[1]):' · top rank')+'</p>'
-    + '<h1>Ready to train?</h1>'
-    + '<div class="statbar">'
-    + '<span class="chip">⚡ <b>'+p.xp+'</b> xp</span>'
-    + '<span class="chip">🔥 <b>'+p.streak+'</b> day'+(p.streak===1?'':'s')+'</span>'
-    + '<span class="chip">🎓 <b>'+totalMastery()+'%</b> mastery</span>'
-    + '<span class="chip">🏅 <b>'+p.badges.length+'</b> badges</span>'
-    + '</div>';
-  if (p.last && p.last.mod){
-    var lm = MODS.filter(function(x){return x.id===p.last.mod;})[0];
-    if (lm) h += '<div class="panel" style="border-left:2.5px solid var(--surf)"><div class="row">'
-      + '<span class="grow"><b>Pick up where you left off</b><br><span class="muted">'+lm.num+' · '+esc(lm.title)+' · '+esc(p.last.mode)+'</span></span>'
-      + '<button class="btn" style="width:auto;margin:0;padding:.6rem 1rem" onclick="GA.play(\''+lm.id+'\',\''+p.last.mode+'\')">Continue →</button></div></div>';
-  }
-  if (p.wrongQueue.length)
-    h += '<button class="btn ghost" onclick="GA.review()">🔁 Review '+p.wrongQueue.length+' missed item'+(p.wrongQueue.length===1?'':'s')+'</button>';
-  MODS.forEach(function(m){
-    var pct = mastery(m), passed = p.boss[m.id];
-    h += '<button class="modcard" onclick="GA.mod(\''+m.id+'\')">'
-      + '<span class="ico">'+m.icon+'</span>'
-      + '<span class="grow"><h3>'+m.num+' · '+esc(m.title)+'</h3>'
-      + '<span class="sub">'+(passed?'✓ mastered':'boss not yet beaten')+'</span></span>'
-      + ring(pct) + '</button>';
+var view = "learn";
+function render(html){ app.innerHTML = html; window.scrollTo(0,0); syncNav(); }
+function syncNav(){
+  document.querySelectorAll("#nav button[data-v]").forEach(function(b){
+    b.classList.toggle("active", b.getAttribute("data-v")===view);
   });
-  h += '<div class="row"><button class="btn quiet grow" onclick="GA.leaderboard()">🏆 Leaderboard</button>'
-    + '<button class="btn quiet grow" onclick="GA.library()">📖 Term library</button></div>'
-    + '<div class="panel"><p class="eyebrow">Live training</p>'
-    + '<p style="font-size:.92rem">Flashcards teach the words, the Arena makes them yours. Open a Claude session and say <b>"run me a prospect"</b> for live roleplay, or <b>"quiz me on module 2"</b> for deep drills.</p></div>'
-    + '<p class="footerline">~&lt; built with sea salt · learned by doing</p>';
+  var np=document.getElementById("navplayer");
+  np.textContent = S.current ? S.current : "Player";
+}
+function ring(pct){
+  var r=17, c=2*Math.PI*r, off=c*(1-pct/100);
+  return '<span class="ring"><svg viewBox="0 0 42 42">'
+    + '<circle class="bg" cx="21" cy="21" r="'+r+'" fill="none" stroke-width="4"/>'
+    + '<circle class="fg" cx="21" cy="21" r="'+r+'" fill="none" stroke-width="4" stroke-linecap="round" stroke-dasharray="'+c+'" stroke-dashoffset="'+off+'"/>'
+    + '<text x="21" y="25" text-anchor="middle">'+pct+'</text></svg></span>';
+}
+
+/* ---------- views ---------- */
+function guard(){ if (!S.current || !S.players[S.current]){ pickPlayer(); return false; } return true; }
+
+function learn(){
+  view="learn"; if(!guard()) return;
+  touchStreak();
+  var p = P(), nr = nextRank(p.xp);
+  var h = '<p class="eyebrow">Your next five minutes</p>'
+    + '<h1>Less script.<br><span class="dim">More understanding.</span></h1>'
+    + '<p class="sub">Pick a subject. Test what sticks. Say it your way.</p>'
+    + '<div class="chips">'
+    + '<span class="chip">⚡ <b>'+p.xp+'</b> xp · '+esc(rank(p.xp))+(nr? ' <span class="muted">('+(nr[0]-p.xp)+' to '+esc(nr[1])+')</span>':'')+'</span>'
+    + '<span class="chip">🔥 <b>'+p.streak+'</b> day'+(p.streak===1?'':'s')+'</span>'
+    + '<span class="chip">🎓 <b>'+totalMastery()+'%</b> overall</span>'
+    + '</div>';
+  if (p.last && p.last.mod && mod(p.last.mod)){
+    var lm = mod(p.last.mod);
+    h += '<div class="resume"><div class="grow"><b>A Sprint is waiting for you.</b><br>'
+      + '<span class="muted">'+lm.num+' · '+esc(lm.title)+'</span></div>'
+      + '<button class="btn" onclick="GA.sprintRun(\''+lm.id+'\')">Continue →</button></div>';
+  }
+  if (p.wrongQueue.length){
+    h += '<div class="resume" style="border-color:var(--line)"><div class="grow"><b>'+p.wrongQueue.length+' item'+(p.wrongQueue.length===1?'':'s')+' to revisit.</b><br>'
+      + '<span class="muted">The things you missed, back for another look.</span></div>'
+      + '<button class="btn dark" onclick="GA.review()">Review now →</button></div>';
+  }
+  h += '<h2>Your learning packs</h2><div class="packs">';
+  MODS.forEach(function(m,i){
+    var rc = recalled(m), tot = (m.cards||[]).length, rev = toRevisit(m), pct = mastery(m);
+    var meta = META[m.id]||{big:m.num,desc:""};
+    h += '<div class="pack c'+(i%4)+'">'
+      + '<div class="rowtop"><span class="numpill">'+("0"+(i+1)).slice(-2)+' / '+m.num+'</span><span>'+tot+' terms</span></div>'
+      + '<div class="big">'+esc(meta.big)+'</div>'
+      + '<h3>'+esc(m.title)+'</h3>'
+      + '<p class="desc">'+esc(meta.desc)+'</p>'
+      + '<div class="recall"><span>'+rc+' of '+tot+' recalled</span><span>'+(rev? rev+' to revisit':'')+'</span></div>'
+      + '<div class="bar"><i style="width:'+pct+'%"></i></div>'
+      + '<div class="actions">'
+      + '<button class="btn" onclick="GA.sprintRun(\''+m.id+'\')">Start a Sprint ↗</button>'
+      + '<button class="textlink" onclick="GA.cards(\''+m.id+'\')">Flashcards</button>'
+      + '</div>'
+      + (P().boss[m.id] ? '<div class="done" style="margin-top:.9rem">✓ '+m.num+' MASTERED</div>'
+        : '<button class="textlink" style="margin-top:.9rem;align-self:flex-start;font-size:.82rem;opacity:.85" onclick="GA.bossRun(\''+m.id+'\')">⚔️ Take the mastery round</button>')
+      + '</div>';
+  });
+  h += '</div>';
+  h += '<div class="teaser"><span class="q">“</span><div class="grow">'
+    + '<p class="eyebrow" style="margin-bottom:.2rem;color:var(--coral-dark)">Talk from Three</p>'
+    + '<b>Three words. Your explanation.</b><br><span class="muted">A 30-second prompt to practise before filming. No recording required.</span></div>'
+    + '<button class="btn ghost" onclick="GA.nav(\'speak\')">Try it ↗</button></div>';
+  h += '<div class="panel" style="margin-top:1.4rem"><p class="eyebrow" style="margin-bottom:.3rem">Live training</p>'
+    + '<p class="muted" style="margin:0">The Arena makes it yours: open a Claude session and say <b>"run me a prospect"</b> for live sales roleplay, or <b>"quiz me on module 2"</b> for deep drills.</p></div>';
   render(h);
   if (toastRank){ setTimeout(function(){ alert("Rank up! You are now "+toastRank+" 🌊"); toastRank=null; }, 150); }
 }
-function ring(pct){
-  var r=18, c=2*Math.PI*r, off=c*(1-pct/100);
-  return '<span class="ring"><svg viewBox="0 0 44 44">'
-    + '<circle class="bg" cx="22" cy="22" r="'+r+'" fill="none" stroke-width="4"/>'
-    + '<circle class="fg" cx="22" cy="22" r="'+r+'" fill="none" stroke-width="4" stroke-linecap="round" stroke-dasharray="'+c+'" stroke-dashoffset="'+off+'"/>'
-    + '<text x="22" y="26" text-anchor="middle">'+pct+'</text></svg></span>';
-}
+
 function pickPlayer(){
+  view="learn";
   var names = Object.keys(S.players);
-  var h = '<span class="mark">~&lt; salty academy</span>'
-    + '<p class="eyebrow" style="margin-top:1.6rem">The game</p>'
-    + '<h1>Who is playing?</h1>';
+  var h = '<div class="narrow"><p class="eyebrow">Welcome</p>'
+    + '<h1>Who is playing?</h1>'
+    + '<p class="sub">Learn the language of your business by playing. Progress saves on this device, per player.</p>';
   if (names.length){
     h += '<div class="playerpick">';
     names.forEach(function(n){
-      h += '<button class="btn quiet" onclick="GA.choose(\''+esc(n).replace(/'/g,"\\'")+'\')">'+esc(n)+' · '+S.players[n].xp+' xp</button>';
+      h += '<button class="btn dark" onclick="GA.choose(\''+esc(n).replace(/'/g,"\\'")+'\')">'+esc(n)+' · '+S.players[n].xp+' xp</button>';
     });
-    h += '</div><p class="muted center">or add a new player</p>';
-  } else {
-    h += '<p>Learn the language of your business by playing: flashcards, quizzes, translation duels and diagnosis challenges, straight from the Academy modules.</p>';
+    h += '</div><p class="muted">or add a new player</p>';
   }
   h += '<input type="text" id="pname" placeholder="Your name" maxlength="20" autocomplete="off">'
-    + '<button class="btn" onclick="GA.create()">Start playing</button>';
+    + '<br><button class="btn" onclick="GA.create()">Start playing →</button></div>';
   render(h);
 }
 
-/* module screen */
-function modScreen(id){
-  var m = MODS.filter(function(x){return x.id===id;})[0];
-  var p = P();
-  var h = topnav(m.num+' · '+m.title);
-  h += '<div class="statbar"><span class="chip">🎓 <b>'+mastery(m)+'%</b> mastery</span>'
-    + (p.boss[id]? '<span class="chip">'+m.icon+' <b>boss beaten</b></span>':'')+'</div>';
-  if (m.cards && m.cards.length) h += '<button class="btn quiet" onclick="GA.play(\''+id+'\',\'cards\')">🃏 Flashcards <span class="muted">· '+m.cards.length+' terms</span></button>';
-  if (m.quiz && m.quiz.length) h += '<button class="btn quiet" onclick="GA.play(\''+id+'\',\'quiz\')">❓ Quiz <span class="muted">· 8 questions</span></button>';
-  if (m.translate && m.translate.length) h += '<button class="btn quiet" onclick="GA.play(\''+id+'\',\'translate\')">🗣️ Say it right <span class="muted">· pick the human answer</span></button>';
-  if (m.diagnose && m.diagnose.length) h += '<button class="btn quiet" onclick="GA.play(\''+id+'\',\'diagnose\')">🩺 Diagnose <span class="muted">· symptom to real problem</span></button>';
-  if (m.speak && m.speak.length) h += '<button class="btn quiet" onclick="GA.play(\''+id+'\',\'speak\')">🎤 Talk from Three <span class="muted">· speak it out loud</span></button>';
-  h += '<button class="btn" onclick="GA.play(\''+id+'\',\'boss\')">⚔️ Boss round <span style="opacity:.8">· '+BOSS_N+' mixed, need '+BOSS_PASS+'</span></button>';
-  h += '<a class="btn ghost" style="text-decoration:none" href="'+m.read+'">📚 Read the module</a>';
+function sprintHome(){
+  view="sprint"; if(!guard()) return;
+  var h = '<p class="eyebrow">Salty Sprint</p>'
+    + '<h1>Eight questions.<br><span class="dim">Zero pressure.</span></h1>'
+    + '<p class="sub">Pick a pack. Every answer gets an explanation, and you say how sure you are before you check. The mastery round is the boss: ten questions, eight needed.</p>';
+  MODS.forEach(function(m){
+    var passed = P().boss[m.id];
+    h += '<div class="rowitem"><span class="ico">'+m.icon+'</span>'
+      + '<div class="grow"><h3>'+m.num+' · '+esc(m.title)+'</h3>'
+      + '<div class="sub2">'+(passed?'✓ mastered':'mastery round not yet beaten')+'</div></div>'
+      + ring(mastery(m))
+      + '<button class="btn" onclick="GA.sprintRun(\''+m.id+'\')">Sprint</button>'
+      + '<button class="btn ghost" onclick="GA.bossRun(\''+m.id+'\')">Mastery</button>'
+      + '</div>';
+  });
   render(h);
 }
-function topnav(title){
-  return '<div class="topnav"><button class="back" onclick="GA.home()">← Home</button>'
-    + '<span class="grow"></span><span class="eyebrow" style="margin:0">'+esc(title)+'</span></div>';
+
+function speakHome(filter){
+  view="speak"; if(!guard()) return;
+  filter = filter || "all";
+  var h = '<p class="eyebrow">Talk from Three</p>'
+    + '<h1>Know the idea.<br><span class="dim">Find your words.</span></h1>'
+    + '<p class="sub">Pick a prompt. Speak out loud for thirty seconds, then reveal the talking points. No recording, just you.</p>'
+    + '<div class="chips" style="margin-bottom:.4rem">'
+    + '<button class="chip'+(filter==="all"?" on":"")+'" onclick="GA.speakFilter(\'all\')">All packs</button>';
+  MODS.forEach(function(m){
+    if (m.speak && m.speak.length)
+      h += '<button class="chip'+(filter===m.id?" on":"")+'" onclick="GA.speakFilter(\''+m.id+'\')">'+m.num+'</button>';
+  });
+  h += '</div><div class="speakgrid">';
+  var n = 0;
+  MODS.forEach(function(m){
+    if (!m.speak || (filter!=="all" && filter!==m.id)) return;
+    m.speak.forEach(function(s,i){
+      n++;
+      var done = P().correct["s:"+m.id+":"+i];
+      h += '<button class="scard" onclick="GA.speakOne(\''+m.id+'\','+i+')">'
+        + '<span class="n">'+("0"+n).slice(-2)+' · 30 seconds · '+m.num+(done?' · ✓ done':'')+'</span>'
+        + '<h3>'+esc(s.prompt)+'</h3>'
+        + '<span class="words">'+s.words.map(esc).join(" · ")+'</span>'
+        + '<span class="go"><span>Give it a go</span><span>↗</span></span>'
+        + '</button>';
+    });
+  });
+  h += '</div>';
+  render(h);
+}
+
+function libraryView(filter){
+  view="library"; if(!guard()) return;
+  filter = filter || "all";
+  var h = '<p class="eyebrow">The terminology decoder</p>'
+    + '<h1>The term. The meaning.<br><span class="dim">The human version.</span></h1>'
+    + '<p class="sub">A quick reference when something has not clicked yet.</p>'
+    + '<div class="chips" style="margin-bottom:.6rem">'
+    + '<button class="chip'+(filter==="all"?" on":"")+'" onclick="GA.libTab(\'all\')">All packs</button>';
+  MODS.forEach(function(m){
+    if (m.cards && m.cards.length)
+      h += '<button class="chip'+(filter===m.id?" on":"")+'" onclick="GA.libTab(\''+m.id+'\')">'+m.num+'</button>';
+  });
+  h += '</div><input type="text" id="libsearch" placeholder="Search a term..." oninput="GA.libFilter(this.value)" autocomplete="off">';
+  MODS.forEach(function(m){
+    if (!m.cards || !m.cards.length || (filter!=="all" && filter!==m.id)) return;
+    h += '<p class="eyebrow" style="margin-top:1.6rem">'+m.icon+' '+m.num+' · '+esc(m.title)+'</p>';
+    m.cards.forEach(function(c){
+      h += '<details class="lib-item" data-term="'+esc((c.t+" "+c.d).toLowerCase())+'">'
+        + '<summary>'+esc(c.t)+'</summary>'
+        + '<p>'+esc(c.d)+'</p>'
+        + '<p class="say">&ldquo;'+esc(c.s)+'&rdquo;</p></details>';
+    });
+  });
+  render(h);
+}
+
+function progressView(){
+  view="progress"; if(!guard()) return;
+  var names = Object.keys(S.players).sort(function(a,b){ return S.players[b].xp - S.players[a].xp; });
+  var h = '<p class="eyebrow">Progress</p>'
+    + '<h1>'+esc(S.current)+' <span class="dim">· '+esc(rank(P().xp))+'</span></h1>'
+    + '<div class="panel" style="max-width:640px"><table class="lb"><tr><th>#</th><th>Player</th><th>XP</th><th>Rank</th><th>🔥 Streak</th></tr>';
+  names.forEach(function(n,i){
+    h += '<tr class="'+(i===0?'rank1':'')+'"><td>'+(i+1)+'</td><td>'+esc(n)+'</td><td>'+S.players[n].xp+'</td><td>'+esc(rank(S.players[n].xp))+'</td><td>'+S.players[n].streak+'</td></tr>';
+  });
+  h += '</table></div><h2>Badges</h2><div>';
+  Object.keys(BADGES).forEach(function(id){
+    var b=BADGES[id], got = P().badges.indexOf(id)>=0;
+    h += '<span class="badge'+(got?'':' locked')+'">'+b.ico+' '+esc(b.name)+'</span>';
+  });
+  h += '</div><h2>Players</h2><button class="btn ghost" onclick="GA.pick()">Switch or add a player</button>';
+  render(h);
 }
 
 /* ---------- play engine ---------- */
-var run = null; // {mode, mod, items:[{kind,idx,data}], i, score, xp}
-function buildItems(m, mode){
-  function wrap(kind, arr){ return (arr||[]).map(function(d,i){ return {kind:kind, id:kind[0]+":"+m.id+":"+i, data:d}; }); }
-  if (mode==="cards") return shuffle(wrap("cards", m.cards));
-  if (mode==="quiz") return shuffle(wrap("quiz", m.quiz)).slice(0,8);
-  if (mode==="translate") return shuffle(wrap("translate", m.translate));
-  if (mode==="diagnose") return shuffle(wrap("diagnose", m.diagnose));
-  if (mode==="speak") return shuffle((m.speak||[]).map(function(d,i){ return {kind:"speak", id:"s:"+m.id+":"+i, data:d}; }));
-  if (mode==="boss"){
-    var pool = wrap("quiz",m.quiz).concat(wrap("translate",m.translate)).concat(wrap("diagnose",m.diagnose));
-    return shuffle(pool).slice(0,BOSS_N);
-  }
-  return [];
+var run = null;
+function wrapItems(m, kind, arr){ return (arr||[]).map(function(d,i){ return {kind:kind, id:kind[0]+":"+m.id+":"+i, data:d, mod:m}; }); }
+function poolMC(m){
+  return wrapItems(m,"quiz",m.quiz).concat(wrapItems(m,"translate",m.translate)).concat(wrapItems(m,"diagnose",m.diagnose));
 }
-function play(id, mode){
-  var m = MODS.filter(function(x){return x.id===id;})[0];
-  run = { mode:mode, mod:m, items:buildItems(m,mode), i:0, score:0, xp:0 };
-  touchStreak(); var p=P(); p.plays++; p.last={mod:id, mode:mode}; save();
-  if ((mode==="quiz"||mode==="boss") && m.idea) return ideaScreen(m, mode);
+function startRun(mode, m, items, back){
+  run = { mode:mode, mod:m, items:items, i:0, score:0, xp:0, back:back||view };
+  touchStreak(); var p=P(); p.plays++; if (m) p.last={mod:m.id}; save();
+}
+function sprintRun(id){
+  var m = mod(id);
+  startRun("sprint", m, shuffle(poolMC(m)).slice(0,8), "sprint");
+  ideaScreen(m, "sprint");
+}
+function bossRun(id){
+  var m = mod(id);
+  startRun("boss", m, shuffle(poolMC(m)).slice(0,BOSS_N), "sprint");
+  ideaScreen(m, "boss");
+}
+function cardsRun(id){
+  var m = mod(id);
+  startRun("cards", m, shuffle(wrapItems(m,"cards",m.cards)), "learn");
   step();
 }
-function ideaScreen(m, mode){
-  render(topnav(m.num+' · '+m.title)
-    + '<div class="panel" style="padding:1.6rem 1.4rem">'
-    + '<p class="eyebrow" style="color:var(--surf)">Before you start · one idea to hold on to</p>'
-    + '<p class="qtext" style="margin:.4rem 0 .2rem">'+esc(m.idea)+'</p></div>'
-    + '<p class="muted">'+(mode==="boss"?BOSS_N+' mixed questions, '+BOSS_PASS+' needed. ':'8 questions, an explanation after every answer. ')+'No timer. Think it through, and say how sure you are before you check.</p>'
-    + '<button class="btn" onclick="GA.begin()">Let’s go →</button>');
+function speakOne(id, i){
+  var m = mod(id);
+  startRun("speak", m, [{kind:"speak", id:"s:"+m.id+":"+i, data:m.speak[i], mod:m}], "speak");
+  step();
 }
 function reviewRun(){
   var p=P(), items=[];
   p.wrongQueue.slice(0,12).forEach(function(id){
     var parts=id.split(":"), kindMap={c:"cards",q:"quiz",t:"translate",d:"diagnose",s:"speak"};
-    var m = MODS.filter(function(x){return x.id===parts[1];})[0];
-    if (!m) return;
+    var m = mod(parts[1]); if (!m) return;
     var arr = m[kindMap[parts[0]]];
     if (arr && arr[+parts[2]]) items.push({kind:kindMap[parts[0]], id:id, data:arr[+parts[2]], mod:m});
   });
-  run = { mode:"review", mod:null, items:items, i:0, score:0, xp:0 };
+  startRun("review", null, items, "learn");
   step();
+}
+function ideaScreen(m, mode){
+  view = "sprint";
+  render(playbar(m.num+' · '+(mode==="boss"?"Mastery round":"Salty Sprint"))
+    + '<div class="narrow"><div class="idea">'
+    + '<p class="eyebrow">Before you start</p>'
+    + '<div class="big" style="font-size:1.15rem;margin-bottom:.3rem">One idea to hold on to.</div>'
+    + '<div class="big" style="color:#D8CDB4">'+esc(m.idea||"")+'</div>'
+    + '<p style="font-size:.92rem;opacity:.85">'+(mode==="boss"? BOSS_N+' mixed questions, '+BOSS_PASS+' needed to master this pack.':'Try 8 questions. You will get an explanation after every answer. Guessing is useful too, just tell us.')+'</p>'
+    + '<div class="mono-steps">01 · Think&nbsp;&nbsp;&nbsp;02 · Check&nbsp;&nbsp;&nbsp;03 · Say it</div>'
+    + '<button class="btn" onclick="GA.begin()">Let\'s go →</button>'
+    + '</div></div>');
+}
+function playbar(title){
+  return '<div class="playbar"><button onclick="GA.quitRun()">← Back</button><span class="grow"></span><span>'+esc(title)+'</span></div>';
 }
 function step(){
   if (!run || run.i >= run.items.length) return results();
   var it = run.items[run.i];
-  var title = (run.mode==="review" ? "Review" : run.mod.num) + ' · ' + (run.i+1) + '/' + run.items.length;
-  var h = topnav(title)
-    + '<div class="progressline"><i style="width:'+Math.round(100*run.i/run.items.length)+'%"></i></div>';
+  var label = (run.mode==="review" ? "Review" : run.mod.num+' · '+(run.mode==="boss"?"Mastery":run.mode==="cards"?"Flashcards":run.mode==="speak"?"Talk from Three":"Salty Sprint"));
+  var h = playbar(label + ' · ' + (run.i+1) + '/' + run.items.length)
+    + '<div class="progressline"><i style="width:'+Math.round(100*run.i/run.items.length)+'%"></i></div>'
+    + '<div class="narrow">';
   if (it.kind==="cards") h += renderCard(it);
   else if (it.kind==="speak") h += renderSpeak(it);
   else h += renderMC(it);
+  h += '</div>';
+  view = run.back;
   render(h);
-}
-function renderSpeak(it){
-  var d = it.data;
-  var chips = d.words.map(function(w){ return '<span class="chip" style="font-size:1rem;padding:.5rem 1.1rem">'+esc(w)+'</span>'; }).join(" ");
-  return '<p class="eyebrow">Talk from Three · no recording, just you</p>'
-    + '<p class="qtext">'+esc(d.prompt)+'</p>'
-    + '<div class="statbar" style="margin:1rem 0 1.2rem">'+chips+'</div>'
-    + '<p class="muted">Speak your answer out loud for about thirty seconds, using the three words as anchors. Then reveal the talking points and grade yourself honestly.</p>'
-    + '<div id="speakreveal"><button class="btn" onclick="GA.reveal()">Reveal the talking points</button></div>';
 }
 function renderCard(it){
   var c = it.data;
@@ -345,67 +586,94 @@ function renderCard(it){
     + '<div class="face back"><span class="def">'+esc(c.d)+'</span><span class="say">&ldquo;'+esc(c.s)+'&rdquo;</span></div>'
     + '</div></div>'
     + '<div id="grade" style="display:none">'
-    + '<button class="btn" onclick="GA.card(true)">✓ I knew it</button>'
-    + '<button class="btn ghost" onclick="GA.card(false)">↻ Not yet, show it again later</button></div>'
-    + '<p class="muted center" id="fliphint">Say your answer out loud first, then flip.</p>';
+    + '<button class="btn wide" onclick="GA.card(true)">✓ I knew it</button>'
+    + '<button class="btn wide ghost" onclick="GA.card(false)">↻ Not yet, show it again later</button></div>'
+    + '<p class="muted" id="fliphint">Say your answer out loud first, then flip.</p>';
+}
+function renderSpeak(it){
+  var d = it.data;
+  var chips = d.words.map(function(w){ return '<span class="chip">'+esc(w)+'</span>'; }).join(" ");
+  return '<p class="eyebrow">Talk from Three · no recording, just you</p>'
+    + '<p class="qtext">'+esc(d.prompt)+'</p>'
+    + '<div class="wordchips">'+chips+'</div>'
+    + '<p class="muted">Speak your answer out loud for about thirty seconds, using the three words as anchors. Then reveal the talking points and grade yourself honestly.</p>'
+    + '<div id="speakreveal"><button class="btn" onclick="GA.reveal()">Reveal the talking points</button></div>';
 }
 function renderMC(it){
   var d = it.data;
+  var isQuote = it.kind==="diagnose";
   var prompt = it.kind==="quiz" ? d.q : it.kind==="translate" ? d.setup : d.say;
-  var eyebrow = it.kind==="quiz" ? "Quiz" : it.kind==="translate" ? "Say it right" : "Diagnose";
-  if (run.mode==="boss") eyebrow = "Boss round · " + eyebrow;
+  var eyebrow = it.kind==="quiz" ? "Name the concept" : it.kind==="translate" ? "Pick the human answer" : "Diagnose the real problem";
   var opts = d.a.map(function(txt,i){ return {txt:txt, ok:i===0}; });
   it.shuffled = shuffle(opts);
   it.conf = "pretty";
-  var h = '<p class="eyebrow">'+eyebrow+'</p><p class="qtext">'+esc(prompt)+'</p>';
+  var h = '<p class="eyebrow">'+eyebrow+'</p>';
+  if (isQuote){ h += '<p class="qtext">What is really going on?</p><div class="quote">'+esc(prompt)+'</div>'; }
+  else h += '<p class="qtext">'+esc(prompt)+'</p>';
   it.shuffled.forEach(function(o,i){
-    h += '<button class="opt" id="opt'+i+'" onclick="GA.answer('+i+')">'+esc(o.txt)+'</button>';
+    h += '<button class="opt" id="opt'+i+'" onclick="GA.answer('+i+')"><span class="letter">'+String.fromCharCode(65+i)+'</span><span>'+esc(o.txt)+'</span></button>';
   });
-  h += '<p class="muted" style="margin:.9rem 0 .3rem">How sure are you? <span class="muted" style="font-size:.78rem">(honesty pays: +'+CONF_BONUS.know+' xp if right, priority review if wrong)</span></p>'
-    + '<div class="row" id="confrow">'
-    + '<button class="chip" id="conf-guess" onclick="GA.conf(\'guess\')">🎲 Guessing</button>'
-    + '<button class="chip" id="conf-pretty" onclick="GA.conf(\'pretty\')" style="border-color:var(--surf);color:var(--surf)">🤔 Pretty sure</button>'
-    + '<button class="chip" id="conf-know" onclick="GA.conf(\'know\')">💪 I know this</button>'
-    + '</div>';
+  h += '<p class="muted" style="margin:1rem 0 .3rem">How sure are you?</p>'
+    + '<div class="confrow">'
+    + '<button class="chip" id="conf-guess" onclick="GA.conf(\'guess\')">Guessing</button>'
+    + '<button class="chip sel" id="conf-pretty" onclick="GA.conf(\'pretty\')">Pretty sure</button>'
+    + '<button class="chip" id="conf-know" onclick="GA.conf(\'know\')">I know this</button>'
+    + '</div>'
+    + '<p class="muted" style="font-size:.78rem">No timer. Think it through.</p>';
   return h;
 }
+function results(){
+  if (!run) return learn();
+  var p=P(), n=run.items.length, sc=run.score, m=run.mod;
+  var passedBoss=false, perfect=false;
+  if (run.mode==="boss" && m){
+    if (sc>=BOSS_PASS){ passedBoss=true;
+      if (!p.boss[m.id]){ p.boss[m.id]=1; grant("boss-"+m.id); addXP(XP.bossPass); run.xp+=XP.bossPass; }
+      if (sc===n){ perfect=true; grant("perfect"); }
+      checkAll();
+    }
+  }
+  save();
+  var emoji = run.mode==="boss" ? (passedBoss ? (perfect?"👑":"⚔️") : "🫧") : (sc===n && n>1 ? "🌊" : "👍");
+  var line = run.mode==="boss"
+    ? (passedBoss ? (perfect? "Flawless. "+m.num+" never stood a chance." : m.num+" mastered.")
+       : sc+"/"+n+", you need "+BOSS_PASS+". Read, drill, come back.")
+    : (run.mode==="speak" ? "Practice makes fluent." : sc+" of "+n+" · +"+run.xp+" xp");
+  var back = run.back, mid = m ? m.id : null, mode = run.mode;
+  var h = playbar(run.mode==="review"?"Review":(m?m.num:""))
+    + '<div class="narrow center"><div class="result-big">'+emoji+'</div>'
+    + '<h1 style="font-size:1.7rem">'+esc(line)+'</h1>'
+    + '<p class="muted">Total: '+p.xp+' xp · '+esc(rank(p.xp))+(p.wrongQueue.length? ' · '+p.wrongQueue.length+' to revisit':'')+'</p><br>';
+  if (mode==="sprint" && mid) h += '<button class="btn wide" onclick="GA.sprintRun(\''+mid+'\')">Sprint again</button>';
+  if (mode==="boss" && mid && !passedBoss) h += '<button class="btn wide" onclick="GA.bossRun(\''+mid+'\')">Try the mastery round again</button>';
+  if (mode==="cards" && mid) h += '<button class="btn wide" onclick="GA.cards(\''+mid+'\')">Another round of cards</button>';
+  h += '<button class="btn wide dark" onclick="GA.nav(\''+back+'\')">Done</button></div>';
+  run = null;
+  render(h);
+}
+
+/* ---------- interactions ---------- */
 window.GA = {
-  home:home, pick:pickPlayer, mod:modScreen, play:play, review:reviewRun,
-  leaderboard:leaderboard, library:library,
-  begin:function(){ step(); },
-  conf:function(level){
-    var it = run.items[run.i]; it.conf = level;
-    ["guess","pretty","know"].forEach(function(l){
-      var b=document.getElementById("conf-"+l);
-      if (b){ b.style.borderColor = (l===level)?"var(--surf)":"var(--hairline)";
-        b.style.color = (l===level)?"var(--surf)":"var(--ink)"; }
-    });
+  nav:function(v){
+    if (v==="learn") learn();
+    else if (v==="sprint") sprintHome();
+    else if (v==="speak") speakHome();
+    else if (v==="library") libraryView();
+    else if (v==="progress") progressView();
   },
-  reveal:function(){
-    var it = run.items[run.i], d = it.data;
-    var pts = d.points.map(function(t){ return '<li>'+esc(t)+'</li>'; }).join("");
-    document.getElementById("speakreveal").innerHTML =
-      '<div class="why"><b>The talking points:</b><ul style="margin:.5rem 0 0">'+pts+'</ul></div>'
-      + '<p class="muted">How did it go, honestly?</p>'
-      + '<button class="btn" onclick="GA.speakGrade(2)">🌊 Nailed it · flowed naturally</button>'
-      + '<button class="btn quiet" onclick="GA.speakGrade(1)">〰️ Halfway · hit some points, stumbled</button>'
-      + '<button class="btn ghost" onclick="GA.speakGrade(0)">🫧 Blanked · show it again later</button>';
-    window.scrollTo(0, document.body.scrollHeight);
-  },
-  speakGrade:function(level){
-    var it = run.items[run.i];
-    if (level===2){ markCorrect(it.id); clearWrong(it.id); run.score++; run.xp+=XP.speak; addXP(XP.speak); }
-    else if (level===1){ clearWrong(it.id); run.xp+=Math.floor(XP.speak/2); addXP(Math.floor(XP.speak/2)); }
-    else markWrong(it.id);
-    run.i++; step();
-  },
-  choose:function(n){ S.current=n; save(); home(); },
+  pick:pickPlayer,
+  choose:function(n){ S.current=n; save(); learn(); },
   create:function(){
     var v = document.getElementById("pname").value.trim();
     if (!v) return;
     if (!S.players[v]) newPlayer(v); else { S.current=v; save(); }
-    home();
+    learn();
   },
+  sprintRun:sprintRun, bossRun:bossRun, cards:cardsRun, speakOne:speakOne, review:reviewRun,
+  speakFilter:function(f){ speakHome(f); },
+  libTab:function(f){ libraryView(f); },
+  begin:function(){ step(); },
+  quitRun:function(){ var b = run ? run.back : "learn"; run=null; GA.nav(b); },
   flip:function(){
     var f=document.getElementById("flash");
     f.classList.toggle("flipped");
@@ -414,7 +682,32 @@ window.GA = {
   },
   card:function(knew){
     var it = run.items[run.i];
-    if (knew){ markCorrect(it.id); clearWrong(it.id); run.score++; run.xp+=XP.card; addXP(XP.card); }
+    if (knew){ markCorrect(it.id); clearWrong(it.id); run.score++; run.xp+=XP.cards; addXP(XP.cards); }
+    else markWrong(it.id);
+    run.i++; step();
+  },
+  conf:function(level){
+    var it = run.items[run.i]; it.conf = level;
+    ["guess","pretty","know"].forEach(function(l){
+      var b=document.getElementById("conf-"+l);
+      if (b) b.classList.toggle("sel", l===level);
+    });
+  },
+  reveal:function(){
+    var it = run.items[run.i], d = it.data;
+    var pts = d.points.map(function(t){ return '<li>'+esc(t)+'</li>'; }).join("");
+    document.getElementById("speakreveal").innerHTML =
+      '<div class="why"><b>The talking points:</b><ul style="margin:.5rem 0 0;padding-left:1.2rem">'+pts+'</ul></div>'
+      + '<p class="muted">How did it go, honestly?</p>'
+      + '<button class="btn wide" onclick="GA.speakGrade(2)">🌊 Nailed it · flowed naturally</button>'
+      + '<button class="btn wide dark" onclick="GA.speakGrade(1)">〰️ Halfway · hit some points, stumbled</button>'
+      + '<button class="btn wide ghost" onclick="GA.speakGrade(0)">🫧 Blanked · show it again later</button>';
+    window.scrollTo(0, document.body.scrollHeight);
+  },
+  speakGrade:function(level){
+    var it = run.items[run.i];
+    if (level===2){ markCorrect(it.id); clearWrong(it.id); run.score++; run.xp+=XP.speak; addXP(XP.speak); }
+    else if (level===1){ clearWrong(it.id); run.xp+=Math.floor(XP.speak/2); addXP(Math.floor(XP.speak/2)); }
     else markWrong(it.id);
     run.i++; step();
   },
@@ -425,8 +718,8 @@ window.GA = {
       if (o.ok) b.classList.add("correct");
       else if (j===i) b.classList.add("wrong");
     });
-    var cr=document.getElementById("confrow"); if (cr) cr.querySelectorAll("button").forEach(function(b){ b.disabled=true; });
-    var gain = (run.mode==="boss" ? XP.bossQ : (XP[it.kind]||10)) + (picked.ok ? (CONF_BONUS[it.conf]||0) : 0);
+    document.querySelectorAll(".confrow button").forEach(function(b){ b.disabled=true; });
+    var gain = (run.mode==="boss" ? XP.bossQ : XP.sprint) + (picked.ok ? (CONF_BONUS[it.conf]||0) : 0);
     var confNote = "";
     if (picked.ok){ run.score++; run.xp+=gain; addXP(gain); markCorrect(it.id); clearWrong(it.id);
       if (it.conf==="know") confNote = " Called it, too: +"+CONF_BONUS.know+" xp.";
@@ -438,77 +731,19 @@ window.GA = {
     }
     var d=it.data;
     var extra = '<div class="why">'+(picked.ok?'<b>Correct.</b> ':'<b>The answer:</b> '+esc(d.a[0])+'<br>')+esc(d.why||"")+esc(confNote)+'</div>'
-      + '<button class="btn" onclick="GA.next()">'+(run.i+1>=run.items.length?'Finish':'Next')+' →</button>';
-    app.appendChild(el(extra));
+      + '<button class="btn wide" onclick="GA.next()">'+(run.i+1>=run.items.length?'Finish':'Next')+' →</button>';
+    document.querySelector(".narrow").appendChild(el(extra));
     window.scrollTo(0, document.body.scrollHeight);
   },
-  next:function(){ run.i++; step(); }
-};
-function results(){
-  var p=P(), n=run.items.length, sc=run.score, m=run.mod;
-  var passedBoss=false, perfect=false;
-  if (run.mode==="boss" && m){
-    if (sc>=BOSS_PASS){ passedBoss=true;
-      if (!p.boss[m.id]){ p.boss[m.id]=1; grant("boss-"+m.id); addXP(XP.bossPass); run.xp+=XP.bossPass; }
-      if (sc===n) { perfect=true; grant("perfect"); }
-      checkWords();
-    }
-  }
-  save();
-  var emoji = run.mode==="boss" ? (passedBoss ? (perfect?"👑":"⚔️✅") : "💤") : (sc===n?"🌊":"👍");
-  var line = run.mode==="boss"
-    ? (passedBoss ? (perfect? "Flawless. The boss never stood a chance." : "Boss beaten. "+m.num+" is mastered.")
-       : "Boss survives: "+sc+"/"+n+", you need "+BOSS_PASS+". Read, drill, return.")
-    : sc+" of "+n+" · +"+run.xp+" xp";
-  var h = topnav(run.mode==="review"?"Review":(m?m.num:""))
-    + '<div class="result-big">'+emoji+'</div>'
-    + '<h1 class="center">'+esc(line)+'</h1>'
-    + '<p class="center muted">Total: '+p.xp+' xp · '+esc(rank(p.xp))+(p.wrongQueue.length? ' · '+p.wrongQueue.length+' items in review':'')+'</p>';
-  if (run.mode!=="review" && m) h += '<button class="btn" onclick="GA.play(\''+m.id+'\',\''+run.mode+'\')">Play again</button>'
-    + '<button class="btn ghost" onclick="GA.mod(\''+m.id+'\')">Back to '+m.num+'</button>';
-  h += '<button class="btn quiet" onclick="GA.home()">Home</button>';
-  render(h);
-}
-function leaderboard(){
-  var names = Object.keys(S.players).sort(function(a,b){ return S.players[b].xp - S.players[a].xp; });
-  var h = topnav("Leaderboard");
-  h += '<div class="panel"><table class="lb"><tr><th>#</th><th>Player</th><th>XP</th><th>Rank</th><th>🔥</th></tr>';
-  names.forEach(function(n,i){
-    h += '<tr class="'+(i===0?'rank1':'')+'"><td>'+(i+1)+'</td><td>'+esc(n)+'</td><td>'+S.players[n].xp+'</td><td>'+esc(rank(S.players[n].xp))+'</td><td>'+S.players[n].streak+'</td></tr>';
-  });
-  h += '</table></div><h2 style="margin-top:1.2rem">Badges · '+esc(S.current)+'</h2><div>';
-  Object.keys(BADGES).forEach(function(id){
-    var b=BADGES[id], got = P().badges.indexOf(id)>=0;
-    h += '<span class="badge'+(got?'':' locked')+'">'+b.ico+' '+esc(b.name)+'</span>';
-  });
-  h += '</div><button class="btn quiet" style="margin-top:1.2rem" onclick="GA.home()">Home</button>';
-  render(h);
-}
-function library(){
-  var h = topnav("Term library")
-    + '<p class="eyebrow">The term · the meaning · the human version</p>'
-    + '<h2>Quick reference, when something has not clicked yet</h2>'
-    + '<input type="text" id="libsearch" placeholder="Search a term..." oninput="GA.libFilter(this.value)" autocomplete="off">';
-  MODS.forEach(function(m){
-    if (!m.cards || !m.cards.length) return;
-    h += '<p class="eyebrow" style="margin-top:1.4rem">'+m.icon+' '+m.num+' · '+esc(m.title)+'</p>';
-    m.cards.forEach(function(c){
-      h += '<details class="panel lib-item" style="margin:.4rem 0;padding:.8rem 1rem" data-term="'+esc((c.t+" "+c.d).toLowerCase())+'">'
-        + '<summary style="cursor:pointer;font-weight:600">'+esc(c.t)+'</summary>'
-        + '<p style="margin:.5rem 0 .2rem;font-size:.93rem">'+esc(c.d)+'</p>'
-        + '<p style="margin:0;font-size:.93rem;font-style:italic;color:var(--surf)">&ldquo;'+esc(c.s)+'&rdquo;</p></details>';
+  next:function(){ run.i++; step(); },
+  libFilter:function(v){
+    v = v.trim().toLowerCase();
+    document.querySelectorAll(".lib-item").forEach(function(d){
+      d.style.display = (!v || d.getAttribute("data-term").indexOf(v)>=0) ? "" : "none";
     });
-  });
-  h += '<button class="btn quiet" style="margin-top:1.2rem" onclick="GA.home()">Home</button>';
-  render(h);
-}
-GA.libFilter = function(v){
-  v = v.trim().toLowerCase();
-  document.querySelectorAll(".lib-item").forEach(function(d){
-    d.style.display = (!v || d.getAttribute("data-term").indexOf(v)>=0) ? "" : "none";
-  });
+  }
 };
-home();
+learn();
 })();
 </script>
 </body>
