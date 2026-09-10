@@ -1,0 +1,400 @@
+<title>Academy M6 · The Sales Arena</title>
+<style>
+  :root {
+    --sand: #F5F1E8;
+    --ink: #16282E;
+    --surf: #0E7C86;
+    --dune: #8A7F6A;
+    --hairline: #DDD5C4;
+    --card: #FDFBF6;
+    --surf-soft: rgba(14, 124, 134, 0.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --sand: #0F1B1E;
+      --ink: #EDE6D6;
+      --surf: #4FB3BC;
+      --dune: #9A917E;
+      --hairline: #24373C;
+      --card: #14232780;
+      --surf-soft: rgba(79, 179, 188, 0.1);
+    }
+  }
+  :root[data-theme="light"] {
+    --sand: #F5F1E8;
+    --ink: #16282E;
+    --surf: #0E7C86;
+    --dune: #8A7F6A;
+    --hairline: #DDD5C4;
+    --card: #FDFBF6;
+    --surf-soft: rgba(14, 124, 134, 0.08);
+  }
+  :root[data-theme="dark"] {
+    --sand: #0F1B1E;
+    --ink: #EDE6D6;
+    --surf: #4FB3BC;
+    --dune: #9A917E;
+    --hairline: #24373C;
+    --card: #14232780;
+    --surf-soft: rgba(79, 179, 188, 0.1);
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--sand);
+    color: var(--ink);
+    font-family: "Iowan Old Style", "Palatino", Georgia, serif;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    margin: 0;
+    padding: 0 1.25rem;
+  }
+  .wrap { max-width: 44rem; margin: 0 auto; padding: 3.5rem 0 6rem; }
+  .mark {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: 1.1rem; letter-spacing: 0.02em;
+    color: var(--surf);
+  }
+  .eyebrow {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--dune); margin: 0 0 0.6rem;
+  }
+  h1 {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: clamp(2rem, 5vw, 2.9rem);
+    line-height: 1.08; letter-spacing: -0.015em; margin: 0.4rem 0 1rem;
+    text-wrap: balance;
+  }
+  h2 {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: 1.45rem; letter-spacing: -0.01em;
+    margin: 0 0 0.9rem; text-wrap: balance;
+  }
+  h3 {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 600; font-size: 1.08rem; margin: 1.6rem 0 0.4rem;
+  }
+  p { margin: 0 0 1.05rem; }
+  section { border-top: 1px solid var(--hairline); padding-top: 2.4rem; margin-top: 2.6rem; }
+  .lede { font-size: 1.15rem; }
+  .muted { color: var(--dune); }
+  .toc { list-style: none; padding: 0; margin: 1.4rem 0 0; display: flex; flex-direction: column; gap: 0.45rem; }
+  .toc a {
+    color: var(--ink); text-decoration: none;
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif; font-weight: 500; font-size: 0.95rem;
+  }
+  .toc a:hover, .toc a:focus-visible { color: var(--surf); }
+  .toc .n {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; color: var(--surf); margin-right: 0.6rem;
+  }
+  a:focus-visible { outline: 2px solid var(--surf); outline-offset: 3px; border-radius: 2px; }
+  .callout {
+    background: var(--surf-soft);
+    border-left: 2px solid var(--surf);
+    padding: 1rem 1.2rem; margin: 1.4rem 0;
+    font-size: 1rem;
+  }
+  .callout .eyebrow { color: var(--surf); margin-bottom: 0.35rem; }
+  .callout p:last-child { margin-bottom: 0; }
+  .statrow { display: flex; gap: 1rem; flex-wrap: wrap; margin: 1.5rem 0; }
+  .stat {
+    flex: 1 1 240px; background: var(--card); border: 1px solid var(--hairline);
+    padding: 1.15rem 1.25rem;
+  }
+  .stat .big {
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: 2.2rem; letter-spacing: -0.02em;
+    color: var(--surf); line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat .src {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--dune); margin-top: 0.7rem;
+  }
+  .stat p { font-size: 0.94rem; margin: 0.4rem 0 0; }
+  .tablewrap { overflow-x: auto; margin: 1.5rem 0; border: 1px solid var(--hairline); }
+  table { border-collapse: collapse; width: 100%; min-width: 620px; font-size: 0.95rem; }
+  th {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--dune); text-align: left; font-weight: 500;
+    padding: 0.8rem 1rem; border-bottom: 1px solid var(--hairline);
+  }
+  td { padding: 0.8rem 1rem; border-bottom: 1px solid var(--hairline); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td.term {
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+    font-weight: 600; font-size: 0.92rem; white-space: nowrap;
+  }
+  td.say { color: var(--surf); font-style: italic; }
+  .beat {
+    background: var(--card); border: 1px solid var(--hairline);
+    padding: 1.4rem 1.5rem; margin: 1.3rem 0;
+  }
+  .beat h3 { margin-top: 0; }
+  .beat ol { margin: 0.6rem 0 0; padding-left: 1.3rem; }
+  .beat ol li { margin-bottom: 0.55rem; }
+  .beat .hookline { font-style: italic; color: var(--surf); }
+  .beat .close {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.8rem; letter-spacing: 0.06em; margin-top: 0.9rem;
+    color: var(--dune);
+  }
+  .drill { margin: 1.2rem 0; padding: 0; list-style: none; counter-reset: drill; }
+  .drill li {
+    counter-increment: drill; position: relative;
+    padding: 0.85rem 0 0.85rem 2.6rem; border-bottom: 1px solid var(--hairline);
+  }
+  .drill li::before {
+    content: "Q" counter(drill);
+    position: absolute; left: 0; top: 0.95rem;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; color: var(--surf); letter-spacing: 0.05em;
+  }
+  .drill li:last-child { border-bottom: none; }
+  .pushback { margin: 1.2rem 0; }
+  .pushback dt {
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+    font-weight: 600; font-size: 0.98rem; margin-top: 1.2rem;
+  }
+  .pushback dt::before { content: "\201C"; color: var(--surf); }
+  .pushback dt::after { content: "\201D"; color: var(--surf); }
+  .pushback dd { margin: 0.35rem 0 0; font-size: 0.98rem; }
+  ul { padding-left: 1.25rem; }
+  ul li { margin-bottom: 0.5rem; }
+  strong { font-weight: 600; }
+  footer {
+    border-top: 1px solid var(--hairline); margin-top: 3.5rem; padding-top: 1.5rem;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dune);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+  }
+</style>
+<div class="wrap">
+  <header>
+    <div class="mark">~&lt; salty code studio</div>
+    <p class="eyebrow" style="margin-top:2.2rem">Academy · Module 6 · The Sales Arena</p>
+    <h1>The Sales Arena: where everything combines</h1>
+    <p class="lede">Modules 1 to 5 gave you the knowledge. This module is different: it is a practice ring, not a reading assignment. I play a prospect, a real-feeling business owner with a surface complaint and a hidden real problem. You run the conversation: ask, diagnose, translate, handle the pushback, recommend. Then I break the fourth wall and we review the tape. This page is the rulebook.</p>
+    <ul class="toc">
+      <li><a href="#spine"><span class="n">01</span>The conversation spine</a></li>
+      <li><a href="#questions"><span class="n">02</span>The golden questions</a></li>
+      <li><a href="#map"><span class="n">03</span>The master diagnosis map</a></li>
+      <li><a href="#rules"><span class="n">04</span>The four rules of the room</a></li>
+      <li><a href="#arena"><span class="n">05</span>How the Arena works</a></li>
+      <li><a href="#roster"><span class="n">06</span>The prospect roster</a></li>
+      <li><a href="#rubric"><span class="n">07</span>How you are scored</a></li>
+          <li><a href="#proofq"><span class="n">08</span>Questions that contain proof</a></li>
+      <li><a href="#story30"><span class="n">09</span>Deploying a story in thirty seconds</a></li>
+    </ul>
+  </header>
+
+  <section id="spine">
+    <p class="eyebrow">01 · The shape</p>
+    <h2>The conversation spine</h2>
+    <p>Every good sales conversation has the same spine, and it is mostly listening. Six moves, in order:</p>
+    <ul>
+      <li><strong>Listen.</strong> Let them describe the problem in their words, fully, without steering. The words they choose are diagnostic gold.</li>
+      <li><strong>Dig.</strong> Ask about the day-to-day reality, not about technology. What happens when a customer wants to book? Who answers? How long does it take? What goes wrong?</li>
+      <li><strong>Diagnose.</strong> Silently place what you heard on the diagnosis map below. The stated problem and the real problem are different roughly half the time.</li>
+      <li><strong>Translate.</strong> Say the real problem back in their language, using their examples. This is the moment trust is built or lost: when an owner hears their own situation described more clearly than they described it, the sale is mostly done.</li>
+      <li><strong>Recommend.</strong> One thing, not a menu. The smallest move that fixes the biggest leak, with the bottleneck math or pipeline logic behind it.</li>
+      <li><strong>Close-lite.</strong> A concrete, small next step with a date. Never "think about it and let me know." Always "I will send you X by Thursday, and if it looks right, we start with Y."</li>
+    </ul>
+    <div class="callout">
+      <p class="eyebrow">The ratio that decides everything</p>
+      <p>In a good discovery conversation the prospect talks about two thirds of the time. If you catch yourself explaining before you have asked at least four questions, you are pitching, not diagnosing, and pitches get price-shopped. Diagnoses get hired.</p>
+    </div>
+  </section>
+
+  <section id="questions">
+    <p class="eyebrow">02 · The toolkit</p>
+    <h2>The golden questions</h2>
+    <p>You never need a script, you need a pocketful of questions that open the right doors. These eight cover nearly every conversation, and you already know the modules behind them:</p>
+    <ul>
+      <li><strong>"Walk me through what happens when a customer wants to book / order / hire you."</strong> The single best opener. The answer contains the workflow, the bottleneck, and the mood, all at once.</li>
+      <li><strong>"What is the task you repeat every single day that you wish would just happen?"</strong> Pack 02's bottleneck finder. Owners answer instantly.</li>
+      <li><strong>"Could you turn your phone off for two weeks?"</strong> The phone test. Watch the face, not the answer.</li>
+      <li><strong>"Where do your customers come from right now?"</strong> Opens the pipeline. Also reveals what they believe about their own marketing, which is often more useful.</li>
+      <li><strong>"When people compare you to others, what do they compare on?"</strong> If the answer is price, Module 2 just entered the room.</li>
+      <li><strong>"What have you already tried, and what happened?"</strong> Prevents recommending the thing that already failed, and surfaces the burns that shape their objections.</li>
+      <li><strong>"If this problem disappeared tomorrow, what would you do with the time?"</strong> Turns pain into a picture. People buy the picture.</li>
+      <li><strong>"Who owns your domain, your accounts, your data?"</strong> Module 1's trust bomb. Often the moment they realize you are on their side.</li>
+    </ul>
+    <p>The follow-up habit that beats any clever question: <strong>ask "what does that look like on a normal Tuesday?"</strong> Owners describe their business in ideals and exceptions; the truth lives in the boring Tuesday. Whenever an answer feels vague, send it to Tuesday.</p>
+  </section>
+
+  <section id="map">
+    <p class="eyebrow">03 · The compass</p>
+    <h2>The master diagnosis map</h2>
+    <p>The whole Academy in one table. Symptom in, module out. Learn it cold; in the Arena I will be checking you against it.</p>
+    <div class="tablewrap">
+      <table>
+        <tr><th>What the prospect says</th><th>Likely real problem</th><th>Where you learned it</th></tr>
+        <tr><td class="term">"Nobody can find us online"</td><td>Findability: SEO, local profile, or simply no presence</td><td>Module 1</td></tr>
+        <tr><td class="term">"We get visitors but no bookings"</td><td>Conversion: speed, clarity, proof failing</td><td>Pack 01</td></tr>
+        <tr><td class="term">"Customers always haggle on price"</td><td>Positioning: they look interchangeable</td><td>Module 2</td></tr>
+        <tr><td class="term">"People do not get what we do"</td><td>Messaging: vague or self-centered words</td><td>Module 2</td></tr>
+        <tr><td class="term">"We look cheaper than we are"</td><td>Perceived value: visuals discounting the price</td><td>Module 2</td></tr>
+        <tr><td class="term">"I post constantly and nothing happens"</td><td>Pipeline: applause content, or a leak further down</td><td>Module 3</td></tr>
+        <tr><td class="term">"Ads did not work for us"</td><td>Ads amplified a broken step, or were judged too soon</td><td>Module 3</td></tr>
+        <tr><td class="term">"Leads message us and then go quiet"</td><td>Follow-up: no CRM, no automation, slow replies</td><td>Modules 3 + 5</td></tr>
+        <tr><td class="term">"I am drowning in admin"</td><td>Bottleneck: manual work a system should do</td><td>Pack 02 + Module 5</td></tr>
+        <tr><td class="term">"We double-booked again last weekend"</td><td>No single source of truth: lists disagreeing</td><td>Module 5</td></tr>
+        <tr><td class="term">"We should do something with AI"</td><td>Usually rules-automation first; AI maybe second</td><td>Pack 02 + Module 4</td></tr>
+        <tr><td class="term">"Everything runs through me personally"</td><td>The owner is the bottleneck; phone test confirms</td><td>Pack 02</td></tr>
+      </table>
+    </div>
+    <p>Two warnings that make you dangerous in a good way. First: prospects often present two symptoms at once; your job is picking the one that bleeds most. Second: sometimes the honest diagnosis is one you do not sell, a staffing issue, a pricing decision, a product problem. Saying "this is not a website problem, and I do not want your money for a website that will not fix it" loses one small deal and wins a referral machine.</p>
+  </section>
+
+  <section id="rules">
+    <p class="eyebrow">04 · Discipline</p>
+    <h2>The four rules of the room</h2>
+    <ul>
+      <li><strong>Talk less than the prospect.</strong> The two-thirds ratio. Questions are your talking.</li>
+      <li><strong>Never name a technology before naming the problem.</strong> "You need a CRM" before the diagnosis is pitching. "Leads go quiet because nobody follows up within the hour, and there is a tool category for exactly that" is advising. Same content, opposite trust.</li>
+      <li><strong>One recommendation, not a menu.</strong> A menu makes the prospect the expert, which they are not, which is why they freeze. You were hired to have an opinion. Smallest move, biggest leak, one clear reason.</li>
+      <li><strong>Always end with a concrete next step and a date.</strong> Momentum is a deliverable. "I will send the audit Thursday" beats a brilliant conversation that ends in fog.</li>
+    </ul>
+    <div class="callout">
+      <p class="eyebrow">The posture</p>
+      <p>You are not trying to win the deal. You are trying to be the most useful fifteen minutes of that owner's month. Do that honestly and the deals chase you, which is also the only version of sales that feels good on camera and off.</p>
+    </div>
+  </section>
+
+  <section id="arena">
+    <p class="eyebrow">05 · The game</p>
+    <h2>How the Arena works</h2>
+    <p>You start a session and say <strong>"run me a prospect"</strong>, or name one from the roster below, like <strong>"run the dive shop"</strong>. From that moment I am the owner, fully in character, and here is the important part: <strong>each prospect has a hidden file this page does not show you.</strong> A surface complaint they open with, a real problem underneath, a burn from the past shaping their objections, and a budget mood. You get what a real conversation gets you: whatever your questions earn.</p>
+    <h3>Difficulty levels</h3>
+    <ul>
+      <li><strong>Friendly:</strong> open, chatty, answers what you ask. For learning the spine.</li>
+      <li><strong>Skeptical:</strong> burned before, short answers, at least one hard objection. The default.</li>
+      <li><strong>Chaotic:</strong> rambles, self-diagnoses wrongly, asks the price in minute one, changes subject. Closest to real life.</li>
+    </ul>
+    <p>Say the level when you start, like "run the realtor, chaotic." You can also ask for a curveball prospect not on the roster, or hand me a real business you are actually pitching this week, which turns the Arena into rehearsal, the best use of all.</p>
+    <h3>The review</h3>
+    <p>Say <strong>"end scene"</strong> any time, or finish the conversation naturally. I break character and we review the tape: what you diagnosed versus what the hidden file said, which golden questions you used and skipped, where you pitched instead of asked, how the objection handling landed, and whether the recommendation fit. Then the score, honest, using the rubric below.</p>
+  </section>
+
+  <section id="roster">
+    <p class="eyebrow">06 · Opponents</p>
+    <h2>The prospect roster</h2>
+    <p>Eight starters. You see what you would see from the outside: the business and the opening line. The file stays with me.</p>
+
+    <div class="beat">
+      <h3>The Nail Salon</h3>
+      <p class="muted">"I want a website, everyone says I need one. But honestly my agenda is full, so I do not even know why I am asking."</p>
+    </div>
+    <div class="beat">
+      <h3>The Dive Shop</h3>
+      <p class="muted">"We get plenty of tourists walking in, but the online bookings are almost zero, and my nephew built the site two years ago."</p>
+    </div>
+    <div class="beat">
+      <h3>The Restaurant</h3>
+      <p class="muted">"We are busy in season and dead outside it. Someone said we should do something with Instagram ads."</p>
+    </div>
+    <div class="beat">
+      <h3>The Realtor</h3>
+      <p class="muted">"I am on every portal and I post my listings everywhere, but people still pick the big agency down the street."</p>
+    </div>
+    <div class="beat">
+      <h3>The Accountant</h3>
+      <p class="muted">"Clients email me their documents in seventeen formats and I spend evenings sorting them. Also, is AI going to replace me?"</p>
+    </div>
+    <div class="beat">
+      <h3>The Rental Company</h3>
+      <p class="muted">"We double-booked twice last month. My wife runs the agenda, I run the counter, and the website guy disappeared."</p>
+    </div>
+    <div class="beat">
+      <h3>The Boutique</h3>
+      <p class="muted">"My things are handmade and people love them in the shop, but online nobody wants to pay what they cost."</p>
+    </div>
+    <div class="beat">
+      <h3>The Gym</h3>
+      <p class="muted">"Lots of trials in January, almost nobody stays past March. I want a flashy new site to bring in fresh people."</p>
+    </div>
+  </section>
+
+  <section id="rubric">
+    <p class="eyebrow">07 · The tape</p>
+    <h2>How you are scored</h2>
+    <p>Five dimensions, twenty points each. Under sixty we rerun the same prospect another day; over eighty you have outgrown the level.</p>
+    <div class="tablewrap">
+      <table>
+        <tr><th>Dimension</th><th>What earns the points</th></tr>
+        <tr><td class="term">Discovery</td><td>Asked before telling. Used golden questions. Sent vague answers to Tuesday. Ratio near two thirds them.</td></tr>
+        <tr><td class="term">Diagnosis</td><td>Found the hidden real problem, not just the surface complaint. Placed it correctly on the map.</td></tr>
+        <tr><td class="term">Translation</td><td>Explained in plain language, their examples, zero unexplained jargon. Decoder discipline under pressure.</td></tr>
+        <tr><td class="term">Objections</td><td>Stayed calm, agreed with the true part first, answered the fear underneath rather than the words on top.</td></tr>
+        <tr><td class="term">Recommendation</td><td>One fitting move, sized to the leak, honest math or logic behind it, concrete next step with a date.</td></tr>
+      </table>
+    </div>
+    <p>One meta-rule for the whole module: the Arena is allowed to feel clumsy. That is the point. Every stumble here is one that never happens in front of a real owner, and the reviews will show the same three or four habits repeating, which is exactly what practice is for. Nobody is born asking great questions. It is drilled, and this is the drill.</p>
+    <div class="callout">
+      <p class="eyebrow">Start any time</p>
+      <p>Open a session and say "run me a prospect." That is the whole ritual. First one should be Friendly, just to feel the spine. Then we turn the heat up.</p>
+    </div>
+  </section>
+
+  <section id="proofq">
+    <p class="eyebrow">08 · The secret weapon</p>
+    <h2>Questions that contain proof</h2>
+    <p>Here is the mechanism behind "she has done this before": <strong>a question can carry more proof than a portfolio.</strong> When you ask about a moment only insiders know exists, the prospect concludes, without you claiming anything, that you have stood where they stand. No slide can do that, because slides are you talking about yourself, and insider questions are you demonstrating knowledge of <em>their</em> life.</p>
+    <p>The formula: <strong>name a painful, specific moment from their operational reality, and ask how they handle it.</strong> Not "do you have challenges with bookings" (generic, salesy, forgettable) but "when someone returns the scooter late and the next renter is standing there, what happens?" The second version proves you know that moment exists. Every trade has these moments, and collecting them is now part of your craft: every client project, every Arena run, every reel comment teaches you new ones.</p>
+
+    <h3>The starter bank, by trade</h3>
+    <div class="tablewrap">
+      <table>
+        <tr><th>Trade</th><th>Insider questions that carry proof</th></tr>
+        <tr><td class="term">Rentals and tours</td><td>"Who catches a double booking first, you or the customer?" · "What happens to the 11 pm request?" · "Late return, next renter at the counter: walk me through it."</td></tr>
+        <tr><td class="term">Restaurants and bars</td><td>"What do no-shows cost you on a Friday, and does anyone follow up with them?" · "How many places does one reservation get written down?" · "What does February look like, and what do you do about it in September?"</td></tr>
+        <tr><td class="term">Salons and personal care</td><td>"If you are sick tomorrow, who can see and move your appointments?" · "What is your no-show rhythm, and do reminders go out by hand or by themselves?" · "Which questions do new clients always DM you at night?"</td></tr>
+        <tr><td class="term">Shops and boutiques</td><td>"How do you find out you are out of stock: the shelf, the system, or the customer?" · "How long does one new product take from photo to online?" · "Do tourists and locals see the same story from you?"</td></tr>
+        <tr><td class="term">Realtors and services</td><td>"When a client calls about their file, how long until everything is in front of you?" · "Where do the 'maybe next year' people live in your system?" · "What happens to an inquiry that arrives while you are in a viewing?"</td></tr>
+      </table>
+    </div>
+
+    <h3>The three finishing touches</h3>
+    <ul>
+      <li><strong>Ask, then be quiet.</strong> The power is in the silence after. The prospect fills it with their story, and their story is your brief. An insider question answered by you is just a pitch again.</li>
+      <li><strong>Normalize honestly.</strong> After they confess the chaos: "you are not the exception, this is what we find in almost every business at your stage." Only say it because it is true. Shame closes people, normalcy opens them.</li>
+      <li><strong>Reflect before you recommend.</strong> Repeat their two or three worst moments back in their own words before proposing anything. Feeling understood comes before feeling helped, always, and cannot be skipped.</li>
+    </ul>
+    <div class="callout">
+      <p class="eyebrow">In the Arena</p>
+      <p>From now on I score insider questions explicitly: using at least two per conversation, matched to the prospect's trade, earns full Discovery marks. Generic discovery ("tell me about your challenges") caps the score, exactly like it caps trust in real life.</p>
+    </div>
+  </section>
+
+  <section id="story30">
+    <p class="eyebrow">09 · The receipts</p>
+    <h2>Deploying a story in thirty seconds</h2>
+    <p>Case studies do not belong in a monologue, they belong in the gaps a conversation opens. The shape is <strong>situation, turn, takeaway</strong>, thirty seconds, and it always ends by handing the conversation back:</p>
+    <div class="beat">
+      <h3>The template, worked</h3>
+      <p><strong>Situation:</strong> "A rental owner we work with used to confirm every booking himself, from his phone, at all hours."</p>
+      <p><strong>Turn:</strong> "We built it so requests come in structured, land on his phone, and one tap approves. Confirmations and reminders send themselves, in his branding."</p>
+      <p><strong>Takeaway plus handback:</strong> "He kept every yes and lost the running around. Does any of that sound like your evenings?"</p>
+    </div>
+    <p>The rules that keep stories working for you instead of against you:</p>
+    <ul>
+      <li><strong>One story per conversation, matched to their wound.</strong> A second story starts to feel like a brochure. Pick the one that mirrors what they just told you.</li>
+      <li><strong>Only numbers you can stand behind.</strong> "He got his evenings back" is honest and lands. An invented percentage is a landmine that goes off in the reference call. Real and modest beats inflated and shaky, in content and in sales chairs alike.</li>
+      <li><strong>Name clients only with their blessing.</strong> Anonymous versions, "a rental on Aruba," lose nothing; the situation does the convincing, not the name.</li>
+      <li><strong>End with a question, never with the moral.</strong> "Sound familiar?" turns your proof into their story, and the conversation keeps belonging to them, which is where sales are won.</li>
+    </ul>
+    <div class="callout">
+      <p class="eyebrow">In the Arena</p>
+      <p>Story deployment is now scored inside Recommendation: one fitting story, told in under forty seconds, ending with a handback question, earns the bonus. Two stories, any bragging tone, or a story that ignores what the prospect actually said, costs it.</p>
+    </div>
+  </section>
+
+
+  <footer>~&lt; Academy · Module 6 · Salty Code Studio · the modules feed the arena, the arena feeds the business</footer>
+</div>

@@ -1,0 +1,400 @@
+<title>Academy M4 · AI and Education</title>
+<style>
+  :root {
+    --sand: #F5F1E8;
+    --ink: #16282E;
+    --surf: #0E7C86;
+    --dune: #8A7F6A;
+    --hairline: #DDD5C4;
+    --card: #FDFBF6;
+    --surf-soft: rgba(14, 124, 134, 0.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --sand: #0F1B1E;
+      --ink: #EDE6D6;
+      --surf: #4FB3BC;
+      --dune: #9A917E;
+      --hairline: #24373C;
+      --card: #14232780;
+      --surf-soft: rgba(79, 179, 188, 0.1);
+    }
+  }
+  :root[data-theme="light"] {
+    --sand: #F5F1E8;
+    --ink: #16282E;
+    --surf: #0E7C86;
+    --dune: #8A7F6A;
+    --hairline: #DDD5C4;
+    --card: #FDFBF6;
+    --surf-soft: rgba(14, 124, 134, 0.08);
+  }
+  :root[data-theme="dark"] {
+    --sand: #0F1B1E;
+    --ink: #EDE6D6;
+    --surf: #4FB3BC;
+    --dune: #9A917E;
+    --hairline: #24373C;
+    --card: #14232780;
+    --surf-soft: rgba(79, 179, 188, 0.1);
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--sand);
+    color: var(--ink);
+    font-family: "Iowan Old Style", "Palatino", Georgia, serif;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    margin: 0;
+    padding: 0 1.25rem;
+  }
+  .wrap { max-width: 44rem; margin: 0 auto; padding: 3.5rem 0 6rem; }
+  .mark {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: 1.1rem; letter-spacing: 0.02em;
+    color: var(--surf);
+  }
+  .eyebrow {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--dune); margin: 0 0 0.6rem;
+  }
+  h1 {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: clamp(2rem, 5vw, 2.9rem);
+    line-height: 1.08; letter-spacing: -0.015em; margin: 0.4rem 0 1rem;
+    text-wrap: balance;
+  }
+  h2 {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: 1.45rem; letter-spacing: -0.01em;
+    margin: 0 0 0.9rem; text-wrap: balance;
+  }
+  h3 {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 600; font-size: 1.08rem; margin: 1.6rem 0 0.4rem;
+  }
+  p { margin: 0 0 1.05rem; }
+  section { border-top: 1px solid var(--hairline); padding-top: 2.4rem; margin-top: 2.6rem; }
+  .lede { font-size: 1.15rem; }
+  .muted { color: var(--dune); }
+  .toc { list-style: none; padding: 0; margin: 1.4rem 0 0; display: flex; flex-direction: column; gap: 0.45rem; }
+  .toc a {
+    color: var(--ink); text-decoration: none;
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif; font-weight: 500; font-size: 0.95rem;
+  }
+  .toc a:hover, .toc a:focus-visible { color: var(--surf); }
+  .toc .n {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; color: var(--surf); margin-right: 0.6rem;
+  }
+  a:focus-visible { outline: 2px solid var(--surf); outline-offset: 3px; border-radius: 2px; }
+  .callout {
+    background: var(--surf-soft);
+    border-left: 2px solid var(--surf);
+    padding: 1rem 1.2rem; margin: 1.4rem 0;
+    font-size: 1rem;
+  }
+  .callout .eyebrow { color: var(--surf); margin-bottom: 0.35rem; }
+  .callout p:last-child { margin-bottom: 0; }
+  .statrow { display: flex; gap: 1rem; flex-wrap: wrap; margin: 1.5rem 0; }
+  .stat {
+    flex: 1 1 240px; background: var(--card); border: 1px solid var(--hairline);
+    padding: 1.15rem 1.25rem;
+  }
+  .stat .big {
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: 2.2rem; letter-spacing: -0.02em;
+    color: var(--surf); line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat .src {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--dune); margin-top: 0.7rem;
+  }
+  .stat p { font-size: 0.94rem; margin: 0.4rem 0 0; }
+  .tablewrap { overflow-x: auto; margin: 1.5rem 0; border: 1px solid var(--hairline); }
+  table { border-collapse: collapse; width: 100%; min-width: 620px; font-size: 0.95rem; }
+  th {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--dune); text-align: left; font-weight: 500;
+    padding: 0.8rem 1rem; border-bottom: 1px solid var(--hairline);
+  }
+  td { padding: 0.8rem 1rem; border-bottom: 1px solid var(--hairline); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td.term {
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+    font-weight: 600; font-size: 0.92rem; white-space: nowrap;
+  }
+  td.say { color: var(--surf); font-style: italic; }
+  .beat {
+    background: var(--card); border: 1px solid var(--hairline);
+    padding: 1.4rem 1.5rem; margin: 1.3rem 0;
+  }
+  .beat h3 { margin-top: 0; }
+  .beat ol { margin: 0.6rem 0 0; padding-left: 1.3rem; }
+  .beat ol li { margin-bottom: 0.55rem; }
+  .beat .hookline { font-style: italic; color: var(--surf); }
+  .beat .close {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.8rem; letter-spacing: 0.06em; margin-top: 0.9rem;
+    color: var(--dune);
+  }
+  .drill { margin: 1.2rem 0; padding: 0; list-style: none; counter-reset: drill; }
+  .drill li {
+    counter-increment: drill; position: relative;
+    padding: 0.85rem 0 0.85rem 2.6rem; border-bottom: 1px solid var(--hairline);
+  }
+  .drill li::before {
+    content: "Q" counter(drill);
+    position: absolute; left: 0; top: 0.95rem;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; color: var(--surf); letter-spacing: 0.05em;
+  }
+  .drill li:last-child { border-bottom: none; }
+  .pushback { margin: 1.2rem 0; }
+  .pushback dt {
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+    font-weight: 600; font-size: 0.98rem; margin-top: 1.2rem;
+  }
+  .pushback dt::before { content: "\201C"; color: var(--surf); }
+  .pushback dt::after { content: "\201D"; color: var(--surf); }
+  .pushback dd { margin: 0.35rem 0 0; font-size: 0.98rem; }
+  ul { padding-left: 1.25rem; }
+  ul li { margin-bottom: 0.5rem; }
+  strong { font-weight: 600; }
+  footer {
+    border-top: 1px solid var(--hairline); margin-top: 3.5rem; padding-top: 1.5rem;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dune);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+  }
+</style>
+<div class="wrap">
+  <header>
+    <div class="mark">~&lt; salty code studio</div>
+    <p class="eyebrow" style="margin-top:2.2rem">Academy · Module 4 · AI and Education</p>
+    <h1>AI, explained like a grown-up</h1>
+    <p class="lede">Pack 02 gave you the sales-level split: automation is rules, AI is judgment. This module goes one level deeper, into the AI vocabulary itself: models, prompts, agents, hallucinations, workflows. The goal stays the same: every term you learn here must come out of your mouth as time saved or capability gained, because that is the only language a business owner should ever need.</p>
+    <ul class="toc">
+      <li><a href="#model"><span class="n">01</span>The mental model: the fast junior</a></li>
+      <li><a href="#llm"><span class="n">02</span>What a model actually is</a></li>
+      <li><a href="#prompting"><span class="n">03</span>Prompting: briefing, not magic words</a></li>
+      <li><a href="#agents"><span class="n">04</span>The ladder: chatbot, assistant, agent, workflow</a></li>
+      <li><a href="#honest"><span class="n">05</span>The honest limits: hallucination and trust</a></li>
+      <li><a href="#decoder"><span class="n">06</span>Terminology decoder</a></li>
+      <li><a href="#drills"><span class="n">07</span>Teach-back drills and pushbacks</a></li>
+          <li><a href="#threeways"><span class="n">08</span>Say it three ways</a></li>
+      <li><a href="#cases"><span class="n">09</span>Case files and the pain map</a></li>
+      <li><a href="#questions"><span class="n">10</span>The questions that open doors</a></li>
+    </ul>
+  </header>
+
+  <section id="model">
+    <p class="eyebrow">01 · The foundation</p>
+    <h2>The mental model: the fast junior</h2>
+    <p>Everything in this module hangs on one picture:</p>
+    <p><strong>AI is a very fast, very well-read junior employee with infinite patience and no judgment of its own. You do not marvel at it. You manage it.</strong></p>
+    <p>Every part of that sentence carries weight. Very fast: it drafts in seconds what takes a person an hour. Well-read: it has absorbed more text than any human ever will. Junior: it needs clear instructions, it makes confident mistakes, and you would never let it sign contracts or talk to your best customer unsupervised. No judgment of its own: it does not know your business, your customer, or what actually matters this week, unless you tell it.</p>
+    <p>This picture answers most client questions before they are asked. Will AI replace my staff? You do not fire a team because a junior joined; you stop paying seniors to do junior work. Can I trust it? The way you trust a junior: real work, checked before it goes out. Where do I start? The same place you would start a junior: one clearly described task, reviewed until it earns more rope.</p>
+    <div class="callout">
+      <p class="eyebrow">Say it your way</p>
+      <p>"Think of AI as the fastest junior employee you will ever have: reads everything, writes instantly, never tired, and never allowed to send anything without your eyes on it. Useful is the word. Not magic. Useful."</p>
+    </div>
+    <p>And the framing rule that governs everything you say about AI on camera or in a sales chair: <strong>never sell AI, sell the Tuesday afternoon it gives back.</strong> Nobody wants "an AI implementation." Everybody wants the quote written in four minutes, the inbox that sorts itself, the twenty repeated questions answered instantly. Name the task and the hours, and the technology sells itself quietly.</p>
+  </section>
+
+  <section id="llm">
+    <p class="eyebrow">02 · The machine</p>
+    <h2>What a model actually is</h2>
+    <p>The engine behind modern AI is an <strong>LLM</strong>, a large language model. The plain version: software that has read an enormous amount of text and learned the patterns of language so well that it can continue any text sensibly. Ask a question, it writes the most fitting continuation: an answer. That is genuinely the core of it, and you can say so on camera without dumbing anything down.</p>
+    <p>Three consequences follow, and knowing them makes you sound like someone who actually works with this daily, which you are:</p>
+    <ul>
+      <li><strong>Models are brands.</strong> ChatGPT, Claude, Gemini: different companies' models, like car brands. They differ in strengths and price, but they are the same kind of machine. A client asking "which AI should we use" is asking a car-brand question, and the honest answer is: for your task, several would work, the setup around it matters more than the badge.</li>
+      <li><strong>A model knows the world, not your business.</strong> It has read the internet, not your price list, your policies, or your tone. Making AI useful for a specific business is mostly the work of feeding it that context. This is why "just use ChatGPT" disappoints and a configured setup does not, and it is precisely the gap where your service lives.</li>
+      <li><strong>A model has a memory span, not a memory.</strong> It sees what is in the current conversation, the <strong>context</strong>, and nothing else, unless a system around it stores and retrieves things. When a client wants AI that "knows all our customers," they are asking for AI plus a database, which is Module 5 shaking hands with this one.</li>
+    </ul>
+    <div class="callout">
+      <p class="eyebrow">Say it your way</p>
+      <p>"Out of the box, AI knows the whole world and nothing about your business. The valuable part is not the AI, it is teaching it your prices, your tone and your rules. That is the difference between a clever toy and a colleague."</p>
+    </div>
+  </section>
+
+  <section id="prompting">
+    <p class="eyebrow">03 · The instruction</p>
+    <h2>Prompting: briefing, not magic words</h2>
+    <p>A <strong>prompt</strong> is simply the instruction you give an AI. The internet treats prompting as sorcery with secret spells. The truth is more useful: <strong>prompting is briefing, and the rules are the ones you already know from briefing people.</strong> A good brief says who the AI should act as, what the task is, who it is for, what good looks like, and what to avoid. Vague brief, generic work. Sharp brief, sharp work. Garbage in, garbage out, same as with any junior.</p>
+    <p>The one non-obvious rule worth teaching: <strong>show, do not describe.</strong> "Write it in our tone" does little, because the model has never heard your tone. Pasting two examples of how the business actually writes does everything. Examples beat adjectives, every time.</p>
+    <p>This section is also your education product in miniature. "Better briefing" is a teachable skill that owners can learn in an afternoon, it makes them measurably better with any AI tool they already pay for, and teaching it positions you as the person to call when they outgrow the afternoon. Generosity as marketing, Module 3 style.</p>
+    <div class="callout">
+      <p class="eyebrow">Say it your way</p>
+      <p>"There are no magic words. Brief the AI like you would brief a new employee on their first day: who you are, what the task is, what good looks like, and two examples. That one habit beats every prompt trick list on the internet."</p>
+    </div>
+  </section>
+
+  <section id="agents">
+    <p class="eyebrow">04 · The ladder</p>
+    <h2>The ladder: chatbot, assistant, agent, workflow</h2>
+    <p>AI systems come in levels of independence. Owners hear the words interchangeably; you will place them on a ladder, bottom to top:</p>
+    <ul>
+      <li><strong>Chatbot:</strong> answers questions in a chat window. Knows what it was given, does nothing on its own. The receptionist who can only talk.</li>
+      <li><strong>Assistant:</strong> does tasks when asked: draft this email, summarize this document, sort these requests. Works on demand, one task at a time.</li>
+      <li><strong>Agent:</strong> the word of the moment, so know it precisely: an AI that can <em>take steps and use tools</em> to reach a goal. Not just "write a reply" but look up the booking, check the calendar, draft the answer, and put it ready for approval. It acts, where the others only respond.</li>
+      <li><strong>Workflow:</strong> a fixed chain of steps where AI handles some links and rules handle the rest. Request comes in, AI reads and sorts it, rules route it, AI drafts the reply, a human taps approve. Most real business value lives here, in boring reliable chains, not in a genius robot.</li>
+    </ul>
+    <p>The higher on the ladder, the more independence, and therefore the more supervision the design needs. Which is why human in the loop, from Pack 02, is not a beginner feature that fades away: it is how professionals run agents. The machine climbs the ladder, the human keeps the yes. Little John remains your living example, one tap and all.</p>
+    <div class="callout">
+      <p class="eyebrow">Say it your way</p>
+      <p>"A chatbot talks. An assistant does a task when you ask. An agent takes the steps itself: looks things up, prepares the work, puts it ready for your yes. The trick is not building the smartest one, it is building the right rung of the ladder for the job."</p>
+    </div>
+  </section>
+
+  <section id="honest">
+    <p class="eyebrow">05 · The fine print</p>
+    <h2>The honest limits: hallucination and trust</h2>
+    <p>The single most important AI term for you to own is <strong>hallucination</strong>: when a model states something false with complete confidence. It happens because the machine continues text plausibly, and plausible is not the same as true. It does not know it is wrong; it does not know anything in the human sense. Every real AI system is designed around this fact, not in denial of it.</p>
+    <p>Being loudly honest about hallucination is your competitive weapon, exactly like the SEO honesty in Module 1. The hype sellers hide the fine print, you open with it: "AI states nonsense with confidence sometimes, here is how we build so that never reaches your customer." The design answers, so you can name them fluently: keep a human on the yes for anything customer-facing, ground the AI in the business's real data so it quotes your price list instead of inventing one, and give it permission to say "I do not know, a colleague will answer this." That last one sounds small and does the most.</p>
+    <p>Second honest topic, because every smart owner asks: <strong>where does my data go?</strong> The grown-up answer: reputable AI providers offer business terms where your data is not used to train their models, and the real risk in practice is usually sloppier than that, staff pasting customer details into random free tools. The fix is having a policy and picked tools instead of a quiet free-for-all. Offering to set that up is, again, a service.</p>
+    <div class="callout">
+      <p class="eyebrow">Say it your way</p>
+      <p>"AI sometimes states nonsense with full confidence. Anyone selling you AI without mentioning that is selling you the brochure. The craft is building it so the nonsense never reaches a customer: real data underneath, and a human on the send button."</p>
+    </div>
+  </section>
+
+  <section id="decoder">
+    <p class="eyebrow">06 · Vocabulary</p>
+    <h2>Terminology decoder</h2>
+    <p>Plain version on camera, real term when the client uses it first. With AI vocabulary especially: using the plain version first is what signals you actually understand it.</p>
+    <div class="tablewrap">
+      <table>
+        <tr><th>Term</th><th>What it actually means</th><th>How you say it on camera</th></tr>
+        <tr><td class="term">AI</td><td>Software handling judgment-flavored tasks: reading, writing, sorting, deciding.</td><td class="say">"software that can read and write, not just follow rules"</td></tr>
+        <tr><td class="term">LLM / model</td><td>The engine: software trained on huge amounts of text to continue any text sensibly.</td><td class="say">"the engine that has read almost everything"</td></tr>
+        <tr><td class="term">ChatGPT / Claude / Gemini</td><td>Brands of models from different companies. Same kind of machine.</td><td class="say">"brands, like car brands, the setup matters more"</td></tr>
+        <tr><td class="term">Prompt</td><td>The instruction given to the AI. Quality in, quality out.</td><td class="say">"the briefing you give it"</td></tr>
+        <tr><td class="term">Context</td><td>What the model can see right now: the conversation and whatever you fed it.</td><td class="say">"its short-term memory"</td></tr>
+        <tr><td class="term">Hallucination</td><td>Confident false statements, produced because plausible is not true.</td><td class="say">"nonsense, said with confidence"</td></tr>
+        <tr><td class="term">Chatbot</td><td>Chat-window AI that answers questions and does nothing else.</td><td class="say">"a receptionist that can only talk"</td></tr>
+        <tr><td class="term">Assistant</td><td>AI that performs tasks on request, one at a time.</td><td class="say">"does the task when you ask"</td></tr>
+        <tr><td class="term">Agent</td><td>AI that takes steps and uses tools toward a goal, then presents the result.</td><td class="say">"it does the legwork and brings you the result"</td></tr>
+        <tr><td class="term">AI workflow</td><td>A fixed chain where AI handles some steps and rules handle the rest.</td><td class="say">"an assembly line with AI at some stations"</td></tr>
+        <tr><td class="term">Human in the loop</td><td>Design where a person approves before anything goes out. The pro standard.</td><td class="say">"the machine prepares, you keep the yes"</td></tr>
+        <tr><td class="term">Training</td><td>How a model learned: patterns from massive text, fixed at build time.</td><td class="say">"what it learned in school, before it met you"</td></tr>
+        <tr><td class="term">Grounding</td><td>Connecting AI to the business's real data so answers come from facts.</td><td class="say">"giving it your real prices and rules to quote from"</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section id="drills">
+    <p class="eyebrow">07 · Make it yours</p>
+    <h2>Teach-back drills</h2>
+    <p>Out loud, own words. Then say "quiz me on module 4" and I will push until it holds.</p>
+    <ol class="drill">
+      <li>Deliver the fast-junior model from memory, then use it to answer "will AI replace my staff?" in under twenty seconds.</li>
+      <li>Explain what an LLM is in two sentences a bakery owner would nod at, without the word "neural."</li>
+      <li>Why does "just use ChatGPT" disappoint businesses, and where exactly does your service live in that gap?</li>
+      <li>Explain prompting as briefing. What is the show-do-not-describe rule and why does it work?</li>
+      <li>Walk the ladder: chatbot, assistant, agent, workflow. Give a rental-business example for each rung.</li>
+      <li>What is a hallucination, why does it happen, and what are the three design answers you can name fluently?</li>
+      <li>An owner asks "is my customer data safe with AI?" Give the grown-up answer, including the sloppy-staff risk.</li>
+      <li>Rewrite this sentence as time saved: "we implement an AI agent for inbound request triage."</li>
+    </ol>
+
+    <h3>Pushbacks you will actually get, and calm answers</h3>
+    <dl class="pushback">
+      <dt>AI is hype, it will blow over.</dt>
+      <dd>The noise will blow over, the tool will not, same as the internet after the dot-com circus. But here is the thing: you do not have to bet on my opinion. We pick one repeated task, automate it, and measure the hours. If it saves nothing, you have lost almost nothing. Hype cannot survive a measurement, and neither can my pitch if it is wrong.</dd>
+      <dt>We tried ChatGPT and the answers were too generic.</dt>
+      <dd>Of course they were: you hired the world's best-read junior and gave them no onboarding. It had never seen your prices, your tone, or your rules. The fix is not a smarter AI, it is a proper setup: your real information underneath, your examples as the style guide, your approval on the outbox. Generic in, generic out.</dd>
+      <dt>My customers will hate talking to a robot.</dt>
+      <dd>They hate talking to a bad robot that pretends to be human. Two rules fix it: the AI handles what it is genuinely good at, the instant answers to the twenty questions you get every week, and it hands anything else to a person immediately and says so honestly. Your customers care about fast and correct, and they get more of both.</dd>
+      <dt>I am too old for this, it is too complicated for us.</dt>
+      <dd>You run a business, which means you already do the hard version of this daily: deciding what matters and delegating the rest. Using this well is exactly that skill. The technical part is my job; your part is telling me which task you never want to do again. That conversation takes one coffee.</dd>
+    </dl>
+
+    <h3>One camera note</h3>
+    <p>Your AI content voice is the calm translator, not the excited futurist. The feed is full of "AI will change everything" people; the scarce and trusted voice says "here is what it actually does, here is the fine print, here is the boring task it should be doing for you already." Every honest limitation you name on camera buys more trust than three promises.</p>
+  </section>
+
+  <section id="threeways">
+    <p class="eyebrow">08 · Going deeper</p>
+    <h2>Say it three ways</h2>
+
+    <div class="beat">
+      <h3>What AI is</h3>
+      <p><strong>To a pro:</strong> "A language model with your business data grounded underneath and an approval step on anything customer-facing. Capable junior, senior review, standard setup."</p>
+      <p><strong>Everyday:</strong> "The fastest junior employee you will ever have: reads everything, writes instantly, never sends without your eyes on it."</p>
+      <p><strong>Kitchen table:</strong> "Imagine a helper who has read every book in the library and types faster than anyone alive, but started at your company this morning. Brilliant, eager, knows nothing about how you do things until you show them. That is AI. Useful from day one, trusted a bit more each week."</p>
+    </div>
+
+    <div class="beat">
+      <h3>An agent</h3>
+      <p><strong>To a pro:</strong> "Not a chat window: it takes multi-step actions with tools, looks up the booking, checks the calendar, drafts the reply, queues it for approval. We scope its permissions like you would scope an employee's."</p>
+      <p><strong>Everyday:</strong> "It does the legwork itself and brings you the finished result for a yes."</p>
+      <p><strong>Kitchen table:</strong> "A chatbot is someone at reception who can only answer questions. An agent is a runner: you say 'sort out Mrs. Jansen's booking' and they go check the agenda, prepare the confirmation, and put it on your desk to sign. The signing part never goes away."</p>
+    </div>
+
+    <div class="beat">
+      <h3>Hallucination</h3>
+      <p><strong>To a pro:</strong> "Models optimize for plausible, not true, so we ground answers in your actual data and gate outbound messages behind review. Anyone selling you ungated customer-facing AI is selling you incidents."</p>
+      <p><strong>Everyday:</strong> "Sometimes it states nonsense with full confidence. We build so that never reaches a customer."</p>
+      <p><strong>Kitchen table:</strong> "You know that friend who never says 'I do not know' and just answers confidently anyway? AI is that friend. Lovely, fast, mostly right, and you double-check before repeating what they said at a birthday. So we built in the double-check."</p>
+    </div>
+  </section>
+
+  <section id="cases">
+    <p class="eyebrow">09 · Evidence</p>
+    <h2>Case files and the pain map</h2>
+
+    <h3>Case: the studio you are looking at</h3>
+    <p>Your most defensible AI case study is Salty Code itself: a small studio that ships booking platforms, brands and campaigns at a pace that used to need a team, because AI does the junior work all day, drafting, checking, building scaffolding, while a human makes every decision that matters. When a client asks whether AI is real or hype, the answer is personal and checkable: "it is how my one-person studio competes with agencies five times my size, and I will happily show you what that looks like for your business." You are not reselling a trend, you are teaching from your own daily practice.</p>
+
+    <h3>Picture this: the drowning inbox</h3>
+    <p>A composite, not a client: an accountant whose clients email documents in every format known to man, at every hour, with subject lines like "stuff for taxes." Evenings go to sorting, chasing and renaming. The AI-shaped fix: a system reads every incoming mail, recognizes what each document is, files it to the right client folder, drafts the "received, still missing X" reply, and a human clicks approve with coffee in hand. No robot talks to clients unsupervised, nothing is filed without a glance. Ten hours a week becomes one. Every paperwork-heavy business on your island is a version of this story.</p>
+
+    <h3>The pain map: AI pains and hopes, per audience</h3>
+    <div class="tablewrap">
+      <table>
+        <tr><th>Who</th><th>The pain in this domain</th><th>The helping line, never salesy</th></tr>
+        <tr><td class="term">Rentals and tours</td><td>Same twenty questions answered by hand all day, in two languages.</td><td class="say">"What are the questions you answer every single day? Those are automatable, today."</td></tr>
+        <tr><td class="term">Restaurants and bars</td><td>Curious about AI, scared of a robot embarrassing them with a guest.</td><td class="say">"What should AI never be allowed to do in your restaurant? Good, we agree. Now let us list what it may."</td></tr>
+        <tr><td class="term">Salons and personal care</td><td>Wants help with content and replies, has zero time to learn tools.</td><td class="say">"If replies and posts drafted themselves and you just approved them, what would you do with that hour?"</td></tr>
+        <tr><td class="term">Shops and boutiques</td><td>Product descriptions, translations and socials, all typed by hand at night.</td><td class="say">"How long does one new product take you, from photo to online? What if it was four minutes?"</td></tr>
+        <tr><td class="term">Realtors and services</td><td>Buried in documents and follow-ups; worried AI answers will be wrong.</td><td class="say">"Nothing goes out without your approval, ever. The question is only what gets prepared for you."</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section id="questions">
+    <p class="eyebrow">10 · The door openers</p>
+    <h2>The questions that open doors</h2>
+
+    <div class="beat">
+      <h3>"What did you try with ChatGPT, and where did it disappoint you?"</h3>
+      <p>Assumes they tried, which flatters, and mines the burn, which informs. The disappointment is nearly always "generic answers," and you have the diagnosis ready: it never met your business. Their failed experiment becomes your setup pitch, without you criticizing anything.</p>
+    </div>
+    <div class="beat">
+      <h3>"What are the twenty questions your customers ask over and over?"</h3>
+      <p>Every owner starts listing immediately, and somewhere around question six they hear it themselves: this is a machine's job. Let them finish the list, it is the project scope, dictated for free, in their own words.</p>
+    </div>
+    <div class="beat">
+      <h3>"What should AI never be allowed to do in your business?"</h3>
+      <p>The trust question nobody selling AI ever asks. Drawing the red lines together makes you the safe pair of hands before any feature is discussed. Listen carefully: the red lines also reveal what they secretly hope it can do.</p>
+    </div>
+    <div class="beat">
+      <h3>"Which task, if it were magically done every morning before you woke up, would change your week?"</h3>
+      <p>Time-saved framing in its purest form. The answer is the quick win, and "before you woke up" plants the honest picture of what automation feels like when it runs: the work is simply done.</p>
+    </div>
+    <div class="beat">
+      <h3>"Is anyone on your team already using AI quietly, without telling you?"</h3>
+      <p>The insider question, because the honest answer in most businesses is yes, and the owner half-knows it. It opens the real conversation: this is already happening in your business, unmanaged, in free tools, with your customer data. Shall we make it deliberate and safe instead? That is not a pitch, that is governance, and owners feel the difference.</p>
+    </div>
+  </section>
+
+
+  <footer>~&lt; Academy · Module 4 · Salty Code Studio · next: Module 5, Systems and Software</footer>
+</div>

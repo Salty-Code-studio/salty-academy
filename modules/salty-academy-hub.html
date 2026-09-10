@@ -1,0 +1,332 @@
+<title>Salty Code Academy</title>
+<style>
+  :root {
+    --sand: #F5F1E8;
+    --ink: #16282E;
+    --surf: #0E7C86;
+    --dune: #8A7F6A;
+    --hairline: #DDD5C4;
+    --card: #FDFBF6;
+    --surf-soft: rgba(14, 124, 134, 0.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --sand: #0F1B1E;
+      --ink: #EDE6D6;
+      --surf: #4FB3BC;
+      --dune: #9A917E;
+      --hairline: #24373C;
+      --card: #14232780;
+      --surf-soft: rgba(79, 179, 188, 0.1);
+    }
+  }
+  :root[data-theme="light"] {
+    --sand: #F5F1E8;
+    --ink: #16282E;
+    --surf: #0E7C86;
+    --dune: #8A7F6A;
+    --hairline: #DDD5C4;
+    --card: #FDFBF6;
+    --surf-soft: rgba(14, 124, 134, 0.08);
+  }
+  :root[data-theme="dark"] {
+    --sand: #0F1B1E;
+    --ink: #EDE6D6;
+    --surf: #4FB3BC;
+    --dune: #9A917E;
+    --hairline: #24373C;
+    --card: #14232780;
+    --surf-soft: rgba(79, 179, 188, 0.1);
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--sand);
+    color: var(--ink);
+    font-family: "Iowan Old Style", "Palatino", Georgia, serif;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    margin: 0;
+    padding: 0 1.25rem;
+  }
+  .wrap { max-width: 44rem; margin: 0 auto; padding: 3.5rem 0 6rem; }
+  .mark {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: 1.1rem; letter-spacing: 0.02em;
+    color: var(--surf);
+  }
+  .eyebrow {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--dune); margin: 0 0 0.6rem;
+  }
+  h1 {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: clamp(2rem, 5vw, 2.9rem);
+    line-height: 1.08; letter-spacing: -0.015em; margin: 0.4rem 0 1rem;
+    text-wrap: balance;
+  }
+  h2 {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: 1.45rem; letter-spacing: -0.01em;
+    margin: 0 0 0.9rem; text-wrap: balance;
+  }
+  h3 {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 600; font-size: 1.08rem; margin: 1.6rem 0 0.4rem;
+  }
+  p { margin: 0 0 1.05rem; }
+  section { border-top: 1px solid var(--hairline); padding-top: 2.4rem; margin-top: 2.6rem; }
+  .lede { font-size: 1.15rem; }
+  .muted { color: var(--dune); }
+  .toc { list-style: none; padding: 0; margin: 1.4rem 0 0; display: flex; flex-direction: column; gap: 0.45rem; }
+  .toc a {
+    color: var(--ink); text-decoration: none;
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif; font-weight: 500; font-size: 0.95rem;
+  }
+  .toc a:hover, .toc a:focus-visible { color: var(--surf); }
+  .toc .n {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; color: var(--surf); margin-right: 0.6rem;
+  }
+  a:focus-visible { outline: 2px solid var(--surf); outline-offset: 3px; border-radius: 2px; }
+  .callout {
+    background: var(--surf-soft);
+    border-left: 2px solid var(--surf);
+    padding: 1rem 1.2rem; margin: 1.4rem 0;
+    font-size: 1rem;
+  }
+  .callout .eyebrow { color: var(--surf); margin-bottom: 0.35rem; }
+  .callout p:last-child { margin-bottom: 0; }
+  .statrow { display: flex; gap: 1rem; flex-wrap: wrap; margin: 1.5rem 0; }
+  .stat {
+    flex: 1 1 240px; background: var(--card); border: 1px solid var(--hairline);
+    padding: 1.15rem 1.25rem;
+  }
+  .stat .big {
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: 2.2rem; letter-spacing: -0.02em;
+    color: var(--surf); line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat .src {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--dune); margin-top: 0.7rem;
+  }
+  .stat p { font-size: 0.94rem; margin: 0.4rem 0 0; }
+  .tablewrap { overflow-x: auto; margin: 1.5rem 0; border: 1px solid var(--hairline); }
+  table { border-collapse: collapse; width: 100%; min-width: 620px; font-size: 0.95rem; }
+  th {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--dune); text-align: left; font-weight: 500;
+    padding: 0.8rem 1rem; border-bottom: 1px solid var(--hairline);
+  }
+  td { padding: 0.8rem 1rem; border-bottom: 1px solid var(--hairline); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td.term {
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+    font-weight: 600; font-size: 0.92rem; white-space: nowrap;
+  }
+  td.say { color: var(--surf); font-style: italic; }
+  .beat {
+    background: var(--card); border: 1px solid var(--hairline);
+    padding: 1.4rem 1.5rem; margin: 1.3rem 0;
+  }
+  .beat h3 { margin-top: 0; }
+  .beat ol { margin: 0.6rem 0 0; padding-left: 1.3rem; }
+  .beat ol li { margin-bottom: 0.55rem; }
+  .beat .hookline { font-style: italic; color: var(--surf); }
+  .beat .close {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.8rem; letter-spacing: 0.06em; margin-top: 0.9rem;
+    color: var(--dune);
+  }
+  .drill { margin: 1.2rem 0; padding: 0; list-style: none; counter-reset: drill; }
+  .drill li {
+    counter-increment: drill; position: relative;
+    padding: 0.85rem 0 0.85rem 2.6rem; border-bottom: 1px solid var(--hairline);
+  }
+  .drill li::before {
+    content: "Q" counter(drill);
+    position: absolute; left: 0; top: 0.95rem;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; color: var(--surf); letter-spacing: 0.05em;
+  }
+  .drill li:last-child { border-bottom: none; }
+  .pushback { margin: 1.2rem 0; }
+  .pushback dt {
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+    font-weight: 600; font-size: 0.98rem; margin-top: 1.2rem;
+  }
+  .pushback dt::before { content: "\201C"; color: var(--surf); }
+  .pushback dt::after { content: "\201D"; color: var(--surf); }
+  .pushback dd { margin: 0.35rem 0 0; font-size: 0.98rem; }
+  ul { padding-left: 1.25rem; }
+  ul li { margin-bottom: 0.5rem; }
+  strong { font-weight: 600; }
+  footer {
+    border-top: 1px solid var(--hairline); margin-top: 3.5rem; padding-top: 1.5rem;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dune);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+  }
+</style>
+<style>
+  .mod {
+    display: flex; gap: 1.1rem; align-items: flex-start;
+    background: var(--card); border: 1px solid var(--hairline);
+    padding: 1.25rem 1.4rem; margin: 0.9rem 0;
+  }
+  .mod input[type="checkbox"] {
+    appearance: none; -webkit-appearance: none;
+    width: 1.25rem; height: 1.25rem; flex: 0 0 auto; margin-top: 0.2rem;
+    border: 1.5px solid var(--dune); background: transparent; cursor: pointer;
+  }
+  .mod input[type="checkbox"]:checked {
+    background: var(--surf); border-color: var(--surf);
+  }
+  .mod input[type="checkbox"]:focus-visible { outline: 2px solid var(--surf); outline-offset: 2px; }
+  .mod .info { flex: 1; }
+  .mod h3 { margin: 0 0 0.25rem; }
+  .mod h3 a { color: var(--ink); text-decoration: none; }
+  .mod h3 a:hover, .mod h3 a:focus-visible { color: var(--surf); }
+  .mod p { margin: 0; font-size: 0.95rem; }
+  .mod .cmd {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; letter-spacing: 0.05em; color: var(--surf); margin-top: 0.5rem; display: block;
+  }
+  .mod.done h3 a { color: var(--dune); }
+  .progressline {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--surf); margin: 1.2rem 0 0;
+  }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="mark">~&lt; salty code studio</div>
+    <p class="eyebrow" style="margin-top:2.2rem">The home base</p>
+    <h1>Salty Code Academy</h1>
+    <p class="lede">One goal: you know your own business world so well that content, sales calls and client questions flow without a script. Two foundation packs, five knowledge modules, and one practice arena. Work top to bottom, check them off as you go, and quiz with me after each one. Your progress saves itself on this device.</p>
+    <p class="progressline" id="progress">0 of 8 complete</p>
+  </header>
+
+  <section>
+    <p class="eyebrow">Foundations · Start here</p>
+    <div class="mod" data-key="p1">
+      <input type="checkbox" aria-label="Mark Pack 01 complete">
+      <div class="info">
+        <h3><a href="https://claude.ai/code/artifact/3aeabd62-3450-4d38-9241-7402d085aea7">Pack 01 · Why websites lose customers</a></h3>
+        <p>Speed, clarity, proof. The five second test, the 53 and 75 percent stats, and the beat sheets for reels 1 to 3.</p>
+        <span class="cmd">quiz command: "quiz me on pack 1"</span>
+      </div>
+    </div>
+    <div class="mod" data-key="p2">
+      <input type="checkbox" aria-label="Mark Pack 02 complete">
+      <div class="info">
+        <h3><a href="https://claude.ai/code/artifact/46eb86a2-9be8-462a-b0d7-ce57da822fc6">Pack 02 · Bottlenecks, custom software and AI</a></h3>
+        <p>Nobody buys software, they buy their evenings back. The phone test, rules versus judgment, the bottleneck bill, and your Tex Cars and Little John stories.</p>
+        <span class="cmd">quiz command: "quiz me on pack 2"</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">The five knowledge modules</p>
+    <div class="mod" data-key="m1">
+      <input type="checkbox" aria-label="Mark Module 1 complete">
+      <div class="info">
+        <h3><a href="https://claude.ai/code/artifact/794da6e5-9491-4f33-ac9a-572d47f1f2f2">Module 1 · Website Building</a></h3>
+        <p>UX, SEO, hosting, domains, CMS, backend, and the translation rule: every term maps to more customers, looking professional, or less hassle. Plus the ownership conversation that wins clients for life.</p>
+        <span class="cmd">quiz command: "quiz me on module 1"</span>
+      </div>
+    </div>
+    <div class="mod" data-key="m2">
+      <input type="checkbox" aria-label="Mark Module 2 complete">
+      <div class="info">
+        <h3><a href="https://claude.ai/code/artifact/ab0a7e74-f373-48c9-9cf4-73f15472318d">Module 2 · Branding and Positioning</a></h3>
+        <p>The slot in the customer's head, and the diagnosis map: haggling means positioning, confusion means messaging, looking cheap means perceived value. Narrow the message, not the door.</p>
+        <span class="cmd">quiz command: "quiz me on module 2"</span>
+      </div>
+    </div>
+    <div class="mod" data-key="m3">
+      <input type="checkbox" aria-label="Mark Module 3 complete">
+      <div class="info">
+        <h3><a href="https://claude.ai/code/artifact/6570d65b-f51d-4ef9-b35d-4f260494a800">Module 3 · Growth and Marketing</a></h3>
+        <p>The pipeline that organizes every marketing word, the garden and the faucet, followers versus the list you own, remarketing demystified, and the CRM as the memory of the business.</p>
+        <span class="cmd">quiz command: "quiz me on module 3"</span>
+      </div>
+    </div>
+    <div class="mod" data-key="m4">
+      <input type="checkbox" aria-label="Mark Module 4 complete">
+      <div class="info">
+        <h3><a href="https://claude.ai/code/artifact/b09f61b2-05ab-4795-8fbd-e04a1f7e0ea1">Module 4 · AI and Education</a></h3>
+        <p>The fast junior model, prompting as briefing, the chatbot-assistant-agent ladder, and hallucination honesty as your competitive weapon. Never sell AI, sell the Tuesday afternoon back.</p>
+        <span class="cmd">quiz command: "quiz me on module 4"</span>
+      </div>
+    </div>
+    <div class="mod" data-key="m5">
+      <input type="checkbox" aria-label="Mark Module 5 complete">
+      <div class="info">
+        <h3><a href="https://claude.ai/code/artifact/64ba7a5d-b419-45c4-ae2f-e4b8a84e60bd">Module 5 · Systems and Software</a></h3>
+        <p>The three layers of every system, APIs and webhooks as plugs and doorbells, the five organs of a booking system, and the three grown-up questions: breaks, backups, exit.</p>
+        <span class="cmd">quiz command: "quiz me on module 5"</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">The proving ground</p>
+    <div class="mod" data-key="m6">
+      <input type="checkbox" aria-label="Mark Module 6 complete">
+      <div class="info">
+        <h3><a href="https://claude.ai/code/artifact/eb1ace83-08f3-4896-8fe9-8e1f024675bc">Module 6 · The Sales Arena</a></h3>
+        <p>Everything combines. I play a prospect with a hidden real problem; you discover, diagnose, translate, handle objections and recommend. Eight starter prospects, three difficulty levels, honest scoring.</p>
+        <span class="cmd">start command: "run me a prospect"</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">How to use this</p>
+    <h2>The rhythm that makes it stick</h2>
+    <p>One module at a time, three steps each: read it twice, do the teach-back drills out loud, then quiz with me in a session until the answers hold. Check the box here when the quiz felt easy, not when the reading is done. Reading is familiarity; explaining is ownership.</p>
+    <p>When all boxes are checked, the Arena becomes your weekly gym: one prospect a week keeps every module warm, and any real lead you are about to pitch can be rehearsed there first. And every future teaching pack for new content lands in this same series, so this page stays your home base.</p>
+  </section>
+
+  <footer>~&lt; Salty Code Academy · progress saves on this device</footer>
+</div>
+
+<script>
+  (function () {
+    var KEY = "salty-academy-progress";
+    var state = {};
+    try { state = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) { state = {}; }
+    var mods = document.querySelectorAll(".mod");
+    var progress = document.getElementById("progress");
+    function render() {
+      var done = 0;
+      mods.forEach(function (mod) {
+        var k = mod.getAttribute("data-key");
+        var box = mod.querySelector("input");
+        box.checked = !!state[k];
+        mod.classList.toggle("done", !!state[k]);
+        if (state[k]) done++;
+      });
+      progress.textContent = done + " of " + mods.length + " complete";
+    }
+    mods.forEach(function (mod) {
+      var k = mod.getAttribute("data-key");
+      mod.querySelector("input").addEventListener("change", function (e) {
+        state[k] = e.target.checked;
+        try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e2) {}
+        render();
+      });
+    });
+    render();
+  })();
+</script>

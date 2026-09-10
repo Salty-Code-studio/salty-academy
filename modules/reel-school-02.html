@@ -1,0 +1,500 @@
+<title>Reel School 02 · Bottlenecks, Custom Software and AI</title>
+<style>
+  :root {
+    --sand: #F5F1E8;
+    --ink: #16282E;
+    --surf: #0E7C86;
+    --dune: #8A7F6A;
+    --hairline: #DDD5C4;
+    --card: #FDFBF6;
+    --surf-soft: rgba(14, 124, 134, 0.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --sand: #0F1B1E;
+      --ink: #EDE6D6;
+      --surf: #4FB3BC;
+      --dune: #9A917E;
+      --hairline: #24373C;
+      --card: #14232780;
+      --surf-soft: rgba(79, 179, 188, 0.1);
+    }
+  }
+  :root[data-theme="light"] {
+    --sand: #F5F1E8;
+    --ink: #16282E;
+    --surf: #0E7C86;
+    --dune: #8A7F6A;
+    --hairline: #DDD5C4;
+    --card: #FDFBF6;
+    --surf-soft: rgba(14, 124, 134, 0.08);
+  }
+  :root[data-theme="dark"] {
+    --sand: #0F1B1E;
+    --ink: #EDE6D6;
+    --surf: #4FB3BC;
+    --dune: #9A917E;
+    --hairline: #24373C;
+    --card: #14232780;
+    --surf-soft: rgba(79, 179, 188, 0.1);
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--sand);
+    color: var(--ink);
+    font-family: "Iowan Old Style", "Palatino", Georgia, serif;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    margin: 0;
+    padding: 0 1.25rem;
+  }
+  .wrap { max-width: 44rem; margin: 0 auto; padding: 3.5rem 0 6rem; }
+  .mark {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: 1.1rem; letter-spacing: 0.02em;
+    color: var(--surf);
+  }
+  .eyebrow {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--dune); margin: 0 0 0.6rem;
+  }
+  h1 {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: clamp(2rem, 5vw, 2.9rem);
+    line-height: 1.08; letter-spacing: -0.015em; margin: 0.4rem 0 1rem;
+    text-wrap: balance;
+  }
+  h2 {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: 1.45rem; letter-spacing: -0.01em;
+    margin: 0 0 0.9rem; text-wrap: balance;
+  }
+  h3 {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 600; font-size: 1.08rem; margin: 1.6rem 0 0.4rem;
+  }
+  p { margin: 0 0 1.05rem; }
+  section { border-top: 1px solid var(--hairline); padding-top: 2.4rem; margin-top: 2.6rem; }
+  .lede { font-size: 1.15rem; }
+  .muted { color: var(--dune); }
+  .toc { list-style: none; padding: 0; margin: 1.4rem 0 0; display: flex; flex-direction: column; gap: 0.45rem; }
+  .toc a {
+    color: var(--ink); text-decoration: none;
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif; font-weight: 500; font-size: 0.95rem;
+  }
+  .toc a:hover, .toc a:focus-visible { color: var(--surf); }
+  .toc .n {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; color: var(--surf); margin-right: 0.6rem;
+  }
+  a:focus-visible { outline: 2px solid var(--surf); outline-offset: 3px; border-radius: 2px; }
+  .callout {
+    background: var(--surf-soft);
+    border-left: 2px solid var(--surf);
+    padding: 1rem 1.2rem; margin: 1.4rem 0;
+    font-size: 1rem;
+  }
+  .callout .eyebrow { color: var(--surf); margin-bottom: 0.35rem; }
+  .callout p:last-child { margin-bottom: 0; }
+  .statrow { display: flex; gap: 1rem; flex-wrap: wrap; margin: 1.5rem 0; }
+  .stat {
+    flex: 1 1 240px; background: var(--card); border: 1px solid var(--hairline);
+    padding: 1.15rem 1.25rem;
+  }
+  .stat .big {
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: 2.2rem; letter-spacing: -0.02em;
+    color: var(--surf); line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat .src {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--dune); margin-top: 0.7rem;
+  }
+  .stat p { font-size: 0.94rem; margin: 0.4rem 0 0; }
+  .tablewrap { overflow-x: auto; margin: 1.5rem 0; border: 1px solid var(--hairline); }
+  table { border-collapse: collapse; width: 100%; min-width: 620px; font-size: 0.95rem; }
+  th {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--dune); text-align: left; font-weight: 500;
+    padding: 0.8rem 1rem; border-bottom: 1px solid var(--hairline);
+  }
+  td { padding: 0.8rem 1rem; border-bottom: 1px solid var(--hairline); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td.term {
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+    font-weight: 600; font-size: 0.92rem; white-space: nowrap;
+  }
+  td.say { color: var(--surf); font-style: italic; }
+  .beat {
+    background: var(--card); border: 1px solid var(--hairline);
+    padding: 1.4rem 1.5rem; margin: 1.3rem 0;
+  }
+  .beat h3 { margin-top: 0; }
+  .beat ol { margin: 0.6rem 0 0; padding-left: 1.3rem; }
+  .beat ol li { margin-bottom: 0.55rem; }
+  .beat .hookline { font-style: italic; color: var(--surf); }
+  .beat .close {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.8rem; letter-spacing: 0.06em; margin-top: 0.9rem;
+    color: var(--dune);
+  }
+  .drill { margin: 1.2rem 0; padding: 0; list-style: none; counter-reset: drill; }
+  .drill li {
+    counter-increment: drill; position: relative;
+    padding: 0.85rem 0 0.85rem 2.6rem; border-bottom: 1px solid var(--hairline);
+  }
+  .drill li::before {
+    content: "Q" counter(drill);
+    position: absolute; left: 0; top: 0.95rem;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; color: var(--surf); letter-spacing: 0.05em;
+  }
+  .drill li:last-child { border-bottom: none; }
+  .pushback { margin: 1.2rem 0; }
+  .pushback dt {
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+    font-weight: 600; font-size: 0.98rem; margin-top: 1.2rem;
+  }
+  .pushback dt::before { content: "\201C"; color: var(--surf); }
+  .pushback dt::after { content: "\201D"; color: var(--surf); }
+  .pushback dd { margin: 0.35rem 0 0; font-size: 0.98rem; }
+  ul { padding-left: 1.25rem; }
+  ul li { margin-bottom: 0.5rem; }
+  strong { font-weight: 600; }
+  footer {
+    border-top: 1px solid var(--hairline); margin-top: 3.5rem; padding-top: 1.5rem;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dune);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+  }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="mark">~&lt; salty code studio</div>
+    <p class="eyebrow" style="margin-top:2.2rem">Reel School · Pack 02 · The money services</p>
+    <h1>Bottlenecks, custom software and AI, explained so you can sell them</h1>
+    <p class="lede">Websites get you in the door. This is the work that pays: software that removes the daily chaos from a business, and AI plus automation for owners who know they should "do something with AI" but have no idea where to start. After this pack you can explain both without a single buzzword, using stories that are actually yours.</p>
+    <ul class="toc">
+      <li><a href="#model"><span class="n">01</span>The mental model: nobody buys software</a></li>
+      <li><a href="#bottleneck"><span class="n">02</span>Bottlenecks: how to spot the real problem</a></li>
+      <li><a href="#custom"><span class="n">03</span>Custom software: the tailor-made suit</a></li>
+      <li><a href="#ai"><span class="n">04</span>AI and automation: rules versus judgment</a></li>
+      <li><a href="#stories"><span class="n">05</span>Your proof stories, told right</a></li>
+      <li><a href="#decoder"><span class="n">06</span>Terminology decoder</a></li>
+      <li><a href="#math"><span class="n">07</span>The math to own cold</a></li>
+      <li><a href="#beats"><span class="n">08</span>Beat sheets for filming</a></li>
+      <li><a href="#drills"><span class="n">09</span>Teach-back drills and pushbacks</a></li>
+          <li><a href="#threeways"><span class="n">10</span>Say it three ways</a></li>
+      <li><a href="#cases"><span class="n">11</span>Case files and the pain map</a></li>
+      <li><a href="#questions"><span class="n">12</span>The questions that open doors</a></li>
+    </ul>
+  </header>
+
+  <section id="model">
+    <p class="eyebrow">01 · The foundation</p>
+    <h2>Nobody buys software. They buy their evenings back.</h2>
+    <p>Pack 01 had one mental model: a website is a salesperson. This pack has one too, and it is even more important because it is what separates you from every agency selling "digital solutions":</p>
+    <p><strong>Businesses do not have software problems. They have bottleneck problems. Software is just the wrench.</strong></p>
+    <p>A bottleneck is the one narrow point everything has to squeeze through. In a small business, that point is almost always a person, and usually it is the owner. Every booking confirmed by hand. Every invoice typed twice. Every question answered personally at 10 at night. The business cannot grow past the speed of that one person's thumbs.</p>
+    <p>This is why you never open a conversation with technology. You open with the squeeze: "What is the task you repeat every single day that a machine should be doing?" The owner always knows the answer instantly. They have just never heard anyone call it fixable.</p>
+    <div class="callout">
+      <p class="eyebrow">Say it your way</p>
+      <p>"I do not sell software. I find the one point where your whole business gets stuck behind your phone, and I remove it."</p>
+    </div>
+    <p>One more foundation idea: the duct-tape stage. Almost every growing small business runs on the same stack: WhatsApp, a spreadsheet, a paper notebook, and the owner's memory. It works at five customers a week. It cracks at twenty-five. Nobody chose that system, it just accumulated. Your job is to be the person who says: this is normal, everyone gets here, and there is a next stage.</p>
+  </section>
+
+  <section id="bottleneck">
+    <p class="eyebrow">02 · Diagnosis</p>
+    <h2>Bottlenecks: how to spot the real problem</h2>
+    <p>You already have the five second test from Pack 01. Here is the equivalent for operations, and it is just as sticky. Call it <strong>the phone test</strong>:</p>
+    <p><strong>If the business stops when the owner's phone is off, the owner is the bottleneck.</strong></p>
+    <p>Ask an owner: could you take a two week holiday, phone off, and come back to a business that ran normally? Watch their face. That face is your sales conversation. It works because it measures the real thing: how much of the operation lives in one person's head and hands.</p>
+    <h3>The four signs, in plain language</h3>
+    <ul>
+      <li><strong>Double entry.</strong> The same information typed into two or more places. A booking noted in WhatsApp, then in the spreadsheet, then on the invoice. Every copy is a chance for a mistake, and mistakes with money or dates cost real customers.</li>
+      <li><strong>The human router.</strong> One person whose actual job has become forwarding messages between customers, staff and systems. That is a job software does for free, instantly, without ever being asleep.</li>
+      <li><strong>No single source of truth.</strong> Ask "is the red scooter available Saturday?" and the answer requires checking three places and one memory. When nobody is sure which list is the real list, the business runs on hope.</li>
+      <li><strong>The 10 pm workload.</strong> Admin that happens after closing, because the day was spent doing the actual work. That is not dedication, that is a queue. Queues are bottleneck symptoms.</li>
+    </ul>
+    <div class="callout">
+      <p class="eyebrow">Say it your way</p>
+      <p>"Ask yourself one question: what stops working when your phone dies? That list is exactly what we fix."</p>
+    </div>
+  </section>
+
+  <section id="custom">
+    <p class="eyebrow">03 · The fix, part one</p>
+    <h2>Custom software: the tailor-made suit that got affordable</h2>
+    <p><strong>Off-the-shelf software</strong> is the ready-made suit: cheap to start, fits nobody perfectly, and you pay rent on it forever. <strong>Custom software</strong> is the tailor-made one: built around exactly how this business works, owned, not rented.</p>
+    <p>For decades the honest advice for small businesses was: take the ready-made suit, custom is for corporations. That advice just expired, and this is the genuinely new thing you get to say on camera: building custom software has become dramatically cheaper and faster. A booking platform that would have been a six figure corporate project a few years ago is now within reach of a rental shop on an island. You know this is true because you have done it, twice.</p>
+    <h3>Why off-the-shelf quietly fails small businesses</h3>
+    <ul>
+      <li><strong>The 80 percent trap.</strong> Ready-made tools do 80 percent of what the business needs, and the missing 20 percent is exactly their weird part, which is usually the part that makes them money. So the owner bends the business around the tool, or duct-tapes the gap with, you guessed it, WhatsApp and a spreadsheet.</li>
+      <li><strong>Subscription pile-up.</strong> One tool for bookings, one for invoices, one for email, one for reviews. Each has a monthly fee, each has a login, and none of them talk to each other. So the human router job comes back, just wearing nicer clothes.</li>
+      <li><strong>Per-seat pricing.</strong> Grows with the team, so success gets more expensive every month, forever.</li>
+    </ul>
+    <p>Custom flips it: the software fits the business's weird part precisely, everything lives in one system, and there is no rent that climbs with headcount. The honest caveat, and saying it builds trust: custom is not right for everyone. A business whose process is completely standard should use standard tools. Custom is for businesses whose way of working <em>is</em> the advantage.</p>
+    <div class="callout">
+      <p class="eyebrow">Say it your way</p>
+      <p>"Ready-made software makes your business fit the tool. We build the tool to fit your business. That used to be a luxury. It is not anymore."</p>
+    </div>
+  </section>
+
+  <section id="ai">
+    <p class="eyebrow">04 · The fix, part two</p>
+    <h2>AI and automation: rules versus judgment</h2>
+    <p>Owners lump "AI" and "automation" into one scary cloud. You win the room by separating them cleanly, because the split is simple:</p>
+    <ul>
+      <li><strong>Automation is rules.</strong> When this happens, do that. When a booking is confirmed, send the confirmation email. When a rental ends tomorrow, send the return reminder. No intelligence needed, just reliability. Automation is decades old, boring, and worth an enormous amount of money.</li>
+      <li><strong>AI is judgment.</strong> Tasks that need a bit of reading, writing or deciding: drafting a reply in the company's tone, sorting incoming requests by what they are actually about, pulling the name, dates and amounts out of a messy message, answering the same twenty questions customers always ask.</li>
+    </ul>
+    <p>The order matters and almost everybody gets it wrong: <strong>automation first, AI second.</strong> Most businesses asking about AI actually need plain automation, and it is cheaper and more reliable. Telling a client "you do not need AI for this yet" is the most trust-building sentence in your arsenal, precisely because everyone else is selling the hype.</p>
+    <h3>The safety rail: human in the loop</h3>
+    <p>The fear under every AI question is loss of control: "will a robot talk nonsense to my customers?" The answer is a design principle called <strong>human in the loop</strong>: the system prepares the work, a person approves it with one tap. You have a perfect live example: at Little John Scooters, every booking request lands on the owner's phone and he taps approve. The machine does the running around, the human keeps the decision. Say it exactly that concretely and the fear evaporates.</p>
+    <h3>Where a lost owner starts</h3>
+    <p>For the business that "does not know where to start," the starting point is never a technology. It is a list. Sit down for an hour and write out the tasks the team repeats every day or every week. That hour of process mapping is the audit. The first project is then obvious: pick the repeated task that hurts most and is easiest to hand over. Deliver one quick win, earn the trust, then go after the bigger bottleneck. Never boil the ocean on project one.</p>
+    <div class="callout">
+      <p class="eyebrow">Say it your way</p>
+      <p>"Automation is rules: when this happens, do that. AI is judgment: reading, writing, sorting. Most businesses need the rules first, and half of the AI stories you hear are actually just rules."</p>
+    </div>
+  </section>
+
+  <section id="stories">
+    <p class="eyebrow">05 · Evidence</p>
+    <h2>Your proof stories, told right</h2>
+    <p>Pack 01 taught the copy-paste test: proof a competitor could paste on their own site proves nothing. These two stories pass, because they happened to you. Learn them as stories, not bullet lists, and use the before-and-after shape: chaos, turn, calm.</p>
+    <h3>Tex Cars, Aruba</h3>
+    <p><strong>Before:</strong> a rental company with dozens of cars, and every booking living in chat messages and manual admin. Availability, paperwork, customer emails: people-powered, error-prone, always on.</p>
+    <p><strong>After:</strong> a booking platform that knows every car and every date. Requests come in structured instead of as loose messages. Confirmations and customer emails send themselves. The team manages the fleet from one screen instead of three apps and a memory.</p>
+    <h3>Little John Scooters, Bonaire</h3>
+    <p><strong>Before:</strong> scooter rentals run through the owner personally. Every request, every confirmation, every reminder: him.</p>
+    <p><strong>After:</strong> customers request online, and each booking lands on the owner's phone as a message he approves with one tap. Confirmation and follow-up emails go out automatically in the company's own branding. He kept full control and lost the running around. That is human in the loop, live, with a real person you can name.</p>
+    <div class="callout">
+      <p class="eyebrow">Say it your way</p>
+      <p>"The owner did not want to lose control, so we did not take it. Every booking still gets his yes. It just takes him one tap instead of one evening."</p>
+    </div>
+    <p class="muted">Honesty rule: tell these with the details you can stand behind, and get each client's okay before naming them in content. The story works even anonymized: "a car rental on Aruba," "a scooter rental on Bonaire."</p>
+  </section>
+
+  <section id="decoder">
+    <p class="eyebrow">06 · Vocabulary</p>
+    <h2>Terminology decoder</h2>
+    <p>Same rule as Pack 01: plain version on camera, real term ready for when a client uses it first. These are the words that come up in operations and AI conversations.</p>
+    <div class="tablewrap">
+      <table>
+        <tr><th>Term</th><th>What it actually means</th><th>How you say it on camera</th></tr>
+        <tr><td class="term">Bottleneck</td><td>The narrowest point everything must pass through; sets the speed of the whole business.</td><td class="say">"the point where everything gets stuck"</td></tr>
+        <tr><td class="term">Workflow</td><td>The steps a task goes through from start to done, e.g. request to booking to payment.</td><td class="say">"how a job travels through your business"</td></tr>
+        <tr><td class="term">Automation</td><td>Software following fixed rules: when this happens, do that.</td><td class="say">"the boring stuff happens by itself"</td></tr>
+        <tr><td class="term">AI</td><td>Software handling judgment-flavored tasks: reading, writing, sorting, answering.</td><td class="say">"software that can read and write, not just follow rules"</td></tr>
+        <tr><td class="term">Human in the loop</td><td>The system prepares, a person approves. Control stays with the human.</td><td class="say">"the machine does the legwork, you keep the yes"</td></tr>
+        <tr><td class="term">Integration</td><td>Two systems exchanging data automatically instead of via a human.</td><td class="say">"your systems finally talk to each other"</td></tr>
+        <tr><td class="term">API</td><td>The official plug a system offers so other software can connect to it.</td><td class="say">"the plug that lets systems connect"</td></tr>
+        <tr><td class="term">Single source of truth</td><td>One place where the real, current data lives; everything else reads from it.</td><td class="say">"one list that is always right"</td></tr>
+        <tr><td class="term">Off-the-shelf / SaaS</td><td>Ready-made subscription software, one-size-fits-most, paid monthly forever.</td><td class="say">"ready-made, rented, fits nobody perfectly"</td></tr>
+        <tr><td class="term">Custom software</td><td>Built for one business's exact way of working; owned, not rented.</td><td class="say">"built around how you actually work"</td></tr>
+        <tr><td class="term">Back office</td><td>The internal screens where the team manages bookings, customers, money.</td><td class="say">"the control room behind your website"</td></tr>
+        <tr><td class="term">Dashboard</td><td>One screen showing the state of the business at a glance.</td><td class="say">"everything on one screen"</td></tr>
+        <tr><td class="term">Process mapping</td><td>Writing down the repeated tasks and steps a business runs on. The audit's core.</td><td class="say">"we list what you repeat every day"</td></tr>
+        <tr><td class="term">Quick win</td><td>A small first automation delivered fast to prove value before bigger work.</td><td class="say">"we fix one painful thing first, fast"</td></tr>
+        <tr><td class="term">Scope</td><td>The agreed edge of a project: what is in, what is out.</td><td class="say">"exactly what we will build, on paper"</td></tr>
+        <tr><td class="term">Manual entry</td><td>A human typing data a machine already had. The root of double entry.</td><td class="say">"typing the same thing twice"</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section id="math">
+    <p class="eyebrow">07 · Ammunition</p>
+    <h2>The math to own cold</h2>
+    <p>Pack 01 gave you research numbers to quote. This pack is different, and stronger: you do the arithmetic live, with the client's own numbers. Nobody argues with their own numbers. The formula is one line:</p>
+    <div class="statrow">
+      <div class="stat">
+        <div class="big">h × € × 52</div>
+        <p>Hours per week on a repeated task, times what an hour is worth, times 52 weeks. That is the yearly cost of the bottleneck.</p>
+        <div class="src">The bottleneck bill</div>
+      </div>
+      <div class="stat">
+        <div class="big">10 × €50</div>
+        <p>Worked example: 10 hours a week of admin at 50 an hour is 26,000 a year, every year, forever.</p>
+        <div class="src">Worked example, adjust live</div>
+      </div>
+    </div>
+    <p>Two follow-up moves that make it land:</p>
+    <ul>
+      <li><strong>The mistake multiplier.</strong> Hand-typed data goes wrong sometimes, and one double-booked car or wrong invoice can cost more than a month of admin time, plus the review that follows. Errors are the expensive part of manual work, not the hours.</li>
+      <li><strong>The rent comparison.</strong> Software costs once, mostly. A bottleneck bills the business every single week, forever, and its price goes up as the business grows. Frame the project cost against one year of the bottleneck bill and the conversation changes.</li>
+    </ul>
+    <p class="muted">Honesty rule: always do this math with the client's real numbers, out loud, and round down. An estimate they helped build is credible. A big claimed number you brought is marketing.</p>
+  </section>
+
+  <section id="beats">
+    <p class="eyebrow">08 · Filming</p>
+    <h2>Beat sheets, not scripts</h2>
+    <p>Four reel ideas for this service line. Same rules as Pack 01: glance once, record, talk. Same close every time so it becomes muscle memory.</p>
+
+    <div class="beat">
+      <h3>Reel idea · The phone test</h3>
+      <ol>
+        <li><span class="hookline">Hook: could you turn your phone off for two weeks without your business stopping?</span></li>
+        <li>If not, you are the bottleneck. Every booking, question and invoice squeezes through you.</li>
+        <li>That is not dedication, that is a queue. And a queue has a yearly bill: hours per week, times your rate, times 52.</li>
+        <li>The fix is not working harder. It is moving the repeated work out of your head and into a system.</li>
+      </ol>
+      <div class="close">CLOSE · DM the word BOTTLENECK and tell me the one task you repeat every day. I will tell you if it is automatable, for free.</div>
+    </div>
+
+    <div class="beat">
+      <h3>Reel idea · WhatsApp and a spreadsheet</h3>
+      <ol>
+        <li><span class="hookline">Hook: your business runs on WhatsApp, a spreadsheet and your memory. I know, because almost every business I meet does.</span></li>
+        <li>Nobody chose that system. It grew. It works at five customers a week and cracks at twenty-five.</li>
+        <li>The crack looks like: typing everything twice, checking three places for one answer, admin at 10 pm.</li>
+        <li>The next stage: one system that knows your availability, your customers and your money, and does the repeating for you.</li>
+      </ol>
+      <div class="close">CLOSE · DM BOTTLENECK with the task you repeat most. I reply with whether software can take it off your plate.</div>
+    </div>
+
+    <div class="beat">
+      <h3>Reel idea · One tap on Bonaire</h3>
+      <ol>
+        <li><span class="hookline">Hook: a scooter rental on Bonaire used to confirm every booking by hand. Now it takes one tap.</span></li>
+        <li>The before: every request, confirmation and reminder went through the owner personally.</li>
+        <li>The turn: customers request online, the booking lands on his phone, he taps approve. Emails send themselves, in his branding.</li>
+        <li>The point: he did not lose control. He lost the running around. That is what good automation feels like.</li>
+      </ol>
+      <div class="close">CLOSE · DM BOTTLENECK if part of your business still runs through your thumbs.</div>
+    </div>
+
+    <div class="beat">
+      <h3>Reel idea · You probably don't need AI yet</h3>
+      <ol>
+        <li><span class="hookline">Hook: unpopular opinion from someone who builds AI systems: you probably do not need AI yet.</span></li>
+        <li>Automation is rules: when a booking confirms, send the email. AI is judgment: reading, writing, sorting.</li>
+        <li>Most businesses asking about AI need the rules first. Cheaper, reliable, and the wins show up in week one.</li>
+        <li>Where AI does shine: drafting replies, sorting requests, answering the twenty questions customers always ask. With a human giving the final yes.</li>
+      </ol>
+      <div class="close">CLOSE · DM BOTTLENECK and I will tell you honestly whether your case needs AI, automation, or neither.</div>
+    </div>
+  </section>
+
+  <section id="drills">
+    <p class="eyebrow">09 · Make it yours</p>
+    <h2>Teach-back drills</h2>
+    <p>Answer out loud, your own words, no peeking. Then come quiz with me in a session and I will push until every answer holds.</p>
+    <ol class="drill">
+      <li>Explain the difference between automation and AI to a restaurant owner, in under thirty seconds, without saying "algorithm."</li>
+      <li>What is the phone test, and why does it work as a diagnosis?</li>
+      <li>A client asks: why not just use an off-the-shelf booking tool? Give the honest answer, including when off-the-shelf is actually the right call.</li>
+      <li>Do the bottleneck bill math for a salon owner who spends 6 hours a week on appointment admin. Talk it through as if she is in front of you.</li>
+      <li>What is human in the loop, and which real client of yours is the example?</li>
+      <li>A business owner says "we want to do something with AI." What is your first question back, and why is it not about AI?</li>
+      <li>Name the four signs of a bottleneck without looking. Which one do you personally find easiest to spot from the outside?</li>
+    </ol>
+
+    <h3>Pushbacks you will actually get, and calm answers</h3>
+    <dl class="pushback">
+      <dt>Custom software is for big companies, not for us.</dt>
+      <dd>That was true five years ago. Building has gotten dramatically cheaper and faster, and I know because I have built full booking platforms for island rental businesses, not corporations. The question is no longer "can we afford custom," it is "how much is the manual work costing us while we wait."</dd>
+      <dt>AI will make mistakes with my customers.</dt>
+      <dd>Only if you let it talk unsupervised, and we do not build it that way. The system prepares the work and you approve it with one tap. One of my clients confirms every single booking himself, it just takes him a second now instead of an evening. You keep the yes.</dd>
+      <dt>We have always done it this way and it works.</dt>
+      <dd>It does work, that is how you got here. The honest question is what it costs to keep working this way: the evening admin, the double typing, the mistakes. If that list is short, keep going as you are, truly. If reading it out loud stings a little, that sting is the business case.</dd>
+      <dt>What if it breaks and nobody can fix it?</dt>
+      <dd>Fair, and it is why you should never accept a system only its builder understands. Everything I build comes with the boring safety net: documentation, handover, and the client owning their own accounts and data. You are never locked in to me, which is exactly why clients stay.</dd>
+      <dt>What does something like this cost?</dt>
+      <dd>Honest answer: it depends on the bottleneck, so I never quote before the audit. What I can do right now is the one-line math on your biggest repeated task, and then we both know what doing nothing costs per year. Compare any quote against that number, including quotes from other builders.</dd>
+    </dl>
+
+    <h3>One camera note</h3>
+    <p>These topics tempt you to sound technical, because the material is technical. Resist it. Your edge on camera is being the person who makes this feel simple and safe. If a sentence would not survive at a birthday party, it does not survive on camera. The decoder column exists for exactly that.</p>
+  </section>
+
+  <section id="threeways">
+    <p class="eyebrow">10 · Going deeper</p>
+    <h2>Say it three ways</h2>
+    <p>Three registers per core idea: pro, everyday, kitchen table. Listen first, then speak one notch simpler than they do.</p>
+
+    <div class="beat">
+      <h3>The bottleneck</h3>
+      <p><strong>To a pro:</strong> "Your throughput is capped by a single constraint, and it is you. Until that constraint moves, extra marketing just lengthens the queue."</p>
+      <p><strong>Everyday:</strong> "The point where your whole business gets stuck behind your phone."</p>
+      <p><strong>Kitchen table:</strong> "Picture a highway with five lanes that all squeeze into one toll booth. It does not matter how many cars arrive, the booth sets the speed. In your business, you are the booth. We build more booths."</p>
+    </div>
+
+    <div class="beat">
+      <h3>Automation versus AI</h3>
+      <p><strong>To a pro:</strong> "Deterministic rules for the predictable flows, a model with human review for the judgment work. Rules first, they are cheaper and they do not hallucinate."</p>
+      <p><strong>Everyday:</strong> "Automation is rules: when this happens, do that. AI is judgment: reading, writing, sorting."</p>
+      <p><strong>Kitchen table:</strong> "Automation is a coffee machine: press the button, same coffee every time. AI is more like a helper who can read your mail and draft answers, quick but young, so you glance before anything goes out."</p>
+    </div>
+
+    <div class="beat">
+      <h3>Human in the loop</h3>
+      <p><strong>To a pro:</strong> "Nothing customer-facing ships without an approval step. The system prepares, a person commits. It is a design principle, not a training wheel."</p>
+      <p><strong>Everyday:</strong> "The machine does the legwork, you keep the yes."</p>
+      <p><strong>Kitchen table:</strong> "Like a kitchen where the sous-chef preps every plate and the chef gives the nod before it leaves the pass. Nothing reaches a table without the nod. You stay the chef."</p>
+    </div>
+  </section>
+
+  <section id="cases">
+    <p class="eyebrow">11 · Evidence</p>
+    <h2>Case files and the pain map</h2>
+    <p>Your two flagship stories live in the proof section above. This is the extra ammunition around them.</p>
+
+    <h3>Picture this: the double-booked Saturday</h3>
+    <p>A composite, not a client: a small rental where the owner keeps the agenda on paper, his wife takes WhatsApp requests, and Saturday morning two families stand at the counter for the same two scooters. Nobody made a mistake. Two lists disagreed, like they eventually always do. The refund hurts, the review hurts more, and the fix was never "be more careful," it was one list that everything reads from. Tell this story and watch rental owners go quiet, because every one of them has lived some version of it.</p>
+
+    <h3>Case: built once, proven twice</h3>
+    <p>Our booking platform core runs two separate live rental businesses on two islands. Same engine, tailored skin and rules for each. The teaching point for clients who fear custom software is fragile: this is not an experiment invented for them on a napkin, it is a proven machine being fitted to their business. And the teaching point for you: "we have done this before" lands hardest when it is simply, checkably true.</p>
+
+    <h3>The pain map: what the bottleneck costs, per audience</h3>
+    <div class="tablewrap">
+      <table>
+        <tr><th>Who</th><th>The pain in this domain</th><th>The helping line, never salesy</th></tr>
+        <tr><td class="term">Rentals and tours</td><td>Availability chaos, double bookings, every request confirmed by hand at all hours.</td><td class="say">"When two bookings clash, who usually catches it first, you or the customer?"</td></tr>
+        <tr><td class="term">Restaurants and bars</td><td>Reservations across phone, WhatsApp and walk-ins; no-shows nobody follows up.</td><td class="say">"How do reservations reach you now, and how many places do they get written down?"</td></tr>
+        <tr><td class="term">Salons and personal care</td><td>The owner is the agenda; a sick day means a day of phone calls.</td><td class="say">"If you were sick tomorrow, who could see and move your appointments?"</td></tr>
+        <tr><td class="term">Shops and boutiques</td><td>Stock lives in the owner's head; invoices and orders typed twice at night.</td><td class="say">"What is the admin you always end up doing after closing?"</td></tr>
+        <tr><td class="term">Realtors and services</td><td>Leads and paperwork scattered across email threads; follow-ups slip.</td><td class="say">"What happens to an inquiry that comes in while you are with a client?"</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section id="questions">
+    <p class="eyebrow">12 · The door openers</p>
+    <h2>The questions that open doors</h2>
+    <p>Operations questions are the most powerful in the whole Academy, because only someone who has built these systems knows to ask them. Each one quietly says: I have stood where you stand.</p>
+
+    <div class="beat">
+      <h3>"When two bookings clash, who catches it first, you or the customer?"</h3>
+      <p>Only an insider knows clashes are a when, not an if. If they say "the customer, once," you have the story and the wound. Listen for the specific incident; they will tell it, and their own story becomes the business case.</p>
+    </div>
+    <div class="beat">
+      <h3>"What happens to a request that comes in at eleven at night?"</h3>
+      <p>The honest answers: it waits until morning and sometimes the customer books elsewhere, or the owner answers from bed. Both answers are the problem, said in their own words. Follow up with: "and how do you feel about either of those?"</p>
+    </div>
+    <div class="beat">
+      <h3>"On a busy day, how long between a request coming in and your reply?"</h3>
+      <p>Speed of follow-up is where leads die, and owners know their number is worse than they would like. Listen for "it depends," which means "sometimes very long." Never shame it, normalize it: this is the most common leak we see.</p>
+    </div>
+    <div class="beat">
+      <h3>"How many places does one booking get written down, start to finish?"</h3>
+      <p>Ask them to count out loud: the chat, the agenda, the whiteboard, the invoice. Every number above one is a chance for a mistake, and they do the math on their own face. This question does an entire audit in thirty seconds.</p>
+    </div>
+    <div class="beat">
+      <h3>"Which task, if it silently stopped being done by you, would give you back an evening a week?"</h3>
+      <p>The bottleneck finder, framed as a gift instead of a diagnosis. Whatever they name, that is project one, and you can do the bottleneck bill math on it right there: hours, times rate, times 52.</p>
+    </div>
+  </section>
+
+
+  <footer>~&lt; Reel School · Pack 02 · Salty Code Studio · pack 01: why websites lose customers</footer>
+</div>

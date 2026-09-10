@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Salty Academy · The Game</title>
+<style>
+  :root {
+    --sand:#F5F1E8; --ink:#16282E; --surf:#0E7C86; --dune:#8A7F6A;
+    --hairline:#DDD5C4; --card:#FDFBF6; --surf-soft:rgba(14,124,134,.08);
+    --good:#2E7D4F; --bad:#B4452F; --gold:#B98A2E;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --sand:#0F1B1E; --ink:#EDE6D6; --surf:#4FB3BC; --dune:#9A917E;
+      --hairline:#24373C; --card:#152427; --surf-soft:rgba(79,179,188,.1);
+      --good:#5BB884; --bad:#E07856; --gold:#D9AC55; }
+  }
+  * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  body { background:var(--sand); color:var(--ink); margin:0;
+    font-family:"Avenir Next","Helvetica Neue",-apple-system,sans-serif;
+    font-size:1rem; line-height:1.5; }
+  .app { max-width:520px; margin:0 auto; padding:1.2rem 1.1rem 5.5rem; min-height:100vh; }
+  .mark { font-weight:700; font-size:1rem; letter-spacing:.02em; color:var(--surf); }
+  .eyebrow { font-family:ui-monospace,"SF Mono",Menlo,monospace; font-size:.68rem;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--dune); margin:0 0 .4rem; }
+  h1 { font-weight:700; font-size:1.7rem; letter-spacing:-.015em; line-height:1.1; margin:.3rem 0 .8rem; }
+  h2 { font-weight:700; font-size:1.2rem; margin:0 0 .6rem; }
+  p { margin:0 0 .8rem; }
+  .muted { color:var(--dune); font-size:.9rem; }
+  button { font:inherit; cursor:pointer; border:none; border-radius:10px; }
+  .btn { display:block; width:100%; padding:.95rem 1.1rem; margin:.5rem 0;
+    background:var(--surf); color:#fff; font-weight:600; font-size:1rem; text-align:center; }
+  .btn.ghost { background:transparent; color:var(--surf); border:1.5px solid var(--surf); }
+  .btn.quiet { background:var(--card); color:var(--ink); border:1px solid var(--hairline); }
+  .btn:active { transform:scale(.985); }
+  .panel { background:var(--card); border:1px solid var(--hairline); border-radius:14px;
+    padding:1.1rem 1.2rem; margin:.7rem 0; }
+  .row { display:flex; align-items:center; gap:.8rem; }
+  .grow { flex:1; }
+  .statbar { display:flex; gap:.6rem; margin:.8rem 0 1rem; flex-wrap:wrap; }
+  .chip { background:var(--card); border:1px solid var(--hairline); border-radius:999px;
+    padding:.35rem .8rem; font-size:.8rem; font-weight:600; white-space:nowrap; }
+  .chip b { color:var(--surf); }
+  .modcard { display:flex; gap:.9rem; align-items:center; width:100%; text-align:left;
+    background:var(--card); border:1px solid var(--hairline); border-radius:14px;
+    padding:1rem 1.1rem; margin:.55rem 0; color:var(--ink); }
+  .modcard .ico { font-size:1.5rem; width:2.2rem; text-align:center; }
+  .modcard h3 { margin:0; font-size:1rem; font-weight:600; }
+  .modcard .sub { font-size:.78rem; color:var(--dune); margin-top:.15rem; }
+  .ring { width:44px; height:44px; flex:none; }
+  .ring svg { width:44px; height:44px; transform:rotate(-90deg); }
+  .ring .bg { stroke:var(--hairline); }
+  .ring .fg { stroke:var(--surf); transition:stroke-dashoffset .5s; }
+  .ring text { transform:rotate(90deg); transform-origin:22px 22px;
+    font-size:11px; font-weight:700; fill:var(--ink); }
+  .badge { display:inline-flex; align-items:center; gap:.4rem; background:var(--surf-soft);
+    border:1px solid var(--surf); color:var(--surf); border-radius:999px;
+    padding:.3rem .75rem; font-size:.78rem; font-weight:600; margin:.2rem .25rem .2rem 0; }
+  .badge.locked { opacity:.35; border-color:var(--hairline); color:var(--dune); background:transparent; }
+  /* play screens */
+  .qtext { font-size:1.12rem; font-weight:600; line-height:1.45; margin:.9rem 0 1rem; }
+  .opt { display:block; width:100%; text-align:left; padding:.9rem 1rem; margin:.45rem 0;
+    background:var(--card); border:1.5px solid var(--hairline); border-radius:12px;
+    color:var(--ink); font-size:.95rem; line-height:1.4; }
+  .opt.correct { border-color:var(--good); background:color-mix(in srgb, var(--good) 12%, var(--card)); }
+  .opt.wrong { border-color:var(--bad); background:color-mix(in srgb, var(--bad) 12%, var(--card)); }
+  .opt:disabled { cursor:default; }
+  .why { border-left:2.5px solid var(--surf); background:var(--surf-soft);
+    padding:.7rem .9rem; border-radius:0 10px 10px 0; font-size:.9rem; margin:.7rem 0; }
+  .progressline { height:5px; background:var(--hairline); border-radius:99px; margin:.4rem 0 .9rem; }
+  .progressline i { display:block; height:5px; border-radius:99px; background:var(--surf);
+    transition:width .3s; }
+  /* flashcard */
+  .flash { perspective:1000px; margin:1rem 0; }
+  .flashinner { position:relative; min-height:180px; transform-style:preserve-3d;
+    transition:transform .45s; }
+  .flash.flipped .flashinner { transform:rotateY(180deg); }
+  .face { position:absolute; inset:0; backface-visibility:hidden; display:flex;
+    flex-direction:column; justify-content:center; align-items:center; text-align:center;
+    background:var(--card); border:1px solid var(--hairline); border-radius:16px; padding:1.3rem; }
+  .face.back { transform:rotateY(180deg); justify-content:center; }
+  .face .term { font-size:1.35rem; font-weight:700; }
+  .face .def { font-size:.95rem; margin:.3rem 0 .5rem; }
+  .face .say { font-family:Georgia,serif; font-style:italic; color:var(--surf); font-size:.95rem; }
+  @media (prefers-reduced-motion: reduce) { .flashinner { transition:none; } .fg { transition:none; } }
+  .topnav { display:flex; align-items:center; gap:.7rem; margin-bottom:.8rem; }
+  .back { background:none; color:var(--surf); font-weight:600; font-size:.9rem; padding:.3rem .2rem; }
+  .result-big { font-size:3rem; text-align:center; margin:.8rem 0 .2rem; }
+  .center { text-align:center; }
+  .playerpick { display:flex; gap:.6rem; flex-wrap:wrap; margin:.8rem 0; }
+  .playerpick .btn { width:auto; flex:1 1 40%; }
+  input[type=text] { font:inherit; width:100%; padding:.85rem 1rem; border-radius:10px;
+    border:1.5px solid var(--hairline); background:var(--card); color:var(--ink); margin:.4rem 0; }
+  input[type=text]:focus { outline:2px solid var(--surf); border-color:var(--surf); }
+  table.lb { width:100%; border-collapse:collapse; font-size:.92rem; }
+  table.lb td, table.lb th { padding:.55rem .4rem; border-bottom:1px solid var(--hairline); text-align:left; }
+  table.lb th { font-family:ui-monospace,monospace; font-size:.68rem; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--dune); font-weight:500; }
+  .rank1 td { color:var(--gold); font-weight:700; }
+  a { color:var(--surf); }
+  .footerline { margin-top:2rem; text-align:center; font-family:ui-monospace,monospace;
+    font-size:.65rem; letter-spacing:.1em; text-transform:uppercase; color:var(--dune); }
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+<script src="data1.js"></script>
+<script src="data2.js"></script>
+<script>
+(function(){
+"use strict";
+var MODS = (window.ACADEMY_PART1||[]).concat(window.ACADEMY_PART2||[]);
+var KEY = "salty-academy-game-v1";
+var RANKS = [[0,"Deckhand"],[150,"Beachcomber"],[400,"Wave Rider"],[800,"Reef Captain"],[1400,"Harbor Master"],[2200,"Salty Legend"]];
+var XP = { quiz:10, card:5, translate:12, diagnose:12, bossQ:10, bossPass:50 };
+var BOSS_N = 10, BOSS_PASS = 8;
+
+var S = load();
+function load(){ try { return JSON.parse(localStorage.getItem(KEY)||"{}"); } catch(e){ return {}; } }
+function save(){ localStorage.setItem(KEY, JSON.stringify(S)); }
+if (!S.players) S.players = {};
+function P(){ return S.players[S.current]; }
+function newPlayer(name){
+  S.players[name] = { xp:0, correct:{}, wrongQueue:[], badges:[], boss:{}, streak:0, lastDay:null, plays:0 };
+  S.current = name; save();
+}
+function today(){ return new Date().toISOString().slice(0,10); }
+function touchStreak(){
+  var p = P(), t = today();
+  if (p.lastDay === t) return;
+  var y = new Date(Date.now()-864e5).toISOString().slice(0,10);
+  p.streak = (p.lastDay === y) ? p.streak+1 : 1;
+  p.lastDay = t;
+  if (p.streak >= 7) grant("streak7");
+  save();
+}
+function rank(xp){ var r = RANKS[0][1]; RANKS.forEach(function(x){ if (xp>=x[0]) r=x[1]; }); return r; }
+function nextRank(xp){ for (var i=0;i<RANKS.length;i++){ if (xp<RANKS[i][0]) return RANKS[i]; } return null; }
+var BADGES = {
+  streak7:{ico:"🔥",name:"7-day streak"},
+  perfect:{ico:"💯",name:"Perfect boss"},
+  words:{ico:"📖",name:"Word collector"},
+  master:{ico:"🏆",name:"Academy Master"}
+};
+MODS.forEach(function(m){ BADGES["boss-"+m.id] = {ico:m.icon, name:m.num+" mastered"}; });
+function grant(id){ var p=P(); if (p.badges.indexOf(id)<0){ p.badges.push(id); save(); } }
+
+function itemsOf(m){
+  var out = [];
+  (m.cards||[]).forEach(function(c,i){ out.push("c:"+m.id+":"+i); });
+  (m.quiz||[]).forEach(function(q,i){ out.push("q:"+m.id+":"+i); });
+  (m.translate||[]).forEach(function(q,i){ out.push("t:"+m.id+":"+i); });
+  (m.diagnose||[]).forEach(function(q,i){ out.push("d:"+m.id+":"+i); });
+  return out;
+}
+function mastery(m){
+  var p=P(), ids=itemsOf(m), n=0;
+  ids.forEach(function(id){ if (p.correct[id]) n++; });
+  return ids.length ? Math.round(100*n/ids.length) : 0;
+}
+function totalMastery(){
+  var s=0; MODS.forEach(function(m){ s+=mastery(m); });
+  return Math.round(s/MODS.length);
+}
+function markCorrect(id){ var p=P(); if(!p.correct[id]){ p.correct[id]=1; } save(); checkWords(); }
+function markWrong(id){ var p=P(); if (p.wrongQueue.indexOf(id)<0) p.wrongQueue.push(id); save(); }
+function clearWrong(id){ var p=P(); var i=p.wrongQueue.indexOf(id); if(i>=0) p.wrongQueue.splice(i,1); save(); }
+function checkWords(){
+  var p=P(), all=true;
+  MODS.forEach(function(m){ (m.cards||[]).forEach(function(c,i){ if(!p.correct["c:"+m.id+":"+i]) all=false; }); });
+  if (all) grant("words");
+  var allBoss = MODS.every(function(m){ return p.boss[m.id]; });
+  if (allBoss) grant("master");
+}
+function addXP(n){ var p=P(); var before=rank(p.xp); p.xp+=n; save();
+  if (rank(p.xp)!==before) toastRank = rank(p.xp); }
+var toastRank = null;
+
+function shuffle(a){ a=a.slice(); for (var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+function el(html){ var d=document.createElement("div"); d.innerHTML=html; return d; }
+var app = document.getElementById("app");
+function render(html){ app.innerHTML = html; window.scrollTo(0,0); }
+
+/* ---------- screens ---------- */
+function home(){
+  var names = Object.keys(S.players);
+  if (!S.current || !S.players[S.current]) { return pickPlayer(); }
+  touchStreak();
+  var p = P();
+  var nr = nextRank(p.xp);
+  var h = '<div class="row"><span class="mark">~&lt; salty academy</span><span class="grow"></span>'
+    + '<button class="back" onclick="GA.pick()">'+esc(S.current)+' ↺</button></div>'
+    + '<p class="eyebrow" style="margin-top:1.2rem">'+esc(rank(p.xp))+(nr? ' · '+(nr[0]-p.xp)+' xp to '+esc(nr[1]):' · top rank')+'</p>'
+    + '<h1>Ready to train?</h1>'
+    + '<div class="statbar">'
+    + '<span class="chip">⚡ <b>'+p.xp+'</b> xp</span>'
+    + '<span class="chip">🔥 <b>'+p.streak+'</b> day'+(p.streak===1?'':'s')+'</span>'
+    + '<span class="chip">🎓 <b>'+totalMastery()+'%</b> mastery</span>'
+    + '<span class="chip">🏅 <b>'+p.badges.length+'</b> badges</span>'
+    + '</div>';
+  if (p.wrongQueue.length)
+    h += '<button class="btn ghost" onclick="GA.review()">🔁 Review '+p.wrongQueue.length+' missed item'+(p.wrongQueue.length===1?'':'s')+'</button>';
+  MODS.forEach(function(m){
+    var pct = mastery(m), passed = p.boss[m.id];
+    h += '<button class="modcard" onclick="GA.mod(\''+m.id+'\')">'
+      + '<span class="ico">'+m.icon+'</span>'
+      + '<span class="grow"><h3>'+m.num+' · '+esc(m.title)+'</h3>'
+      + '<span class="sub">'+(passed?'✓ mastered':'boss not yet beaten')+'</span></span>'
+      + ring(pct) + '</button>';
+  });
+  h += '<button class="btn quiet" onclick="GA.leaderboard()">🏆 Leaderboard &amp; badges</button>'
+    + '<div class="panel"><p class="eyebrow">Live training</p>'
+    + '<p style="font-size:.92rem">Flashcards teach the words, the Arena makes them yours. Open a Claude session and say <b>"run me a prospect"</b> for live roleplay, or <b>"quiz me on module 2"</b> for deep drills.</p></div>'
+    + '<p class="footerline">~&lt; salty code studio · progress saves on this device</p>';
+  render(h);
+  if (toastRank){ setTimeout(function(){ alert("Rank up! You are now "+toastRank+" 🌊"); toastRank=null; }, 150); }
+}
+function ring(pct){
+  var r=18, c=2*Math.PI*r, off=c*(1-pct/100);
+  return '<span class="ring"><svg viewBox="0 0 44 44">'
+    + '<circle class="bg" cx="22" cy="22" r="'+r+'" fill="none" stroke-width="4"/>'
+    + '<circle class="fg" cx="22" cy="22" r="'+r+'" fill="none" stroke-width="4" stroke-linecap="round" stroke-dasharray="'+c+'" stroke-dashoffset="'+off+'"/>'
+    + '<text x="22" y="26" text-anchor="middle">'+pct+'</text></svg></span>';
+}
+function pickPlayer(){
+  var names = Object.keys(S.players);
+  var h = '<span class="mark">~&lt; salty academy</span>'
+    + '<p class="eyebrow" style="margin-top:1.6rem">The game</p>'
+    + '<h1>Who is playing?</h1>';
+  if (names.length){
+    h += '<div class="playerpick">';
+    names.forEach(function(n){
+      h += '<button class="btn quiet" onclick="GA.choose(\''+esc(n).replace(/'/g,"\\'")+'\')">'+esc(n)+' · '+S.players[n].xp+' xp</button>';
+    });
+    h += '</div><p class="muted center">or add a new player</p>';
+  } else {
+    h += '<p>Learn the language of your business by playing: flashcards, quizzes, translation duels and diagnosis challenges, straight from the Academy modules.</p>';
+  }
+  h += '<input type="text" id="pname" placeholder="Your name" maxlength="20" autocomplete="off">'
+    + '<button class="btn" onclick="GA.create()">Start playing</button>';
+  render(h);
+}
+
+/* module screen */
+function modScreen(id){
+  var m = MODS.filter(function(x){return x.id===id;})[0];
+  var p = P();
+  var h = topnav(m.num+' · '+m.title);
+  h += '<div class="statbar"><span class="chip">🎓 <b>'+mastery(m)+'%</b> mastery</span>'
+    + (p.boss[id]? '<span class="chip">'+m.icon+' <b>boss beaten</b></span>':'')+'</div>';
+  if (m.cards && m.cards.length) h += '<button class="btn quiet" onclick="GA.play(\''+id+'\',\'cards\')">🃏 Flashcards <span class="muted">· '+m.cards.length+' terms</span></button>';
+  if (m.quiz && m.quiz.length) h += '<button class="btn quiet" onclick="GA.play(\''+id+'\',\'quiz\')">❓ Quiz <span class="muted">· 8 questions</span></button>';
+  if (m.translate && m.translate.length) h += '<button class="btn quiet" onclick="GA.play(\''+id+'\',\'translate\')">🗣️ Say it right <span class="muted">· pick the human answer</span></button>';
+  if (m.diagnose && m.diagnose.length) h += '<button class="btn quiet" onclick="GA.play(\''+id+'\',\'diagnose\')">🩺 Diagnose <span class="muted">· symptom to real problem</span></button>';
+  h += '<button class="btn" onclick="GA.play(\''+id+'\',\'boss\')">⚔️ Boss round <span style="opacity:.8">· '+BOSS_N+' mixed, need '+BOSS_PASS+'</span></button>';
+  h += '<a class="btn ghost" style="text-decoration:none" href="'+m.read+'">📚 Read the module</a>';
+  render(h);
+}
+function topnav(title){
+  return '<div class="topnav"><button class="back" onclick="GA.home()">← Home</button>'
+    + '<span class="grow"></span><span class="eyebrow" style="margin:0">'+esc(title)+'</span></div>';
+}
+
+/* ---------- play engine ---------- */
+var run = null; // {mode, mod, items:[{kind,idx,data}], i, score, xp}
+function buildItems(m, mode){
+  function wrap(kind, arr){ return (arr||[]).map(function(d,i){ return {kind:kind, id:kind[0]+":"+m.id+":"+i, data:d}; }); }
+  if (mode==="cards") return shuffle(wrap("cards", m.cards));
+  if (mode==="quiz") return shuffle(wrap("quiz", m.quiz)).slice(0,8);
+  if (mode==="translate") return shuffle(wrap("translate", m.translate));
+  if (mode==="diagnose") return shuffle(wrap("diagnose", m.diagnose));
+  if (mode==="boss"){
+    var pool = wrap("quiz",m.quiz).concat(wrap("translate",m.translate)).concat(wrap("diagnose",m.diagnose));
+    return shuffle(pool).slice(0,BOSS_N);
+  }
+  return [];
+}
+function play(id, mode){
+  var m = MODS.filter(function(x){return x.id===id;})[0];
+  run = { mode:mode, mod:m, items:buildItems(m,mode), i:0, score:0, xp:0 };
+  touchStreak(); P().plays++; save();
+  step();
+}
+function reviewRun(){
+  var p=P(), items=[];
+  p.wrongQueue.slice(0,12).forEach(function(id){
+    var parts=id.split(":"), kindMap={c:"cards",q:"quiz",t:"translate",d:"diagnose"};
+    var m = MODS.filter(function(x){return x.id===parts[1];})[0];
+    if (!m) return;
+    var arr = m[kindMap[parts[0]]];
+    if (arr && arr[+parts[2]]) items.push({kind:kindMap[parts[0]], id:id, data:arr[+parts[2]], mod:m});
+  });
+  run = { mode:"review", mod:null, items:items, i:0, score:0, xp:0 };
+  step();
+}
+function step(){
+  if (!run || run.i >= run.items.length) return results();
+  var it = run.items[run.i];
+  var title = (run.mode==="review" ? "Review" : run.mod.num) + ' · ' + (run.i+1) + '/' + run.items.length;
+  var h = topnav(title)
+    + '<div class="progressline"><i style="width:'+Math.round(100*run.i/run.items.length)+'%"></i></div>';
+  if (it.kind==="cards") h += renderCard(it);
+  else h += renderMC(it);
+  render(h);
+}
+function renderCard(it){
+  var c = it.data;
+  return '<p class="eyebrow">Flashcard · tap to flip</p>'
+    + '<div class="flash" id="flash" onclick="GA.flip()"><div class="flashinner">'
+    + '<div class="face"><span class="term">'+esc(c.t)+'</span><span class="muted" style="margin-top:.6rem">what does it mean, and how do you say it on camera?</span></div>'
+    + '<div class="face back"><span class="def">'+esc(c.d)+'</span><span class="say">&ldquo;'+esc(c.s)+'&rdquo;</span></div>'
+    + '</div></div>'
+    + '<div id="grade" style="display:none">'
+    + '<button class="btn" onclick="GA.card(true)">✓ I knew it</button>'
+    + '<button class="btn ghost" onclick="GA.card(false)">↻ Not yet, show it again later</button></div>'
+    + '<p class="muted center" id="fliphint">Say your answer out loud first, then flip.</p>';
+}
+function renderMC(it){
+  var d = it.data;
+  var prompt = it.kind==="quiz" ? d.q : it.kind==="translate" ? d.setup : d.say;
+  var eyebrow = it.kind==="quiz" ? "Quiz" : it.kind==="translate" ? "Say it right" : "Diagnose";
+  if (run.mode==="boss") eyebrow = "Boss round · " + eyebrow;
+  var opts = d.a.map(function(txt,i){ return {txt:txt, ok:i===0}; });
+  it.shuffled = shuffle(opts);
+  var h = '<p class="eyebrow">'+eyebrow+'</p><p class="qtext">'+esc(prompt)+'</p>';
+  it.shuffled.forEach(function(o,i){
+    h += '<button class="opt" id="opt'+i+'" onclick="GA.answer('+i+')">'+esc(o.txt)+'</button>';
+  });
+  return h;
+}
+window.GA = {
+  home:home, pick:pickPlayer, mod:modScreen, play:play, review:reviewRun,
+  leaderboard:leaderboard,
+  choose:function(n){ S.current=n; save(); home(); },
+  create:function(){
+    var v = document.getElementById("pname").value.trim();
+    if (!v) return;
+    if (!S.players[v]) newPlayer(v); else { S.current=v; save(); }
+    home();
+  },
+  flip:function(){
+    var f=document.getElementById("flash");
+    f.classList.toggle("flipped");
+    document.getElementById("grade").style.display="block";
+    var hint=document.getElementById("fliphint"); if(hint) hint.style.display="none";
+  },
+  card:function(knew){
+    var it = run.items[run.i];
+    if (knew){ markCorrect(it.id); clearWrong(it.id); run.score++; run.xp+=XP.card; addXP(XP.card); }
+    else markWrong(it.id);
+    run.i++; step();
+  },
+  answer:function(i){
+    var it = run.items[run.i], picked = it.shuffled[i];
+    it.shuffled.forEach(function(o,j){
+      var b=document.getElementById("opt"+j); b.disabled=true;
+      if (o.ok) b.classList.add("correct");
+      else if (j===i) b.classList.add("wrong");
+    });
+    var gain = run.mode==="boss" ? XP.bossQ : (XP[it.kind]||10);
+    if (picked.ok){ run.score++; run.xp+=gain; addXP(gain); markCorrect(it.id); clearWrong(it.id); }
+    else markWrong(it.id);
+    var d=it.data;
+    var extra = '<div class="why">'+(picked.ok?'<b>Correct.</b> ':'<b>The answer:</b> '+esc(d.a[0])+'<br>')+esc(d.why||"")+'</div>'
+      + '<button class="btn" onclick="GA.next()">'+(run.i+1>=run.items.length?'Finish':'Next')+' →</button>';
+    app.appendChild(el(extra));
+    window.scrollTo(0, document.body.scrollHeight);
+  },
+  next:function(){ run.i++; step(); }
+};
+function results(){
+  var p=P(), n=run.items.length, sc=run.score, m=run.mod;
+  var passedBoss=false, perfect=false;
+  if (run.mode==="boss" && m){
+    if (sc>=BOSS_PASS){ passedBoss=true;
+      if (!p.boss[m.id]){ p.boss[m.id]=1; grant("boss-"+m.id); addXP(XP.bossPass); run.xp+=XP.bossPass; }
+      if (sc===n) { perfect=true; grant("perfect"); }
+      checkWords();
+    }
+  }
+  save();
+  var emoji = run.mode==="boss" ? (passedBoss ? (perfect?"👑":"⚔️✅") : "💤") : (sc===n?"🌊":"👍");
+  var line = run.mode==="boss"
+    ? (passedBoss ? (perfect? "Flawless. The boss never stood a chance." : "Boss beaten. "+m.num+" is mastered.")
+       : "Boss survives: "+sc+"/"+n+", you need "+BOSS_PASS+". Read, drill, return.")
+    : sc+" of "+n+" · +"+run.xp+" xp";
+  var h = topnav(run.mode==="review"?"Review":(m?m.num:""))
+    + '<div class="result-big">'+emoji+'</div>'
+    + '<h1 class="center">'+esc(line)+'</h1>'
+    + '<p class="center muted">Total: '+p.xp+' xp · '+esc(rank(p.xp))+(p.wrongQueue.length? ' · '+p.wrongQueue.length+' items in review':'')+'</p>';
+  if (run.mode!=="review" && m) h += '<button class="btn" onclick="GA.play(\''+m.id+'\',\''+run.mode+'\')">Play again</button>'
+    + '<button class="btn ghost" onclick="GA.mod(\''+m.id+'\')">Back to '+m.num+'</button>';
+  h += '<button class="btn quiet" onclick="GA.home()">Home</button>';
+  render(h);
+}
+function leaderboard(){
+  var names = Object.keys(S.players).sort(function(a,b){ return S.players[b].xp - S.players[a].xp; });
+  var h = topnav("Leaderboard");
+  h += '<div class="panel"><table class="lb"><tr><th>#</th><th>Player</th><th>XP</th><th>Rank</th><th>🔥</th></tr>';
+  names.forEach(function(n,i){
+    h += '<tr class="'+(i===0?'rank1':'')+'"><td>'+(i+1)+'</td><td>'+esc(n)+'</td><td>'+S.players[n].xp+'</td><td>'+esc(rank(S.players[n].xp))+'</td><td>'+S.players[n].streak+'</td></tr>';
+  });
+  h += '</table></div><h2 style="margin-top:1.2rem">Badges · '+esc(S.current)+'</h2><div>';
+  Object.keys(BADGES).forEach(function(id){
+    var b=BADGES[id], got = P().badges.indexOf(id)>=0;
+    h += '<span class="badge'+(got?'':' locked')+'">'+b.ico+' '+esc(b.name)+'</span>';
+  });
+  h += '</div><button class="btn quiet" style="margin-top:1.2rem" onclick="GA.home()">Home</button>';
+  render(h);
+}
+home();
+})();
+</script>
+</body>
+</html>

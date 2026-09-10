@@ -1,0 +1,409 @@
+<title>Academy M5 · Systems and Software</title>
+<style>
+  :root {
+    --sand: #F5F1E8;
+    --ink: #16282E;
+    --surf: #0E7C86;
+    --dune: #8A7F6A;
+    --hairline: #DDD5C4;
+    --card: #FDFBF6;
+    --surf-soft: rgba(14, 124, 134, 0.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --sand: #0F1B1E;
+      --ink: #EDE6D6;
+      --surf: #4FB3BC;
+      --dune: #9A917E;
+      --hairline: #24373C;
+      --card: #14232780;
+      --surf-soft: rgba(79, 179, 188, 0.1);
+    }
+  }
+  :root[data-theme="light"] {
+    --sand: #F5F1E8;
+    --ink: #16282E;
+    --surf: #0E7C86;
+    --dune: #8A7F6A;
+    --hairline: #DDD5C4;
+    --card: #FDFBF6;
+    --surf-soft: rgba(14, 124, 134, 0.08);
+  }
+  :root[data-theme="dark"] {
+    --sand: #0F1B1E;
+    --ink: #EDE6D6;
+    --surf: #4FB3BC;
+    --dune: #9A917E;
+    --hairline: #24373C;
+    --card: #14232780;
+    --surf-soft: rgba(79, 179, 188, 0.1);
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--sand);
+    color: var(--ink);
+    font-family: "Iowan Old Style", "Palatino", Georgia, serif;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    margin: 0;
+    padding: 0 1.25rem;
+  }
+  .wrap { max-width: 44rem; margin: 0 auto; padding: 3.5rem 0 6rem; }
+  .mark {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: 1.1rem; letter-spacing: 0.02em;
+    color: var(--surf);
+  }
+  .eyebrow {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--dune); margin: 0 0 0.6rem;
+  }
+  h1 {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: clamp(2rem, 5vw, 2.9rem);
+    line-height: 1.08; letter-spacing: -0.015em; margin: 0.4rem 0 1rem;
+    text-wrap: balance;
+  }
+  h2 {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: 1.45rem; letter-spacing: -0.01em;
+    margin: 0 0 0.9rem; text-wrap: balance;
+  }
+  h3 {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 600; font-size: 1.08rem; margin: 1.6rem 0 0.4rem;
+  }
+  p { margin: 0 0 1.05rem; }
+  section { border-top: 1px solid var(--hairline); padding-top: 2.4rem; margin-top: 2.6rem; }
+  .lede { font-size: 1.15rem; }
+  .muted { color: var(--dune); }
+  .toc { list-style: none; padding: 0; margin: 1.4rem 0 0; display: flex; flex-direction: column; gap: 0.45rem; }
+  .toc a {
+    color: var(--ink); text-decoration: none;
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif; font-weight: 500; font-size: 0.95rem;
+  }
+  .toc a:hover, .toc a:focus-visible { color: var(--surf); }
+  .toc .n {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; color: var(--surf); margin-right: 0.6rem;
+  }
+  a:focus-visible { outline: 2px solid var(--surf); outline-offset: 3px; border-radius: 2px; }
+  .callout {
+    background: var(--surf-soft);
+    border-left: 2px solid var(--surf);
+    padding: 1rem 1.2rem; margin: 1.4rem 0;
+    font-size: 1rem;
+  }
+  .callout .eyebrow { color: var(--surf); margin-bottom: 0.35rem; }
+  .callout p:last-child { margin-bottom: 0; }
+  .statrow { display: flex; gap: 1rem; flex-wrap: wrap; margin: 1.5rem 0; }
+  .stat {
+    flex: 1 1 240px; background: var(--card); border: 1px solid var(--hairline);
+    padding: 1.15rem 1.25rem;
+  }
+  .stat .big {
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: 2.2rem; letter-spacing: -0.02em;
+    color: var(--surf); line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat .src {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--dune); margin-top: 0.7rem;
+  }
+  .stat p { font-size: 0.94rem; margin: 0.4rem 0 0; }
+  .tablewrap { overflow-x: auto; margin: 1.5rem 0; border: 1px solid var(--hairline); }
+  table { border-collapse: collapse; width: 100%; min-width: 620px; font-size: 0.95rem; }
+  th {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--dune); text-align: left; font-weight: 500;
+    padding: 0.8rem 1rem; border-bottom: 1px solid var(--hairline);
+  }
+  td { padding: 0.8rem 1rem; border-bottom: 1px solid var(--hairline); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td.term {
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+    font-weight: 600; font-size: 0.92rem; white-space: nowrap;
+  }
+  td.say { color: var(--surf); font-style: italic; }
+  .beat {
+    background: var(--card); border: 1px solid var(--hairline);
+    padding: 1.4rem 1.5rem; margin: 1.3rem 0;
+  }
+  .beat h3 { margin-top: 0; }
+  .beat ol { margin: 0.6rem 0 0; padding-left: 1.3rem; }
+  .beat ol li { margin-bottom: 0.55rem; }
+  .beat .hookline { font-style: italic; color: var(--surf); }
+  .beat .close {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.8rem; letter-spacing: 0.06em; margin-top: 0.9rem;
+    color: var(--dune);
+  }
+  .drill { margin: 1.2rem 0; padding: 0; list-style: none; counter-reset: drill; }
+  .drill li {
+    counter-increment: drill; position: relative;
+    padding: 0.85rem 0 0.85rem 2.6rem; border-bottom: 1px solid var(--hairline);
+  }
+  .drill li::before {
+    content: "Q" counter(drill);
+    position: absolute; left: 0; top: 0.95rem;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; color: var(--surf); letter-spacing: 0.05em;
+  }
+  .drill li:last-child { border-bottom: none; }
+  .pushback { margin: 1.2rem 0; }
+  .pushback dt {
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+    font-weight: 600; font-size: 0.98rem; margin-top: 1.2rem;
+  }
+  .pushback dt::before { content: "\201C"; color: var(--surf); }
+  .pushback dt::after { content: "\201D"; color: var(--surf); }
+  .pushback dd { margin: 0.35rem 0 0; font-size: 0.98rem; }
+  ul { padding-left: 1.25rem; }
+  ul li { margin-bottom: 0.5rem; }
+  strong { font-weight: 600; }
+  footer {
+    border-top: 1px solid var(--hairline); margin-top: 3.5rem; padding-top: 1.5rem;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dune);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+  }
+</style>
+<div class="wrap">
+  <header>
+    <div class="mark">~&lt; salty code studio</div>
+    <p class="eyebrow" style="margin-top:2.2rem">Academy · Module 5 · Systems and Software</p>
+    <h1>How business software actually fits together</h1>
+    <p class="lede">Pack 02 taught you to sell this work: bottlenecks, the phone test, the tailor-made suit. This module teaches you to understand what you are selling: databases, APIs, webhooks, dashboards, integrations, and the anatomy of a booking system, which you can explain better than almost anyone because you have shipped two. After this, no technical conversation can run away from you.</p>
+    <ul class="toc">
+      <li><a href="#model"><span class="n">01</span>The three layers: every system, ever</a></li>
+      <li><a href="#database"><span class="n">02</span>The database: one filing cabinet, always right</a></li>
+      <li><a href="#api"><span class="n">03</span>APIs, webhooks and integrations</a></li>
+      <li><a href="#booking"><span class="n">04</span>Anatomy of a booking system</a></li>
+      <li><a href="#trust"><span class="n">05</span>The trust topics: backups, security, exit</a></li>
+      <li><a href="#decoder"><span class="n">06</span>Terminology decoder</a></li>
+      <li><a href="#drills"><span class="n">07</span>Teach-back drills and pushbacks</a></li>
+          <li><a href="#threeways"><span class="n">08</span>Say it three ways</a></li>
+      <li><a href="#cases"><span class="n">09</span>Case files and the pain map</a></li>
+      <li><a href="#questions"><span class="n">10</span>The questions that open doors</a></li>
+    </ul>
+  </header>
+
+  <section id="model">
+    <p class="eyebrow">01 · The foundation</p>
+    <h2>The three layers: every system, ever</h2>
+    <p>Every piece of business software on earth, from a webshop to a hospital system, is the same three layers:</p>
+    <ul>
+      <li><strong>A place where data lives.</strong> The database: customers, bookings, prices, history.</li>
+      <li><strong>Rules that move the data.</strong> The backend: what happens when a booking comes in, when a payment lands, when a date passes.</li>
+      <li><strong>Screens people touch.</strong> The frontend: the website customers see, and the dashboard the team uses.</li>
+    </ul>
+    <p>Once you see the three layers, you can decompose any tool a client mentions, any feature they wish for, any problem they describe. "Can customers see live availability?" is a question about layer one feeding layer three. "Can it email people automatically?" is a layer-two rule. "Two systems that do not talk" is two separate data layers that need a bridge. You are never lost in a technical conversation again, because everything lands in one of three boxes.</p>
+    <div class="callout">
+      <p class="eyebrow">Say it your way</p>
+      <p>"Every system is three things: a place your information lives, rules that move it around, and screens people touch. When something feels broken in a business, one of those three is missing or doubled. Finding which one is my job."</p>
+    </div>
+  </section>
+
+  <section id="database">
+    <p class="eyebrow">02 · Layer one</p>
+    <h2>The database: one filing cabinet, always right</h2>
+    <p>A <strong>database</strong> is a structured filing cabinet: every customer, booking and payment in its own labeled drawer, instantly findable, never mislaid. The word structured is what separates it from the spreadsheet it usually replaces. A spreadsheet trusts humans to type carefully; a database enforces the rules: a booking must have a date, a customer must have contact details, the same scooter cannot be in two drawers at once.</p>
+    <p>This is where Pack 02's <strong>single source of truth</strong> stops being a slogan and becomes a physical thing: it is a database that all the screens read from. When the website, the owner's phone and the counter computer all show the same availability, that is not magic, that is three frontends reading one filing cabinet. And the reverse explains the chaos you meet in the wild: a business with a paper agenda, a WhatsApp thread and a spreadsheet has three filing cabinets that disagree, and every disagreement is a double booking waiting for a busy Saturday.</p>
+    <div class="callout">
+      <p class="eyebrow">Say it your way</p>
+      <p>"A double booking is never bad luck. It is two lists disagreeing about one scooter. The fix is not being more careful, it is having one list that everything reads from."</p>
+    </div>
+  </section>
+
+  <section id="api">
+    <p class="eyebrow">03 · The bridges</p>
+    <h2>APIs, webhooks and integrations</h2>
+    <p>Three terms cover how systems talk to each other, and they are best learned as a tiny story:</p>
+    <ul>
+      <li>An <strong>API</strong> is the official plug a system offers so other software can connect: ask it questions, give it instructions. "Does this payment provider have an API?" simply means "can other software talk to it, or is it a closed box?"</li>
+      <li>A <strong>webhook</strong> is the doorbell: instead of you asking constantly, the system rings <em>you</em> the moment something happens. Payment received, ring. Form submitted, ring. It is the difference between refreshing your mail and getting a push notification.</li>
+      <li>An <strong>integration</strong> is the finished bridge built from those parts: payment lands, webhook rings, backend rule marks the booking paid, confirmation email goes out. No human router anywhere in the chain, which is exactly the Pack 02 job description.</li>
+    </ul>
+    <p>The practical judgment this gives you: when a client wants two tools connected, the first question is always "do both sides have a plug?" Good modern tools do, and then the bridge is honest work. A closed box without an API is the real warning sign, and telling a client "this tool of yours is a closed box, factor that into whether you keep it" is advisor-grade advice most owners have never received.</p>
+    <div class="callout">
+      <p class="eyebrow">Say it your way</p>
+      <p>"When systems talk to each other, a human stops being the messenger. The payment tells the booking, the booking tells the email, and nobody types anything twice. That is all an integration is: your tools finally on speaking terms."</p>
+    </div>
+  </section>
+
+  <section id="booking">
+    <p class="eyebrow">04 · The showcase</p>
+    <h2>Anatomy of a booking system</h2>
+    <p>The booking system is your flagship product, and it happens to be the perfect teaching object because it uses every layer and every bridge. Learn its anatomy as five organs, and you can whiteboard it for any client in two minutes:</p>
+    <ul>
+      <li><strong>Availability.</strong> The database knows every vehicle and every date. This is the single source of truth; everything else consults it.</li>
+      <li><strong>The request.</strong> The customer-facing flow where a visitor picks dates and asks. Structured, so requests arrive as clean data instead of loose messages that need decoding.</li>
+      <li><strong>The approval.</strong> The human-in-the-loop moment: the request lands with the owner, one tap says yes. Judgment stays human, legwork does not.</li>
+      <li><strong>The notifications.</strong> Backend rules doing the running: confirmation to the customer, reminder before pickup, follow-up after return. Every email a human used to type at 10 pm.</li>
+      <li><strong>The back office.</strong> The team's dashboard: fleet, calendar, customers, money, one screen. The control room behind the website.</li>
+    </ul>
+    <p>Two more terms live naturally here. An <strong>internal tool</strong> is software only the team ever sees, like that back office; half of all bottleneck-removal is internal tools, invisible to customers and transformative anyway. A <strong>dashboard</strong> is any screen that shows the state of things at a glance; the test of a good one is that the owner checks it instead of calling someone.</p>
+    <div class="callout">
+      <p class="eyebrow">Say it your way</p>
+      <p>"A booking system is five organs: one list that knows what is free, a clean way to ask, one tap to approve, emails that send themselves, and a control room for the team. Miss an organ and a human is quietly doing that organ's job by hand."</p>
+    </div>
+  </section>
+
+  <section id="trust">
+    <p class="eyebrow">05 · The grown-up topics</p>
+    <h2>The trust topics: backups, security, exit</h2>
+    <p>Smart clients ask three sober questions before buying custom software. Having crisp answers is what separates a professional from an enthusiast, and all three answers happen to be your genuine policy:</p>
+    <ul>
+      <li><strong>What if it breaks?</strong> Serious systems are monitored, and <strong>uptime</strong>, the share of time everything runs, is a thing you can actually see rather than hope about. Things do occasionally break everywhere, Google included; the professional difference is knowing within minutes and having a fix path, instead of finding out from an angry customer.</li>
+      <li><strong>What about our data?</strong> Two words carry this: <strong>backups</strong>, automatic copies so a bad day cannot erase the business's memory, and <strong>access</strong>, meaning logins per person with sensible permissions, so the Saturday helper cannot delete the fleet. Most small businesses have neither, which makes this both a risk conversation and a service.</li>
+      <li><strong>What if we part ways?</strong> The exit answer from Module 1, now for software: the client owns their accounts, their data can be exported, and the system is documented so another developer could take over. Saying this unprompted wins deals, because every owner has heard a hostage story.</li>
+    </ul>
+    <p>One last term because it comes up in every takeover conversation: a <strong>migration</strong> is moving data from an old system to a new one, carefully, without losing history. It is routine work with a scary name, and saying exactly that sentence to a nervous client is worth an hour of reassurance.</p>
+    <div class="callout">
+      <p class="eyebrow">Say it your way</p>
+      <p>"Ask any software builder three things: what happens when it breaks, where do the backups live, and what happens if we part ways. If any answer is vague, walk. Mine are: I know before you do, automatic and daily, and everything is yours in writing."</p>
+    </div>
+  </section>
+
+  <section id="decoder">
+    <p class="eyebrow">06 · Vocabulary</p>
+    <h2>Terminology decoder</h2>
+    <p>Plain version on camera, real term when the client uses it first.</p>
+    <div class="tablewrap">
+      <table>
+        <tr><th>Term</th><th>What it actually means</th><th>How you say it on camera</th></tr>
+        <tr><td class="term">Database</td><td>The structured filing cabinet where all business data lives, with rules enforced.</td><td class="say">"one list that is always right"</td></tr>
+        <tr><td class="term">Backend</td><td>The rules layer: what happens when a booking, payment or date event fires.</td><td class="say">"the machinery behind the screens"</td></tr>
+        <tr><td class="term">Frontend</td><td>The screens: customer site and team dashboard.</td><td class="say">"everything people actually see and touch"</td></tr>
+        <tr><td class="term">API</td><td>The official plug a system offers so other software can talk to it.</td><td class="say">"the plug that lets systems connect"</td></tr>
+        <tr><td class="term">Webhook</td><td>The doorbell: a system pings yours the instant something happens.</td><td class="say">"the doorbell between systems"</td></tr>
+        <tr><td class="term">Integration</td><td>A finished bridge: two systems exchanging data with no human messenger.</td><td class="say">"your tools finally talk to each other"</td></tr>
+        <tr><td class="term">Dashboard</td><td>A glanceable screen showing the state of the business.</td><td class="say">"everything on one screen"</td></tr>
+        <tr><td class="term">Back office / admin panel</td><td>The internal screens where the team runs the operation.</td><td class="say">"the control room behind your website"</td></tr>
+        <tr><td class="term">Internal tool</td><td>Software only the team sees; customers never touch it.</td><td class="say">"software just for your team"</td></tr>
+        <tr><td class="term">Booking engine</td><td>The availability-request-approval core of a reservation system.</td><td class="say">"the part that knows what is free and takes the ask"</td></tr>
+        <tr><td class="term">Sync / real-time</td><td>All screens reflecting the same data at the same moment.</td><td class="say">"everyone sees the same thing, instantly"</td></tr>
+        <tr><td class="term">Migration</td><td>Moving data from an old system to a new one without losing history.</td><td class="say">"a careful move, nothing gets left behind"</td></tr>
+        <tr><td class="term">Uptime</td><td>The share of time a system is running. Monitored, not hoped.</td><td class="say">"how often it is simply working"</td></tr>
+        <tr><td class="term">Backup</td><td>Automatic copies of the data, so one bad day cannot erase the memory.</td><td class="say">"a spare copy of everything, made automatically"</td></tr>
+        <tr><td class="term">Access / permissions</td><td>Who can log in and what each person is allowed to do.</td><td class="say">"the right keys for the right people"</td></tr>
+        <tr><td class="term">The cloud</td><td>Software and data running on professional servers you reach via the internet.</td><td class="say">"it lives on professional computers, not under the counter"</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section id="drills">
+    <p class="eyebrow">07 · Make it yours</p>
+    <h2>Teach-back drills</h2>
+    <p>Out loud, own words. Then say "quiz me on module 5" and I will push until it holds.</p>
+    <ol class="drill">
+      <li>Name the three layers and sort these into them: a price change, the booking calendar customers see, the rule that sends a reminder email.</li>
+      <li>Explain why a double booking is "two lists disagreeing," and what the structural fix is.</li>
+      <li>Tell the API, webhook, integration story using a payment that lands: who plugs, who rings, what happens next.</li>
+      <li>Whiteboard the five organs of a booking system from memory, out loud, in under two minutes.</li>
+      <li>What is the difference between a spreadsheet and a database, and when is the spreadsheet honestly good enough?</li>
+      <li>A nervous client asks about migration from their ancient system. Reassure them in three sentences, accurately.</li>
+      <li>Deliver the three grown-up questions and your three answers: breaks, backups, exit.</li>
+    </ol>
+
+    <h3>Pushbacks you will actually get, and calm answers</h3>
+    <dl class="pushback">
+      <dt>Can we not just keep using Excel?</dt>
+      <dd>For some things, absolutely, and I will be the first to say when Excel is enough. It stops being enough the day two people edit at once, or one typo double-books a Saturday. A spreadsheet trusts everyone to be careful forever; a database makes carefulness automatic. The question is not Excel versus fancy, it is how expensive is your next typo.</dd>
+      <dt>What happens to our data if we stop working with you?</dt>
+      <dd>It is yours, full stop. The accounts are in your name, the data can be exported in standard formats, and the system is documented so any competent developer can take over. I want clients who stay because things work, not because leaving is painful. Ask any builder this question before hiring them, including me.</dd>
+      <dt>Is the cloud safe? I would rather have it on my own computer.</dt>
+      <dd>I understand the instinct, and the reality is the reverse: your own computer has no security team, no automatic backups, and it walks out the door when stolen. Professional cloud providers run guarded data centers and copy everything continuously. The honest risks are elsewhere: weak passwords and shared logins, and those we fix in an afternoon.</dd>
+      <dt>This sounds like overkill for a business our size.</dt>
+      <dd>It might be, and I will tell you honestly if so. The test is not size, it is repetition and risk: how often does the same task repeat, and what does one mistake cost? A three-person rental with forty bookings a week has more repetition and more double-booking risk than an office of twenty. Overkill is buying features; this is removing a queue.</dd>
+    </dl>
+
+    <h3>One camera note</h3>
+    <p>Systems content becomes gripping when you narrate one piece of data's journey: "watch what happens in the three seconds after a customer taps book." Doorbell rings, rule fires, email sends, calendar updates, owner's phone buzzes. People love watching dominoes fall. Never film the architecture; film the dominoes.</p>
+  </section>
+
+  <section id="threeways">
+    <p class="eyebrow">08 · Going deeper</p>
+    <h2>Say it three ways</h2>
+
+    <div class="beat">
+      <h3>Single source of truth</h3>
+      <p><strong>To a pro:</strong> "One canonical database, every surface reads from it. The moment availability lives in two places, you are scheduling your next double booking."</p>
+      <p><strong>Everyday:</strong> "One list that is always right, and everything reads from it."</p>
+      <p><strong>Kitchen table:</strong> "Imagine a family where mom has one agenda, dad has another, and grandma keeps her own. Someone is definitely showing up to the wrong birthday. A business with three lists is that family. We give the whole family one agenda on the fridge."</p>
+    </div>
+
+    <div class="beat">
+      <h3>API and webhook</h3>
+      <p><strong>To a pro:</strong> "Both systems expose APIs, so we integrate directly: webhook fires on payment, the booking flips to paid, the confirmation goes out. No polling, no manual step."</p>
+      <p><strong>Everyday:</strong> "The plug that lets systems connect, and the doorbell that says something just happened."</p>
+      <p><strong>Kitchen table:</strong> "Right now, you are the messenger between your own systems: read it here, type it there. Connecting them means the machines pass the note themselves, like the payment telling the agenda 'she paid, confirm her.' You retire as the messenger."</p>
+    </div>
+
+    <div class="beat">
+      <h3>Migration</h3>
+      <p><strong>To a pro:</strong> "We export from the old system, map fields, import with verification, and run both in parallel until the numbers match. History comes along, nothing is lost."</p>
+      <p><strong>Everyday:</strong> "A careful move to the new system, nothing gets left behind."</p>
+      <p><strong>Kitchen table:</strong> "It is a house move with professional movers. Everything gets boxed, labeled, and checked off a list at the new place. You do not lose grandma's photo albums because you moved house, and you do not lose your customer history because you got better software."</p>
+    </div>
+  </section>
+
+  <section id="cases">
+    <p class="eyebrow">09 · Evidence</p>
+    <h2>Case files and the pain map</h2>
+
+    <h3>Case: the five organs, live on Aruba</h3>
+    <p>Our car rental platform, told through the anatomy from this module: one database that knows every car and every date, structured requests instead of loose messages, a human yes on every booking, emails that send themselves in the company's branding, and a back office where the team runs the fleet from one screen. When you explain the five organs to a prospect, you are not reciting theory, you are describing a machine that is running right now, with real customers in real cars. Say exactly that, and let the concreteness do the convincing.</p>
+
+    <h3>Case: one engine, two islands</h3>
+    <p>The same booking core powers two different live rental businesses, each with its own branding, rules and workflow on top. Why this matters to a buyer: custom software's scary reputation comes from one-off experiments that die with their developer. A shared, proven core is the opposite: battle-tested in one business before it ever reaches yours, and maintained because more than one business depends on it. The camera version: "custom does not have to mean experimental. Ours came pre-broken-in."</p>
+
+    <h3>The pain map: systems pains, per audience</h3>
+    <div class="tablewrap">
+      <table>
+        <tr><th>Who</th><th>The pain in this domain</th><th>The helping line, never salesy</th></tr>
+        <tr><td class="term">Rentals and tours</td><td>Availability in heads and chats; the Saturday clash is a matter of time.</td><td class="say">"Right now, how many places would I have to look to know what is free tomorrow?"</td></tr>
+        <tr><td class="term">Restaurants and bars</td><td>Reservations, suppliers and staffing all on paper and group chats.</td><td class="say">"If the notebook got wet tonight, what would tomorrow morning look like?"</td></tr>
+        <tr><td class="term">Salons and personal care</td><td>The agenda is one person's phone; nobody else can see or move anything.</td><td class="say">"Who besides you can see next week's appointments right now?"</td></tr>
+        <tr><td class="term">Shops and boutiques</td><td>Stock counted by memory; orders placed on gut feeling.</td><td class="say">"How do you know when to reorder, and how often is the answer 'too late'?"</td></tr>
+        <tr><td class="term">Realtors and services</td><td>Client files scattered over mail, downloads and drawers; retrieval is archaeology.</td><td class="say">"When a client calls about their file, how long until you have everything in front of you?"</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section id="questions">
+    <p class="eyebrow">10 · The door openers</p>
+    <h2>The questions that open doors</h2>
+    <p>These are the deepest insider questions in the Academy. Each one names a moment only operators know, which is precisely why asking it proves you have been inside businesses like theirs.</p>
+
+    <div class="beat">
+      <h3>"A scooter comes back late, and the next renter is already standing at the counter. What happens?"</h3>
+      <p>You cannot ask this without having lived rental operations. The prospect instantly relives their last time, and tells you the improvisation in detail. Everything they describe by hand, the calls, the shuffling, the apology, is what a real system handles with buffers and notifications. Their story is your spec.</p>
+    </div>
+    <div class="beat">
+      <h3>"Who besides you can see today's bookings, right now, from where they are standing?"</h3>
+      <p>Measures how much of the operation is trapped in one phone. "Only me" means every question in the business routes through one person, which is Pack 02's bottleneck wearing systems clothes. Follow with the two week holiday question and watch the two answers shake hands.</p>
+    </div>
+    <div class="beat">
+      <h3>"If your laptop died tonight, what would actually be lost?"</h3>
+      <p>The backup question without the word backup. The silence that follows is the finding. Never scare, always relieve: "the fix costs almost nothing and takes an afternoon, it is the cheapest insurance in your business." You just became the person who protects them.</p>
+    </div>
+    <div class="beat">
+      <h3>"How do you know a payment actually arrived before you hand over the keys?"</h3>
+      <p>Operators feel this one in the stomach: everyone has handed keys on trust and regretted it once. The systems answer is the doorbell: the payment tells the booking, the booking tells you. You are describing an integration, but what they hear is: never that feeling again.</p>
+    </div>
+    <div class="beat">
+      <h3>"Walk me through last Saturday morning, hour by hour."</h3>
+      <p>The masterpiece question. Not hypothetical, not leading, just their real peak morning in their own words. Count silently along: how many lists, how many retypes, how many interruptions, how many things only they could do. At the end, reflect two or three back. You did not pitch anything, you held up a mirror, and the mirror sells the system.</p>
+    </div>
+  </section>
+
+
+  <footer>~&lt; Academy · Module 5 · Salty Code Studio · next: Module 6, the Sales Arena</footer>
+</div>

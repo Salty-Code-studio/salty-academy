@@ -1,0 +1,407 @@
+<title>Academy M1 · Website Building</title>
+<style>
+  :root {
+    --sand: #F5F1E8;
+    --ink: #16282E;
+    --surf: #0E7C86;
+    --dune: #8A7F6A;
+    --hairline: #DDD5C4;
+    --card: #FDFBF6;
+    --surf-soft: rgba(14, 124, 134, 0.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --sand: #0F1B1E;
+      --ink: #EDE6D6;
+      --surf: #4FB3BC;
+      --dune: #9A917E;
+      --hairline: #24373C;
+      --card: #14232780;
+      --surf-soft: rgba(79, 179, 188, 0.1);
+    }
+  }
+  :root[data-theme="light"] {
+    --sand: #F5F1E8;
+    --ink: #16282E;
+    --surf: #0E7C86;
+    --dune: #8A7F6A;
+    --hairline: #DDD5C4;
+    --card: #FDFBF6;
+    --surf-soft: rgba(14, 124, 134, 0.08);
+  }
+  :root[data-theme="dark"] {
+    --sand: #0F1B1E;
+    --ink: #EDE6D6;
+    --surf: #4FB3BC;
+    --dune: #9A917E;
+    --hairline: #24373C;
+    --card: #14232780;
+    --surf-soft: rgba(79, 179, 188, 0.1);
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--sand);
+    color: var(--ink);
+    font-family: "Iowan Old Style", "Palatino", Georgia, serif;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    margin: 0;
+    padding: 0 1.25rem;
+  }
+  .wrap { max-width: 44rem; margin: 0 auto; padding: 3.5rem 0 6rem; }
+  .mark {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: 1.1rem; letter-spacing: 0.02em;
+    color: var(--surf);
+  }
+  .eyebrow {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--dune); margin: 0 0 0.6rem;
+  }
+  h1 {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: clamp(2rem, 5vw, 2.9rem);
+    line-height: 1.08; letter-spacing: -0.015em; margin: 0.4rem 0 1rem;
+    text-wrap: balance;
+  }
+  h2 {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: 1.45rem; letter-spacing: -0.01em;
+    margin: 0 0 0.9rem; text-wrap: balance;
+  }
+  h3 {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 600; font-size: 1.08rem; margin: 1.6rem 0 0.4rem;
+  }
+  p { margin: 0 0 1.05rem; }
+  section { border-top: 1px solid var(--hairline); padding-top: 2.4rem; margin-top: 2.6rem; }
+  .lede { font-size: 1.15rem; }
+  .muted { color: var(--dune); }
+  .toc { list-style: none; padding: 0; margin: 1.4rem 0 0; display: flex; flex-direction: column; gap: 0.45rem; }
+  .toc a {
+    color: var(--ink); text-decoration: none;
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif; font-weight: 500; font-size: 0.95rem;
+  }
+  .toc a:hover, .toc a:focus-visible { color: var(--surf); }
+  .toc .n {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; color: var(--surf); margin-right: 0.6rem;
+  }
+  a:focus-visible { outline: 2px solid var(--surf); outline-offset: 3px; border-radius: 2px; }
+  .callout {
+    background: var(--surf-soft);
+    border-left: 2px solid var(--surf);
+    padding: 1rem 1.2rem; margin: 1.4rem 0;
+    font-size: 1rem;
+  }
+  .callout .eyebrow { color: var(--surf); margin-bottom: 0.35rem; }
+  .callout p:last-child { margin-bottom: 0; }
+  .statrow { display: flex; gap: 1rem; flex-wrap: wrap; margin: 1.5rem 0; }
+  .stat {
+    flex: 1 1 240px; background: var(--card); border: 1px solid var(--hairline);
+    padding: 1.15rem 1.25rem;
+  }
+  .stat .big {
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: 2.2rem; letter-spacing: -0.02em;
+    color: var(--surf); line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat .src {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--dune); margin-top: 0.7rem;
+  }
+  .stat p { font-size: 0.94rem; margin: 0.4rem 0 0; }
+  .tablewrap { overflow-x: auto; margin: 1.5rem 0; border: 1px solid var(--hairline); }
+  table { border-collapse: collapse; width: 100%; min-width: 620px; font-size: 0.95rem; }
+  th {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--dune); text-align: left; font-weight: 500;
+    padding: 0.8rem 1rem; border-bottom: 1px solid var(--hairline);
+  }
+  td { padding: 0.8rem 1rem; border-bottom: 1px solid var(--hairline); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td.term {
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+    font-weight: 600; font-size: 0.92rem; white-space: nowrap;
+  }
+  td.say { color: var(--surf); font-style: italic; }
+  .beat {
+    background: var(--card); border: 1px solid var(--hairline);
+    padding: 1.4rem 1.5rem; margin: 1.3rem 0;
+  }
+  .beat h3 { margin-top: 0; }
+  .beat ol { margin: 0.6rem 0 0; padding-left: 1.3rem; }
+  .beat ol li { margin-bottom: 0.55rem; }
+  .beat .hookline { font-style: italic; color: var(--surf); }
+  .beat .close {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.8rem; letter-spacing: 0.06em; margin-top: 0.9rem;
+    color: var(--dune);
+  }
+  .drill { margin: 1.2rem 0; padding: 0; list-style: none; counter-reset: drill; }
+  .drill li {
+    counter-increment: drill; position: relative;
+    padding: 0.85rem 0 0.85rem 2.6rem; border-bottom: 1px solid var(--hairline);
+  }
+  .drill li::before {
+    content: "Q" counter(drill);
+    position: absolute; left: 0; top: 0.95rem;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; color: var(--surf); letter-spacing: 0.05em;
+  }
+  .drill li:last-child { border-bottom: none; }
+  .pushback { margin: 1.2rem 0; }
+  .pushback dt {
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+    font-weight: 600; font-size: 0.98rem; margin-top: 1.2rem;
+  }
+  .pushback dt::before { content: "\201C"; color: var(--surf); }
+  .pushback dt::after { content: "\201D"; color: var(--surf); }
+  .pushback dd { margin: 0.35rem 0 0; font-size: 0.98rem; }
+  ul { padding-left: 1.25rem; }
+  ul li { margin-bottom: 0.5rem; }
+  strong { font-weight: 600; }
+  footer {
+    border-top: 1px solid var(--hairline); margin-top: 3.5rem; padding-top: 1.5rem;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dune);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+  }
+</style>
+<div class="wrap">
+  <header>
+    <div class="mark">~&lt; salty code studio</div>
+    <p class="eyebrow" style="margin-top:2.2rem">Academy · Module 1 · Website Building</p>
+    <h1>Websites, translated into what clients actually care about</h1>
+    <p class="lede">Pack 01 taught you why websites lose customers: speed, clarity, proof. This module gives you the rest of the website world: UX, SEO, hosting, domains, CMS, backend. Not so you can sound technical, but so no term ever catches you off guard, and so you can translate every one of them into the three things a client actually cares about.</p>
+    <ul class="toc">
+      <li><a href="#model"><span class="n">01</span>The translation rule</a></li>
+      <li><a href="#ux"><span class="n">02</span>UX: the invisible service</a></li>
+      <li><a href="#seo"><span class="n">03</span>SEO: being findable</a></li>
+      <li><a href="#anatomy"><span class="n">04</span>The anatomy: domain, hosting, CMS, backend</a></li>
+      <li><a href="#ownership"><span class="n">05</span>Ownership: the trust conversation</a></li>
+      <li><a href="#decoder"><span class="n">06</span>Terminology decoder</a></li>
+      <li><a href="#drills"><span class="n">07</span>Teach-back drills and pushbacks</a></li>
+          <li><a href="#threeways"><span class="n">08</span>Say it three ways</a></li>
+      <li><a href="#cases"><span class="n">09</span>Case files and the pain map</a></li>
+      <li><a href="#questions"><span class="n">10</span>The questions that open doors</a></li>
+    </ul>
+  </header>
+
+  <section id="model">
+    <p class="eyebrow">01 · The foundation</p>
+    <h2>The translation rule</h2>
+    <p>Every website term, no matter how technical, translates into exactly one of three things a client cares about:</p>
+    <ul>
+      <li><strong>More customers.</strong> Anything about being found, being trusted, or being chosen.</li>
+      <li><strong>Looking professional.</strong> Anything about design, credibility, or keeping up with competitors.</li>
+      <li><strong>Less hassle.</strong> Anything about updates, maintenance, reliability, or not having to call a developer.</li>
+    </ul>
+    <p>Before you ever explain a term, decide which of the three it maps to, then lead with that. "SEO" is not "search engine optimization," it is "being the business people find when they search for what you sell." That is a more-customers sentence. The jargon comes second, if at all.</p>
+    <div class="callout">
+      <p class="eyebrow">Say it your way</p>
+      <p>"You do not need to understand the technology. You need to know what it does for you: more customers, a sharper look, or less hassle. Everything I build is one of those three."</p>
+    </div>
+    <p>This rule is also your armor. When a client throws a term at you from a cold-call SEO company or a nephew who read a blog, you do not need the deepest technical answer. You need to calmly place the term in one of the three buckets and explain what it is worth there. That is what an expert sounds like.</p>
+  </section>
+
+  <section id="ux">
+    <p class="eyebrow">02 · Experience</p>
+    <h2>UX: the invisible service</h2>
+    <p><strong>UX</strong> stands for user experience, and it means one thing: how easy it is for a visitor to do what they came to do. Find the price. Book the thing. Call the number. Good UX is invisible, you only notice UX when it is bad, the same way you only notice a door handle when it does not work.</p>
+    <p><strong>UI</strong>, user interface, is the visible layer: the buttons, colors and screens themselves. The distinction in one line: UI is what it looks like, UX is how it works when a real person in a hurry uses it. A site can be beautiful and still fail UX, that was the whole point of reel 3.</p>
+    <h3>Responsive design, in one breath</h3>
+    <p><strong>Responsive</strong> means the site rearranges itself to work on every screen size. The reason it matters is not technical, it is behavioral: most visitors arrive on a phone, often while standing in line or lying on a beach chair. A site that only looks good on a laptop is a site optimized for the minority. When you check a client's site, check it on your phone first, always. That is where their customers are.</p>
+    <div class="callout">
+      <p class="eyebrow">Say it your way</p>
+      <p>"Open your website on your phone right now. That is how most of your customers see it. If you have to pinch and zoom, so do they, and they will not."</p>
+    </div>
+  </section>
+
+  <section id="seo">
+    <p class="eyebrow">03 · Findability</p>
+    <h2>SEO: being findable</h2>
+    <p><strong>SEO</strong> means making sure your business shows up when someone searches for what you sell. Think of Google as the modern phonebook, except the phonebook decides your page order based on how useful and trustworthy your site looks. SEO is the work of earning a better spot.</p>
+    <h3>The three plain ingredients</h3>
+    <ul>
+      <li><strong>Words.</strong> Your site has to actually say what you do, in the words customers search with. A dive shop whose homepage says "experience the blue" will lose to one that says "diving courses in Bonaire." Google reads words, not vibes.</li>
+      <li><strong>Trust.</strong> Google prefers sites that are fast, work on phones, and have been around, plus sites that other sites link to. Notice that half of SEO is just Pack 01 done well.</li>
+      <li><strong>Local.</strong> For almost every client you will meet, <strong>local SEO</strong> is the part that pays: the Google Business Profile with the map, reviews, photos and opening hours. For a restaurant or rental shop, that box matters more than the website's position, and most owners have never touched theirs.</li>
+    </ul>
+    <h3>The two honest warnings</h3>
+    <p>First: SEO is a garden, not a switch. It takes months to grow and it compounds. Anyone promising "number one on Google in two weeks" is either lying or doing something Google punishes later. Second: nobody can guarantee rankings, not even Google's own staff. Saying both of these out loud is how you instantly separate yourself from the cold-callers who plague every business owner's phone.</p>
+    <div class="callout">
+      <p class="eyebrow">Say it your way</p>
+      <p>"Anyone who guarantees you number one on Google is lying to you, and I will happily be the one who says it. What we can do is make sure that when someone nearby searches for what you sell, you are genuinely in the race."</p>
+    </div>
+  </section>
+
+  <section id="anatomy">
+    <p class="eyebrow">04 · Under the hood</p>
+    <h2>The anatomy: domain, hosting, CMS, backend</h2>
+    <p>Four terms cover the entire machinery. Learn them as a house:</p>
+    <ul>
+      <li><strong>Domain</strong> is the address: yourbusiness.com. It is rented yearly from a registrar, and whoever controls it controls where visitors end up.</li>
+      <li><strong>Hosting</strong> is the plot of land: the computer where the site physically lives. Cheap hosting far away means slow loading, and you know from Pack 01 what slow costs.</li>
+      <li><strong>Frontend</strong> is everything the visitor sees and touches. <strong>Backend</strong> is the machinery behind it: where bookings are processed, forms are received, data is stored. Visitors never see the backend, they only feel whether it works.</li>
+      <li><strong>CMS</strong>, content management system, is the editing room: the dashboard where the owner changes text, photos and prices without calling a developer. When a client asks "can I update it myself?", they are asking for a CMS, they just do not know the word.</li>
+    </ul>
+    <p>Two small terms that complete the picture: <strong>HTTPS</strong> is the padlock in the browser bar, it means the connection is encrypted, and browsers shame sites that lack it with a "not secure" warning, which is a credibility killer from Pack 01's world. <strong>Analytics</strong> is the site's scoreboard: how many people visited, where they came from, what they did. Without it, every marketing decision is a guess.</p>
+    <div class="callout">
+      <p class="eyebrow">Say it your way</p>
+      <p>"Think of it as a house. The domain is the address, hosting is the land, the design is the facade, and the CMS is your own key so you can rearrange the furniture without calling the builder."</p>
+    </div>
+  </section>
+
+  <section id="ownership">
+    <p class="eyebrow">05 · Trust</p>
+    <h2>Ownership: the conversation that wins clients for life</h2>
+    <p>Here is an industry secret that makes owners' blood boil when they learn it: many agencies register the client's domain under the agency's own name, host everything on accounts the client cannot access, and hold it all hostage when the client wants to leave. The owner thinks they bought a website. They actually bought a subscription to a relationship.</p>
+    <p>Your standing policy is the opposite, and it is worth saying in every sales conversation and regularly on camera: <strong>the client owns their domain, their accounts, and their data. Always.</strong> You build, you hand over the keys, and clients stay because the work is good, not because they are locked in.</p>
+    <p>This gives you a generous piece of content and a killer discovery question in one: "Do you know who owns your domain name? Go check. If it is not you, we should talk." Half the owners who check will find a surprise.</p>
+    <div class="callout">
+      <p class="eyebrow">Say it your way</p>
+      <p>"You should own your address on the internet the way you own your business name. If your web builder owns your domain, you do not have a website, you have a leash."</p>
+    </div>
+  </section>
+
+  <section id="decoder">
+    <p class="eyebrow">06 · Vocabulary</p>
+    <h2>Terminology decoder</h2>
+    <p>Plain version on camera, real term when a client uses it first. Third column tells you which client-care bucket it maps to.</p>
+    <div class="tablewrap">
+      <table>
+        <tr><th>Term</th><th>What it actually means</th><th>How you say it, and the bucket</th></tr>
+        <tr><td class="term">UX</td><td>How easy it is for a visitor to do what they came for.</td><td class="say">"how easy your site is to use" · more customers</td></tr>
+        <tr><td class="term">UI</td><td>The visible layer: buttons, screens, colors.</td><td class="say">"what it looks and feels like" · looking professional</td></tr>
+        <tr><td class="term">SEO</td><td>Earning a better spot in search results with words, trust and speed.</td><td class="say">"being found when people search for what you sell" · more customers</td></tr>
+        <tr><td class="term">Local SEO</td><td>The Google map box: Business Profile, reviews, photos, hours.</td><td class="say">"the map result with your reviews" · more customers</td></tr>
+        <tr><td class="term">Responsive</td><td>The site rearranges to work on every screen size.</td><td class="say">"works perfectly on phones" · more customers</td></tr>
+        <tr><td class="term">CMS</td><td>The dashboard for editing content without a developer.</td><td class="say">"you can update it yourself" · less hassle</td></tr>
+        <tr><td class="term">Domain</td><td>The address: yourbusiness.com. Rented yearly, control matters.</td><td class="say">"your address on the internet" · less hassle</td></tr>
+        <tr><td class="term">Hosting</td><td>The computer where the site lives; quality drives speed and uptime.</td><td class="say">"where your site lives" · less hassle</td></tr>
+        <tr><td class="term">Frontend</td><td>Everything the visitor sees and touches.</td><td class="say">"the part your customers see" · looking professional</td></tr>
+        <tr><td class="term">Backend</td><td>The machinery: processing, storage, logic behind the screens.</td><td class="say">"the machinery behind it" · less hassle</td></tr>
+        <tr><td class="term">HTTPS</td><td>Encrypted connection; the padlock. Missing it triggers browser warnings.</td><td class="say">"the padlock that says you are safe" · looking professional</td></tr>
+        <tr><td class="term">Analytics</td><td>Measurement of visits, sources and behavior.</td><td class="say">"knowing what visitors actually do" · more customers</td></tr>
+        <tr><td class="term">Landing page</td><td>A single page built for one audience and one action.</td><td class="say">"one page, one goal" · more customers</td></tr>
+        <tr><td class="term">Launch</td><td>The moment the site goes live on the real domain.</td><td class="say">"the day it goes live" · looking professional</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section id="drills">
+    <p class="eyebrow">07 · Make it yours</p>
+    <h2>Teach-back drills</h2>
+    <p>Out loud, own words, no peeking. Then say "quiz me on module 1" in a session and I will push until it holds.</p>
+    <ol class="drill">
+      <li>Explain the difference between UX and UI to a restaurant owner using their own restaurant as the example.</li>
+      <li>What are the three plain ingredients of SEO, and which one matters most for a local business?</li>
+      <li>Explain the house metaphor: domain, hosting, frontend, CMS. No notes.</li>
+      <li>A client asks "can I update the site myself?" What are they really asking for, and what is your answer?</li>
+      <li>Why is "number one on Google guaranteed" always a lie, and how do you say that without sounding negative?</li>
+      <li>What is the ownership question you can ask any business owner, and why does it hit so hard?</li>
+      <li>Pick any technical term from the decoder and place it in a client-care bucket in one sentence.</li>
+    </ol>
+
+    <h3>Pushbacks you will actually get, and calm answers</h3>
+    <dl class="pushback">
+      <dt>SEO companies call me every week promising number one on Google.</dt>
+      <dd>And every week they are lying, because nobody can promise that, not even Google. What actually works is unglamorous: a fast site that says clearly what you sell, and a Google Business Profile with real reviews and photos. I can show you exactly where you stand in ten minutes, no contract attached.</dd>
+      <dt>My nephew can build a website for free.</dt>
+      <dd>He probably can, and if the site's only job is to exist, take that deal. My work starts where "existing" stops: making the site bring in bookings, load fast on a phone, and stay yours when the nephew gets a job. It is the difference between having a car and having a driver's license.</dd>
+      <dt>I never look at my website, so it cannot matter much.</dt>
+      <dd>You never look at it because you already know your business. Your customers look at it precisely because they do not. Stanford found that three quarters of people judge a company's credibility by its website alone. It matters most to exactly the people you have not met yet.</dd>
+      <dt>Why do I keep paying for hosting and a domain after the site is done?</dt>
+      <dd>The same reason a shop pays rent after the renovation is done: the address and the building are ongoing, the renovation was once. The good news is those ongoing costs are small, they are yours, in your name, and I will show you exactly what they are before we start.</dd>
+    </dl>
+
+    <h3>One camera note</h3>
+    <p>The ownership topic and the SEO honesty topic are your two strongest camera angles from this module. Both let you defend the viewer against an industry habit, and defending the viewer is the fastest trust you can build in thirty seconds.</p>
+  </section>
+
+  <section id="threeways">
+    <p class="eyebrow">08 · Going deeper</p>
+    <h2>Say it three ways</h2>
+    <p>Three registers per core idea. Match the listener, then go one notch simpler.</p>
+
+    <div class="beat">
+      <h3>SEO</h3>
+      <p><strong>To a pro:</strong> "We fix the fundamentals Google rewards: clear keyworded copy, fast mobile pages, and a fully built out Business Profile. No tricks, nothing that gets punished in the next update."</p>
+      <p><strong>Everyday:</strong> "Being found when people search for what you sell."</p>
+      <p><strong>Kitchen table:</strong> "Google is the phonebook now, but it puts the most useful, clearest businesses on the first page. We make sure the phonebook understands what you sell and where you are. That is the whole trick, there is no magic."</p>
+    </div>
+
+    <div class="beat">
+      <h3>Domain and hosting</h3>
+      <p><strong>To a pro:</strong> "Domain in your registrar account, hosting on infrastructure we can migrate off in an afternoon, credentials documented and handed over. Standard hygiene."</p>
+      <p><strong>Everyday:</strong> "The address and the land your site lives on, both in your name."</p>
+      <p><strong>Kitchen table:</strong> "Your website address is like the deed to your shop. Some builders quietly keep the deed in their own drawer, and then you can never leave them. We put the deed in your hands, where it belongs."</p>
+    </div>
+
+    <div class="beat">
+      <h3>CMS</h3>
+      <p><strong>To a pro:</strong> "You get an editing dashboard for content, prices and photos. Structural changes stay with us, day-to-day changes stay with you, so you are never paying an invoice to fix a typo."</p>
+      <p><strong>Everyday:</strong> "You can update it yourself, no developer needed."</p>
+      <p><strong>Kitchen table:</strong> "It is like having your own key to the shop window. When the price of something changes, you swap the little sign yourself in one minute, instead of calling the guy who built the window and waiting a week."</p>
+    </div>
+  </section>
+
+  <section id="cases">
+    <p class="eyebrow">09 · Evidence</p>
+    <h2>Case files and the pain map</h2>
+
+    <h3>Case: one shop, two languages</h3>
+    <p>Our build for a liquor store in the Netherlands: a fully bilingual site, every page in Dutch and English, one consistent brand across both. The reasoning travels to any tourist economy: your site does not have one audience, it has locals and visitors, and each should feel the site was made for them. Half-translated sites whisper "you are the second-class customer" to whichever language got neglected. The camera version: "your customers speak two languages, does your website?"</p>
+
+    <h3>The hostage story, told honestly</h3>
+    <p>Not one client, a pattern we keep meeting: an owner wants to leave their web builder and discovers the domain is registered in the builder's name, the hosting login is a secret, and the "monthly maintenance" fee was mostly rent on their own front door. There is no villain to name and no need: tell the pattern, then hand every listener the free defense in one breath: "go look up who owns your domain tonight, it takes one minute, and if it is not you, fix that before anything else." Content that protects people outsells content that sells.</p>
+
+    <h3>The pain map: findability and control, per audience</h3>
+    <div class="tablewrap">
+      <table>
+        <tr><th>Who</th><th>The pain in this domain</th><th>The helping line, never salesy</th></tr>
+        <tr><td class="term">Rentals and tours</td><td>Tourists search in English from abroad; the site is invisible or one-language.</td><td class="say">"When someone searches your service plus your island from abroad, do you show up? Let us check."</td></tr>
+        <tr><td class="term">Restaurants and bars</td><td>The Google profile is half-empty while competitors' show photos, menus, reviews.</td><td class="say">"Your Google box is your real homepage. When did anyone last fill it in properly?"</td></tr>
+        <tr><td class="term">Salons and personal care</td><td>Found only through Instagram; invisible to anyone who searches instead of scrolls.</td><td class="say">"Instagram finds you the scrollers. Who finds you the searchers?"</td></tr>
+        <tr><td class="term">Shops and boutiques</td><td>Wrong or missing hours online; customers stand at a closed door and do not return.</td><td class="say">"Are your opening hours right everywhere online? Wrong hours cost more than no hours."</td></tr>
+        <tr><td class="term">Realtors and services</td><td>Site built years ago by someone gone; nobody can change anything, so nobody does.</td><td class="say">"If you needed one sentence changed on your site today, who would you call, and would they answer?"</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section id="questions">
+    <p class="eyebrow">10 · The door openers</p>
+    <h2>The questions that open doors</h2>
+
+    <div class="beat">
+      <h3>"Do you know who owns your domain name, as in, have you checked?"</h3>
+      <p>The trust bomb, now with teeth: most owners assume and have never verified. Offer to check together on the spot, it takes a minute. If it is theirs, celebrate it, you just built trust for free. If it is not, you may be the first person who ever protected them.</p>
+    </div>
+    <div class="beat">
+      <h3>"When did you last change anything on your site, and what stopped you?"</h3>
+      <p>The answer is almost never laziness, it is friction: no login, no CMS, a vanished builder. You are diagnosing the relationship they have with their own website. Listen for "I have to go through someone," that phrase is the whole problem.</p>
+    </div>
+    <div class="beat">
+      <h3>"Search your trade plus your town right now. Who shows up above you, and are they better than you?"</h3>
+      <p>Owners feel rankings are abstract until they see the competitor they beat on quality standing above them on Google. The gap between "we are better" and "we show up worse" creates the motivation; you never have to push.</p>
+    </div>
+    <div class="beat">
+      <h3>"What do people still phone you to ask that the site should answer?"</h3>
+      <p>Hours, prices, availability, directions, parking. Their phone log is a free content plan for the site, written by their own customers. This question also quietly proves your method: you build sites from their reality, not from a template.</p>
+    </div>
+    <div class="beat">
+      <h3>"If your web builder disappeared tomorrow, what exactly would you still have?"</h3>
+      <p>The insider question, because you know the honest answer is often "nothing, and I do not even have the passwords." It opens the ownership conversation without you claiming anything about anyone. Listen for the nervous laugh, then reassure: this is fixable in a week.</p>
+    </div>
+  </section>
+
+
+  <footer>~&lt; Academy · Module 1 · Salty Code Studio · next: Module 2, Branding and Positioning</footer>
+</div>

@@ -1,0 +1,492 @@
+<title>Reel School 01 · Why Websites Lose Customers</title>
+<style>
+  :root {
+    --sand: #F5F1E8;
+    --ink: #16282E;
+    --surf: #0E7C86;
+    --dune: #8A7F6A;
+    --hairline: #DDD5C4;
+    --card: #FDFBF6;
+    --surf-soft: rgba(14, 124, 134, 0.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --sand: #0F1B1E;
+      --ink: #EDE6D6;
+      --surf: #4FB3BC;
+      --dune: #9A917E;
+      --hairline: #24373C;
+      --card: #14232780;
+      --surf-soft: rgba(79, 179, 188, 0.1);
+    }
+  }
+  :root[data-theme="light"] {
+    --sand: #F5F1E8;
+    --ink: #16282E;
+    --surf: #0E7C86;
+    --dune: #8A7F6A;
+    --hairline: #DDD5C4;
+    --card: #FDFBF6;
+    --surf-soft: rgba(14, 124, 134, 0.08);
+  }
+  :root[data-theme="dark"] {
+    --sand: #0F1B1E;
+    --ink: #EDE6D6;
+    --surf: #4FB3BC;
+    --dune: #9A917E;
+    --hairline: #24373C;
+    --card: #14232780;
+    --surf-soft: rgba(79, 179, 188, 0.1);
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--sand);
+    color: var(--ink);
+    font-family: "Iowan Old Style", "Palatino", Georgia, serif;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    margin: 0;
+    padding: 0 1.25rem;
+  }
+  .wrap { max-width: 44rem; margin: 0 auto; padding: 3.5rem 0 6rem; }
+  .mark {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: 1.1rem; letter-spacing: 0.02em;
+    color: var(--surf);
+  }
+  .eyebrow {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--dune); margin: 0 0 0.6rem;
+  }
+  h1 {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: clamp(2rem, 5vw, 2.9rem);
+    line-height: 1.08; letter-spacing: -0.015em; margin: 0.4rem 0 1rem;
+    text-wrap: balance;
+  }
+  h2 {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: 1.45rem; letter-spacing: -0.01em;
+    margin: 0 0 0.9rem; text-wrap: balance;
+  }
+  h3 {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 600; font-size: 1.08rem; margin: 1.6rem 0 0.4rem;
+  }
+  p { margin: 0 0 1.05rem; }
+  section { border-top: 1px solid var(--hairline); padding-top: 2.4rem; margin-top: 2.6rem; }
+  .lede { font-size: 1.15rem; }
+  .muted { color: var(--dune); }
+  .toc { list-style: none; padding: 0; margin: 1.4rem 0 0; display: flex; flex-direction: column; gap: 0.45rem; }
+  .toc a {
+    color: var(--ink); text-decoration: none;
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif; font-weight: 500; font-size: 0.95rem;
+  }
+  .toc a:hover, .toc a:focus-visible { color: var(--surf); }
+  .toc .n {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; color: var(--surf); margin-right: 0.6rem;
+  }
+  a:focus-visible { outline: 2px solid var(--surf); outline-offset: 3px; border-radius: 2px; }
+  .callout {
+    background: var(--surf-soft);
+    border-left: 2px solid var(--surf);
+    padding: 1rem 1.2rem; margin: 1.4rem 0;
+    font-size: 1rem;
+  }
+  .callout .eyebrow { color: var(--surf); margin-bottom: 0.35rem; }
+  .callout p:last-child { margin-bottom: 0; }
+  .statrow { display: flex; gap: 1rem; flex-wrap: wrap; margin: 1.5rem 0; }
+  .stat {
+    flex: 1 1 240px; background: var(--card); border: 1px solid var(--hairline);
+    padding: 1.15rem 1.25rem;
+  }
+  .stat .big {
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: 2.2rem; letter-spacing: -0.02em;
+    color: var(--surf); line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat .src {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--dune); margin-top: 0.7rem;
+  }
+  .stat p { font-size: 0.94rem; margin: 0.4rem 0 0; }
+  .tablewrap { overflow-x: auto; margin: 1.5rem 0; border: 1px solid var(--hairline); }
+  table { border-collapse: collapse; width: 100%; min-width: 620px; font-size: 0.95rem; }
+  th {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--dune); text-align: left; font-weight: 500;
+    padding: 0.8rem 1rem; border-bottom: 1px solid var(--hairline);
+  }
+  td { padding: 0.8rem 1rem; border-bottom: 1px solid var(--hairline); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td.term {
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+    font-weight: 600; font-size: 0.92rem; white-space: nowrap;
+  }
+  td.say { color: var(--surf); font-style: italic; }
+  .beat {
+    background: var(--card); border: 1px solid var(--hairline);
+    padding: 1.4rem 1.5rem; margin: 1.3rem 0;
+  }
+  .beat h3 { margin-top: 0; }
+  .beat ol { margin: 0.6rem 0 0; padding-left: 1.3rem; }
+  .beat ol li { margin-bottom: 0.55rem; }
+  .beat .hookline { font-style: italic; color: var(--surf); }
+  .beat .close {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.8rem; letter-spacing: 0.06em; margin-top: 0.9rem;
+    color: var(--dune);
+  }
+  .drill { margin: 1.2rem 0; padding: 0; list-style: none; counter-reset: drill; }
+  .drill li {
+    counter-increment: drill; position: relative;
+    padding: 0.85rem 0 0.85rem 2.6rem; border-bottom: 1px solid var(--hairline);
+  }
+  .drill li::before {
+    content: "Q" counter(drill);
+    position: absolute; left: 0; top: 0.95rem;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; color: var(--surf); letter-spacing: 0.05em;
+  }
+  .drill li:last-child { border-bottom: none; }
+  .pushback { margin: 1.2rem 0; }
+  .pushback dt {
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+    font-weight: 600; font-size: 0.98rem; margin-top: 1.2rem;
+  }
+  .pushback dt::before { content: "\201C"; color: var(--surf); }
+  .pushback dt::after { content: "\201D"; color: var(--surf); }
+  .pushback dd { margin: 0.35rem 0 0; font-size: 0.98rem; }
+  ul { padding-left: 1.25rem; }
+  ul li { margin-bottom: 0.5rem; }
+  strong { font-weight: 600; }
+  footer {
+    border-top: 1px solid var(--hairline); margin-top: 3.5rem; padding-top: 1.5rem;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dune);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+  }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="mark">~&lt; salty code studio</div>
+    <p class="eyebrow" style="margin-top:2.2rem">Reel School · Pack 01 · Reels 1, 2, 3</p>
+    <h1>Why websites lose customers, and how you fix it</h1>
+    <p class="lede">This is not a script. It is the knowledge underneath your first three reels. Read it twice, do the teach-back drills at the end, and you will be able to talk about this on camera, in a sales call, or at a birthday party without preparing a word.</p>
+    <ul class="toc">
+      <li><a href="#model"><span class="n">01</span>The one mental model behind everything</a></li>
+      <li><a href="#speed"><span class="n">02</span>Speed: the three second window</a></li>
+      <li><a href="#clarity"><span class="n">03</span>Clarity: the five second test</a></li>
+      <li><a href="#proof"><span class="n">04</span>Proof: why strangers believe you</a></li>
+      <li><a href="#decoder"><span class="n">05</span>Terminology decoder</a></li>
+      <li><a href="#stats"><span class="n">06</span>The numbers to own cold</a></li>
+      <li><a href="#beats"><span class="n">07</span>Beat sheets for filming</a></li>
+      <li><a href="#drills"><span class="n">08</span>Teach-back drills and pushbacks</a></li>
+          <li><a href="#threeways"><span class="n">09</span>Say it three ways</a></li>
+      <li><a href="#cases"><span class="n">10</span>Case files and the pain map</a></li>
+      <li><a href="#questions"><span class="n">11</span>The questions that open doors</a></li>
+    </ul>
+  </header>
+
+  <section id="model">
+    <p class="eyebrow">01 · The foundation</p>
+    <h2>The one mental model behind everything</h2>
+    <p><strong>A website is not a brochure. It is a salesperson that works every hour of every day.</strong></p>
+    <p>Everything else in this pack hangs on that single idea. When you judge a website, do not ask "is it pretty?" Ask "would I hire this person to sell for me?" A salesperson who takes forever to answer the door, mumbles about themselves instead of listening, and never asks for the sale would be fired in a week. Most websites are exactly that salesperson.</p>
+    <p>A good salesperson does three things, and they map one-to-one onto the framework in your reels:</p>
+    <ul>
+      <li><strong>Speed.</strong> They show up instantly. Nobody waits at a closed door.</li>
+      <li><strong>Clarity.</strong> They say what they offer and what to do next, in plain words.</li>
+      <li><strong>Proof.</strong> They show evidence that they have done it before, so a stranger can relax.</li>
+    </ul>
+    <div class="callout">
+      <p class="eyebrow">Say it your way</p>
+      <p>"Your website is your hardest working employee. The question is whether it is actually doing the job, or just standing there looking nice."</p>
+    </div>
+    <p>One more piece of the foundation: people do not read websites, they <strong>scan</strong> them. They arrive with a question, glance around for two or three seconds, and either see the answer or leave. That is why every fix in this pack is about removing the need to think, not adding more information.</p>
+  </section>
+
+  <section id="speed">
+    <p class="eyebrow">02 · Reel 1</p>
+    <h2>Speed: the three second window</h2>
+    <p>When someone taps a link, there is a moment where the screen is still blank. That gap has a name: <strong>load time</strong>. The moment the first real content appears is called the <strong>first paint</strong>. You do not need to explain the technical causes on camera. You need to own one fact:</p>
+    <div class="statrow">
+      <div class="stat">
+        <div class="big">53%</div>
+        <p>of mobile visitors leave if a site takes more than 3 seconds to load.</p>
+        <div class="src">Google mobile speed study</div>
+      </div>
+    </div>
+    <p>Sit with that number for a second, because it is wild. Half your potential customers can be gone <strong>before your website even appears</strong>. They never saw your logo, your photos, or your offer. They judged nothing. They just left. That is the invisible part of the problem: slow sites do not get complaints, they get silence.</p>
+    <h3>Why slow feels like broken</h3>
+    <p>On a phone, on holiday wifi, on mobile data in the car, three seconds of blank screen feels identical to "this site is down." People do not think "I will patiently wait for this small business." They think "next," and tap back to Google or Instagram where your competitor is one thumb-swipe away. Speed is not a technical nicety. Speed is the front door being open or closed.</p>
+    <h3>What actually makes sites slow</h3>
+    <p>You only need the plain-language versions: photos uploaded straight from a camera at full size, themes stuffed with features nobody uses, and cheap hosting far away from the visitor. The fix is equally plain: smaller images, less junk, better hosting. You never need to say "compression" or "CDN" on camera. "We make it load before your customer can blink" does the job.</p>
+    <div class="callout">
+      <p class="eyebrow">Say it your way</p>
+      <p>"Nobody complains about a slow website. They just leave. That is what makes it dangerous, you never hear about the customers you lost."</p>
+    </div>
+  </section>
+
+  <section id="clarity">
+    <p class="eyebrow">03 · Reel 2</p>
+    <h2>Clarity: the five second test</h2>
+    <p>The <strong>five second test</strong> is the simplest website diagnosis that exists, and it is yours now. Show anyone a homepage for five seconds, take it away, and ask three questions:</p>
+    <ul>
+      <li>What do they sell?</li>
+      <li>Who is it for?</li>
+      <li>What am I supposed to do next?</li>
+    </ul>
+    <p>Miss even one answer and the site fails, because a real visitor gives you about that long before deciding to stay or leave. This works on any website, live, with no tools. You can do it on someone's phone at a networking event. It is your party trick and your sales opener in one.</p>
+    <h3>Why visitors leave when they have to guess</h3>
+    <p>Every time a visitor has to figure something out, they pay a small mental tax. The industry word for that tax is <strong>friction</strong>. A vague headline is friction. A menu with twelve options is friction, because more choices means slower decisions, and online, slow decisions become no decision at all. People do not push through friction on a stranger's website. They leave, not because the business is bad, but because guessing is effort and the back button is free.</p>
+    <h3>The three-part fix</h3>
+    <ul>
+      <li><strong>One headline that says what you sell.</strong> Not a slogan, not a vibe. "Custom windsurfing sails, built on Bonaire" beats "Ride the wind" every single time. Clear beats clever.</li>
+      <li><strong>One action that is impossible to miss.</strong> Every page should have one obvious button: book, order, message us. This is the <strong>call to action</strong>, the moment the salesperson asks for the sale. A page without one is a pitch that ends with "anyway, see you around."</li>
+      <li><strong>Zero guessing.</strong> If a stranger knows what, for whom, and what to do next within five seconds, you pass.</li>
+    </ul>
+    <div class="callout">
+      <p class="eyebrow">Say it your way</p>
+      <p>"A confused visitor never buys. They do not email you to ask what you meant. They just close the tab."</p>
+    </div>
+  </section>
+
+  <section id="proof">
+    <p class="eyebrow">04 · Reel 3</p>
+    <h2>Proof: why strangers believe you</h2>
+    <p>A visitor who lands on your site has one silent question running the whole time: <strong>can I trust these people?</strong> They cannot see your face or your workshop. All they can judge is the screen.</p>
+    <div class="statrow">
+      <div class="stat">
+        <div class="big">75%</div>
+        <p>of people judge a company's credibility by its website alone.</p>
+        <div class="src">Stanford web credibility research</div>
+      </div>
+    </div>
+    <p>Three quarters of your first impressions are decided by pixels. A dated, slow, or vague site does not read as "small business with character." It reads as "maybe they are not really in business anymore." Fair or not, the site is the storefront window, and people judge the shop by the window.</p>
+    <h3>Proof is evidence, shown up front</h3>
+    <p>The industry calls it <strong>social proof</strong>: real reviews, real client names, real photos of real work, recognizable logos, numbers that mean something. "34-car booking platform on Aruba" is proof. "We deliver quality solutions" is noise, because anyone can type it. The test for proof is simple: could a competitor copy-paste this sentence onto their site? If yes, it proves nothing.</p>
+    <h3>The three failures in the breakdown reel</h3>
+    <ul>
+      <li><strong>A hero that says nothing.</strong> The hero is the big top section, the first thing anyone sees. Filling it with a vague slogan wastes the most valuable screen space the business owns.</li>
+      <li><strong>Twelve menu choices.</strong> Choice overload. The visitor came to do one thing and got handed a puzzle instead.</li>
+      <li><strong>Zero proof.</strong> No reviews, no work, no faces, no numbers. The trust question stays unanswered, so the answer defaults to no.</li>
+    </ul>
+    <div class="callout">
+      <p class="eyebrow">Say it your way</p>
+      <p>"You never get to explain yourself to the visitors who left. Your website does all the explaining, so give it evidence, not slogans."</p>
+    </div>
+  </section>
+
+  <section id="decoder">
+    <p class="eyebrow">05 · Vocabulary</p>
+    <h2>Terminology decoder</h2>
+    <p>Know the real term, understand it in one line, and have a camera-ready way to say it. Rule of thumb: use the plain version on camera, keep the jargon for when a client uses it first, so you can meet them at their level.</p>
+    <div class="tablewrap">
+      <table>
+        <tr><th>Term</th><th>What it actually means</th><th>How you say it on camera</th></tr>
+        <tr><td class="term">Conversion</td><td>The moment a visitor does the thing you wanted: books, buys, messages, calls.</td><td class="say">"turning visitors into customers"</td></tr>
+        <tr><td class="term">Call to action (CTA)</td><td>The button or line that tells the visitor what to do next.</td><td class="say">"one clear next step"</td></tr>
+        <tr><td class="term">Hero</td><td>The big first section of a page: headline, image, main button.</td><td class="say">"the first thing people see"</td></tr>
+        <tr><td class="term">Above the fold</td><td>Everything visible before scrolling. Prime real estate.</td><td class="say">"before anyone even scrolls"</td></tr>
+        <tr><td class="term">Load time</td><td>How long from tap to usable page.</td><td class="say">"how fast it opens"</td></tr>
+        <tr><td class="term">First paint</td><td>When the first real content appears on screen.</td><td class="say">"the moment something shows up"</td></tr>
+        <tr><td class="term">Bounce</td><td>A visitor who lands and leaves without doing anything.</td><td class="say">"people who leave straight away"</td></tr>
+        <tr><td class="term">Friction</td><td>Anything that makes the visitor think, wait, or guess.</td><td class="say">"anything that makes people hesitate"</td></tr>
+        <tr><td class="term">Social proof</td><td>Evidence others already trust you: reviews, clients, real numbers.</td><td class="say">"proof you have done this before"</td></tr>
+        <tr><td class="term">Value proposition</td><td>The one sentence explaining what you offer, for whom, and why you.</td><td class="say">"what you do, in one sentence"</td></tr>
+        <tr><td class="term">Five second test</td><td>Show a homepage for 5 seconds, then ask: what, for whom, what next?</td><td class="say">"the five second test" (use as-is, it is sticky)</td></tr>
+        <tr><td class="term">Choice overload</td><td>Too many options slow decisions down until no decision happens.</td><td class="say">"too many choices means no choice"</td></tr>
+        <tr><td class="term">Audit</td><td>A structured review of a site against these principles, ending in a fix list.</td><td class="say">"we look at your site the way a customer does"</td></tr>
+        <tr><td class="term">Credibility</td><td>Whether a stranger decides you look trustworthy and current.</td><td class="say">"whether strangers trust you"</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section id="stats">
+    <p class="eyebrow">06 · Ammunition</p>
+    <h2>The numbers to own cold</h2>
+    <p>You only need four. Deliver them casually, like something you know rather than something you memorized. Cite the source in passing, it doubles the authority: "Google measured this" or "Stanford actually studied this."</p>
+    <div class="statrow">
+      <div class="stat">
+        <div class="big">3 sec</div>
+        <p>The patience window on mobile. Slower than this and most people are gone.</p>
+        <div class="src">The speed threshold</div>
+      </div>
+      <div class="stat">
+        <div class="big">53%</div>
+        <p>Share of mobile visitors who leave past that window.</p>
+        <div class="src">Google mobile speed study</div>
+      </div>
+      <div class="stat">
+        <div class="big">5 sec</div>
+        <p>How long a homepage gets to answer: what, for whom, what next.</p>
+        <div class="src">The clarity threshold</div>
+      </div>
+      <div class="stat">
+        <div class="big">75%</div>
+        <p>People who judge a company's credibility on the website alone.</p>
+        <div class="src">Stanford web credibility research</div>
+      </div>
+    </div>
+    <p class="muted">Keep the framing honest: these are established research findings you are quoting, not measurements you took. That is exactly how experts talk, and it keeps you safe if anyone asks follow-up questions.</p>
+  </section>
+
+  <section id="beats">
+    <p class="eyebrow">07 · Filming</p>
+    <h2>Beat sheets, not scripts</h2>
+    <p>Glance at a card once before you hit record, then just talk. If you say it differently than written here, that is the point. Every reel closes the same way, so the close will become muscle memory after one afternoon.</p>
+
+    <div class="beat">
+      <h3>Reel 1 · The trust problem</h3>
+      <ol>
+        <li><span class="hookline">Hook: your website is losing you customers, right now, quietly.</span></li>
+        <li>The invisible part: 53 percent leave after 3 seconds, and nobody tells you. No complaints, just silence.</li>
+        <li>A website is your hardest working salesperson. Most sites fail as one: slow to the door, vague about the offer, never asks for the sale.</li>
+        <li>The fix is three words: speed, clarity, proof.</li>
+      </ol>
+      <div class="close">CLOSE · DM the word AUDIT, we send the three fixes that matter most. Free, no call, no deck.</div>
+    </div>
+
+    <div class="beat">
+      <h3>Reel 2 · The five second test</h3>
+      <ol>
+        <li><span class="hookline">Hook: would your homepage survive the five second test?</span></li>
+        <li>The test: show anyone your homepage for five seconds, then ask: what do they sell, who is it for, what do I do next.</li>
+        <li>Miss one answer and a real visitor is already gone. Guessing is effort, the back button is free.</li>
+        <li>The fix: one headline that says what you sell, one action impossible to miss, zero guessing.</li>
+      </ol>
+      <div class="close">CLOSE · DM AUDIT, we run the five second test on your site and send what we find.</div>
+    </div>
+
+    <div class="beat">
+      <h3>Reel 3 · The breakdown</h3>
+      <ol>
+        <li><span class="hookline">Hook: this homepage loses customers in five seconds. Watch.</span></li>
+        <li>Walk the three failures: a hero that says nothing, twelve menu choices, zero proof anywhere.</li>
+        <li>The stakes: 75 percent of people judge your credibility by your website alone. Stanford studied it.</li>
+        <li>Show the turn: same business, same page, rebuilt around one message, one action, real proof.</li>
+      </ol>
+      <div class="close">CLOSE · DM AUDIT, we break down your site the same way and send the three fixes that matter most.</div>
+    </div>
+  </section>
+
+  <section id="drills">
+    <p class="eyebrow">08 · Make it yours</p>
+    <h2>Teach-back drills</h2>
+    <p>Reading this makes it familiar. Explaining it makes it yours. Answer these out loud, in your own words, no peeking. Then, whenever you want, tell me your answers in a session and I will poke holes until every answer is bulletproof.</p>
+    <ol class="drill">
+      <li>Explain the five second test to a friend who owns a nail salon, in under thirty seconds.</li>
+      <li>Why is a slow website more dangerous than an ugly one?</li>
+      <li>What is the difference between a slogan and a value proposition? Give one example of each for a car rental.</li>
+      <li>A client says their menu needs all twelve pages "because everything is important." What do you say?</li>
+      <li>Name three things that count as proof and one thing that looks like proof but is not.</li>
+      <li>Why does the audit offer work better than "contact us for a quote"?</li>
+    </ol>
+
+    <h3>Pushbacks you will actually get, and calm answers</h3>
+    <dl class="pushback">
+      <dt>My customers find me on Instagram anyway.</dt>
+      <dd>Instagram builds the interest, but the moment someone is ready to spend money, they check the website to see if you are legit. That is exactly the moment you cannot afford to look half-finished. The site does not replace Instagram, it catches what Instagram throws.</dd>
+      <dt>My site looks fine to me.</dt>
+      <dd>You know your business, so your brain fills in every gap automatically. A stranger has no gaps filled. That is why the five second test uses someone else's eyes, never your own. Offer to run it together, it takes one minute.</dd>
+      <dt>I do not have reviews yet.</dt>
+      <dd>Proof is broader than reviews. Real photos of real work, the number of jobs done, names of businesses you have helped, even one honest before-and-after. Start with what is true today, and never fake it, because fake proof reads as fake instantly.</dd>
+      <dt>Is three seconds not a bit exaggerated?</dt>
+      <dd>It feels exaggerated because you wait patiently for your own site. Your customer is on a phone, between two other apps, with your competitor one tap away. Google measured it across millions of sessions: past three seconds, half of them are gone.</dd>
+    </dl>
+
+    <h3>One camera note</h3>
+    <p>Before each take, say the beat's idea in one sentence to yourself, then record while explaining it as if a friend asked you about it two minutes ago. If you stumble, keep rolling and rephrase. The rephrase is usually the take you keep, because it is the one where you were thinking instead of reciting.</p>
+  </section>
+
+  <section id="threeways">
+    <p class="eyebrow">09 · Going deeper</p>
+    <h2>Say it three ways</h2>
+    <p>You are never locked into one register. For every core idea in this pack, have three versions ready: the pro version for a client who speaks the jargon, the everyday version for camera, and the kitchen-table version for someone who has never thought about websites for one minute in their life. Being able to slide between them is what fluency actually is.</p>
+
+    <div class="beat">
+      <h3>The website's job</h3>
+      <p><strong>To a pro:</strong> "The site is your top-of-funnel conversion surface. If it does not convert, everything you spend on traffic is wasted downstream."</p>
+      <p><strong>Everyday:</strong> "Your website is your hardest working salesperson. It just needs to actually do the job."</p>
+      <p><strong>Kitchen table:</strong> "Imagine your shop with a window so dusty nobody can see inside, and a door that sticks. People walk past. That is what a bad website is. We clean the window and oil the door."</p>
+    </div>
+
+    <div class="beat">
+      <h3>Conversion</h3>
+      <p><strong>To a pro:</strong> "Your conversion rate is the share of visitors who take the action. Doubling it beats doubling your ad spend, at a fraction of the cost."</p>
+      <p><strong>Everyday:</strong> "Turning lookers into bookers."</p>
+      <p><strong>Kitchen table:</strong> "Say ten people walk into a shop and one buys. If we change the shop so two of them buy, the owner just doubled the business without a single extra person walking in. That is all this is."</p>
+    </div>
+
+    <div class="beat">
+      <h3>Proof</h3>
+      <p><strong>To a pro:</strong> "Social proof is your highest-leverage trust signal. Reviews, named clients and real numbers, placed where the visitor decides."</p>
+      <p><strong>Everyday:</strong> "Evidence you have done this before, shown up front."</p>
+      <p><strong>Kitchen table:</strong> "When two food stands sit next to each other and one has a line, you join the line. Nobody told you to. Your website needs a visible line in front of it: happy customers, real photos, real names."</p>
+    </div>
+
+    <p class="muted">The rule for choosing a register: listen to the words the other person uses first, then speak one notch simpler than they do. Simpler never offends. Jargon at the wrong moment always does.</p>
+  </section>
+
+  <section id="cases">
+    <p class="eyebrow">10 · Evidence</p>
+    <h2>Case files and the pain map</h2>
+
+    <h3>Case: the rental hero that said too much</h3>
+    <p>Our own work on a car rental site on Aruba. The homepage tried to say everything at once, and so said nothing. We rebuilt the top of the page around real photography of the actual fleet, one headline about what you can rent, and one button: see our cars. No slogan, no mission statement, no carousel of ten messages. The lesson you can tell on camera: the rewrite was mostly deleting. Clarity is usually subtraction, and subtraction takes more courage than adding.</p>
+
+    <h3>Picture this: the salon that lives on Facebook</h3>
+    <p>A composite, not a client, and you will meet her within a month of posting content: a nail salon owner whose whole online presence is a Facebook page last updated eight months ago. New customers message at all hours asking for prices and openings, and she answers every one by hand, or misses them. She does not need a big website. She needs one fast page with prices, photos, opening hours and one booking button, so the twenty questions answer themselves. Small fix, huge relief. Keep this story in your pocket, because "one page that answers the questions you are tired of answering" is an offer almost nobody refuses.</p>
+
+    <h3>The pain map: what a weak website costs, per audience</h3>
+    <div class="tablewrap">
+      <table>
+        <tr><th>Who</th><th>The pain in this domain</th><th>The helping line, never salesy</th></tr>
+        <tr><td class="term">Rentals and tours</td><td>Tourists compare five options from a beach chair; slow or vague sites are simply skipped.</td><td class="say">"Want me to show you what a tourist sees in their first five seconds on your site?"</td></tr>
+        <tr><td class="term">Restaurants and bars</td><td>People check the menu and hours on a phone before coming; missing info means a table elsewhere.</td><td class="say">"Can people find your menu and hours in one tap? Let us check together, it takes a minute."</td></tr>
+        <tr><td class="term">Salons and personal care</td><td>Bookings arrive as messages at all hours; the page answers nothing so the owner answers everything.</td><td class="say">"What are the three questions people always message you? Those belong on one page."</td></tr>
+        <tr><td class="term">Shops and boutiques</td><td>Beautiful products, invisible online; the site undersells what the shop oversells.</td><td class="say">"Your shop feels premium in person. Does your website give people that same feeling?"</td></tr>
+        <tr><td class="term">Realtors and services</td><td>High-trust purchases, judged on credibility; a dated site reads as a dated professional.</td><td class="say">"People decide if they trust you before they call. What does your site tell them?"</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section id="questions">
+    <p class="eyebrow">11 · The door openers</p>
+    <h2>The questions that open doors</h2>
+    <p>Each question comes with why it works and what to listen for. The goal is never to interrogate. It is to ask the one thing that makes the owner think "nobody ever asked me that, and it is exactly my problem."</p>
+
+    <div class="beat">
+      <h3>"When did you last Google your own business, like a customer would?"</h3>
+      <p>Almost nobody has recently, and everyone reaches for their phone the moment you ask. Whatever appears, you now have a shared screen and a live diagnosis instead of a pitch. Listen for surprise: surprise is the sale starting.</p>
+    </div>
+    <div class="beat">
+      <h3>"What is the one thing you want a visitor to do on your site?"</h3>
+      <p>Most owners have never chosen. If they list four things, you have found the clarity problem, and you can say gently: "when everything is important, nothing is." Listen for hesitation, it tells you the site was built without a job description.</p>
+    </div>
+    <div class="beat">
+      <h3>"Your last five new customers, where did they actually come from?"</h3>
+      <p>Not "where does marketing come from" in general, the last five, by name. Owners always know. The answer tells you whether the website matters yet in their world, and keeps you honest: if all five came from word of mouth, say so, and build on that instead.</p>
+    </div>
+    <div class="beat">
+      <h3>"Can I open your site on my phone right now, next to you?"</h3>
+      <p>The live five second test, done together. You are not criticizing, you are both just watching what happens. Count the seconds out loud, kindly. Whatever loads slowly or reads vaguely does your arguing for you.</p>
+    </div>
+    <div class="beat">
+      <h3>"What do people call or message you about that your website should be answering?"</h3>
+      <p>The insider question. Every owner has a list they are tired of repeating: prices, hours, availability, parking. You just showed them their website's real job description, written by their own customers. Listen for the sigh, the sigh is the brief.</p>
+    </div>
+  </section>
+
+
+  <footer>~&lt; Reel School · Pack 01 · Salty Code Studio · next pack: whatever you film next</footer>
+</div>

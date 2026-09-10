@@ -1,0 +1,407 @@
+<title>Academy M3 · Growth and Marketing</title>
+<style>
+  :root {
+    --sand: #F5F1E8;
+    --ink: #16282E;
+    --surf: #0E7C86;
+    --dune: #8A7F6A;
+    --hairline: #DDD5C4;
+    --card: #FDFBF6;
+    --surf-soft: rgba(14, 124, 134, 0.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --sand: #0F1B1E;
+      --ink: #EDE6D6;
+      --surf: #4FB3BC;
+      --dune: #9A917E;
+      --hairline: #24373C;
+      --card: #14232780;
+      --surf-soft: rgba(79, 179, 188, 0.1);
+    }
+  }
+  :root[data-theme="light"] {
+    --sand: #F5F1E8;
+    --ink: #16282E;
+    --surf: #0E7C86;
+    --dune: #8A7F6A;
+    --hairline: #DDD5C4;
+    --card: #FDFBF6;
+    --surf-soft: rgba(14, 124, 134, 0.08);
+  }
+  :root[data-theme="dark"] {
+    --sand: #0F1B1E;
+    --ink: #EDE6D6;
+    --surf: #4FB3BC;
+    --dune: #9A917E;
+    --hairline: #24373C;
+    --card: #14232780;
+    --surf-soft: rgba(79, 179, 188, 0.1);
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--sand);
+    color: var(--ink);
+    font-family: "Iowan Old Style", "Palatino", Georgia, serif;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    margin: 0;
+    padding: 0 1.25rem;
+  }
+  .wrap { max-width: 44rem; margin: 0 auto; padding: 3.5rem 0 6rem; }
+  .mark {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: 1.1rem; letter-spacing: 0.02em;
+    color: var(--surf);
+  }
+  .eyebrow {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--dune); margin: 0 0 0.6rem;
+  }
+  h1 {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: clamp(2rem, 5vw, 2.9rem);
+    line-height: 1.08; letter-spacing: -0.015em; margin: 0.4rem 0 1rem;
+    text-wrap: balance;
+  }
+  h2 {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: 1.45rem; letter-spacing: -0.01em;
+    margin: 0 0 0.9rem; text-wrap: balance;
+  }
+  h3 {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 600; font-size: 1.08rem; margin: 1.6rem 0 0.4rem;
+  }
+  p { margin: 0 0 1.05rem; }
+  section { border-top: 1px solid var(--hairline); padding-top: 2.4rem; margin-top: 2.6rem; }
+  .lede { font-size: 1.15rem; }
+  .muted { color: var(--dune); }
+  .toc { list-style: none; padding: 0; margin: 1.4rem 0 0; display: flex; flex-direction: column; gap: 0.45rem; }
+  .toc a {
+    color: var(--ink); text-decoration: none;
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif; font-weight: 500; font-size: 0.95rem;
+  }
+  .toc a:hover, .toc a:focus-visible { color: var(--surf); }
+  .toc .n {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; color: var(--surf); margin-right: 0.6rem;
+  }
+  a:focus-visible { outline: 2px solid var(--surf); outline-offset: 3px; border-radius: 2px; }
+  .callout {
+    background: var(--surf-soft);
+    border-left: 2px solid var(--surf);
+    padding: 1rem 1.2rem; margin: 1.4rem 0;
+    font-size: 1rem;
+  }
+  .callout .eyebrow { color: var(--surf); margin-bottom: 0.35rem; }
+  .callout p:last-child { margin-bottom: 0; }
+  .statrow { display: flex; gap: 1rem; flex-wrap: wrap; margin: 1.5rem 0; }
+  .stat {
+    flex: 1 1 240px; background: var(--card); border: 1px solid var(--hairline);
+    padding: 1.15rem 1.25rem;
+  }
+  .stat .big {
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: 2.2rem; letter-spacing: -0.02em;
+    color: var(--surf); line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat .src {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--dune); margin-top: 0.7rem;
+  }
+  .stat p { font-size: 0.94rem; margin: 0.4rem 0 0; }
+  .tablewrap { overflow-x: auto; margin: 1.5rem 0; border: 1px solid var(--hairline); }
+  table { border-collapse: collapse; width: 100%; min-width: 620px; font-size: 0.95rem; }
+  th {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--dune); text-align: left; font-weight: 500;
+    padding: 0.8rem 1rem; border-bottom: 1px solid var(--hairline);
+  }
+  td { padding: 0.8rem 1rem; border-bottom: 1px solid var(--hairline); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td.term {
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+    font-weight: 600; font-size: 0.92rem; white-space: nowrap;
+  }
+  td.say { color: var(--surf); font-style: italic; }
+  .beat {
+    background: var(--card); border: 1px solid var(--hairline);
+    padding: 1.4rem 1.5rem; margin: 1.3rem 0;
+  }
+  .beat h3 { margin-top: 0; }
+  .beat ol { margin: 0.6rem 0 0; padding-left: 1.3rem; }
+  .beat ol li { margin-bottom: 0.55rem; }
+  .beat .hookline { font-style: italic; color: var(--surf); }
+  .beat .close {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.8rem; letter-spacing: 0.06em; margin-top: 0.9rem;
+    color: var(--dune);
+  }
+  .drill { margin: 1.2rem 0; padding: 0; list-style: none; counter-reset: drill; }
+  .drill li {
+    counter-increment: drill; position: relative;
+    padding: 0.85rem 0 0.85rem 2.6rem; border-bottom: 1px solid var(--hairline);
+  }
+  .drill li::before {
+    content: "Q" counter(drill);
+    position: absolute; left: 0; top: 0.95rem;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; color: var(--surf); letter-spacing: 0.05em;
+  }
+  .drill li:last-child { border-bottom: none; }
+  .pushback { margin: 1.2rem 0; }
+  .pushback dt {
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+    font-weight: 600; font-size: 0.98rem; margin-top: 1.2rem;
+  }
+  .pushback dt::before { content: "\201C"; color: var(--surf); }
+  .pushback dt::after { content: "\201D"; color: var(--surf); }
+  .pushback dd { margin: 0.35rem 0 0; font-size: 0.98rem; }
+  ul { padding-left: 1.25rem; }
+  ul li { margin-bottom: 0.5rem; }
+  strong { font-weight: 600; }
+  footer {
+    border-top: 1px solid var(--hairline); margin-top: 3.5rem; padding-top: 1.5rem;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dune);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+  }
+</style>
+<div class="wrap">
+  <header>
+    <div class="mark">~&lt; salty code studio</div>
+    <p class="eyebrow" style="margin-top:2.2rem">Academy · Module 3 · Growth and Marketing</p>
+    <h1>Marketing, explained without sounding like a marketer</h1>
+    <p class="lede">Leads, funnels, ads, remarketing, CRM: marketing has the worst jargon of any field you will touch, and owners have been burned by people wielding it. Your edge is the opposite move: describe everything as movement of real people, in plain words. This module gives you the pipeline model that organizes every marketing term, and the vocabulary to discuss any of them calmly.</p>
+    <ul class="toc">
+      <li><a href="#model"><span class="n">01</span>The pipeline: one model for everything</a></li>
+      <li><a href="#organic"><span class="n">02</span>Organic vs paid: the garden and the faucet</a></li>
+      <li><a href="#leads"><span class="n">03</span>Leads, lead magnets and the list you own</a></li>
+      <li><a href="#ads"><span class="n">04</span>Ads and remarketing, demystified</a></li>
+      <li><a href="#crm"><span class="n">05</span>CRM: the memory of the business</a></li>
+      <li><a href="#decoder"><span class="n">06</span>Terminology decoder</a></li>
+      <li><a href="#drills"><span class="n">07</span>Teach-back drills and pushbacks</a></li>
+          <li><a href="#threeways"><span class="n">08</span>Say it three ways</a></li>
+      <li><a href="#cases"><span class="n">09</span>Case files and the pain map</a></li>
+      <li><a href="#questions"><span class="n">10</span>The questions that open doors</a></li>
+    </ul>
+  </header>
+
+  <section id="model">
+    <p class="eyebrow">01 · The foundation</p>
+    <h2>The pipeline: one model for everything</h2>
+    <p>Every marketing term you will ever hear describes one thing: <strong>moving people along a pipeline.</strong> The pipeline has four stations:</p>
+    <ul>
+      <li><strong>Strangers</strong> who have never heard of the business.</li>
+      <li><strong>Visitors</strong> who looked: at the site, the profile, the shop window.</li>
+      <li><strong>Leads</strong> who raised a hand: messaged, left an email, asked a question.</li>
+      <li><strong>Customers</strong> who paid, and ideally come back and bring friends.</li>
+    </ul>
+    <p>The industry word for this is a <strong>funnel</strong>, because each station holds fewer people than the one before. Every tactic, no matter how fancy it sounds, is just a tool for one specific gap: ads move strangers to visitors, a good website moves visitors to leads (that was Pack 01, notice it), follow-up moves leads to customers, and service moves customers to repeat customers.</p>
+    <p>This gives you the diagnostic question that cuts through every "we need more marketing" conversation: <strong>where does the pipeline actually leak?</strong> A business with lots of visitors and no bookings does not need more ads, it needs Pack 01. A business nobody has heard of does not need a prettier website first, it needs reach. Owners buy tactics randomly; you sell the leak.</p>
+    <div class="callout">
+      <p class="eyebrow">Say it your way</p>
+      <p>"More marketing is almost never the answer. First find where people fall out: do they not know you, not trust you, or not follow through? Those are three different fixes, and two of them are cheaper than ads."</p>
+    </div>
+  </section>
+
+  <section id="organic">
+    <p class="eyebrow">02 · The two engines</p>
+    <h2>Organic vs paid: the garden and the faucet</h2>
+    <p>There are exactly two ways to get strangers into the pipeline, and the difference is how they behave over time:</p>
+    <ul>
+      <li><strong>Organic</strong> is the garden: content, SEO, reviews, word of mouth. Slow to start, costs time instead of money, and it compounds: a good post, a strong review page, a well-ranked site keep working while you sleep. Stop tending it and it fades slowly.</li>
+      <li><strong>Paid</strong> is the faucet: ads on Meta, Google, wherever. Instant flow, precisely adjustable, and it stops the second you stop paying. No compounding, pure rental.</li>
+    </ul>
+    <p>Neither is better; they answer different questions. Paid answers "I need customers this month." Organic answers "I want customers every month without buying each one." Healthy businesses usually want both: the faucet to fill the gap while the garden grows. Saying it this way defuses the eternal "should I do ads or content" question in one breath, and it makes you sound like nobody else in their DMs.</p>
+    <p>One more plain truth owners deserve to hear: <strong>content is marketing.</strong> The reels you make, the answers you post, the before-and-afters you show, that is organic pipeline work: teaching to earn trust before asking for anything. You are living proof of the method while you explain it, which is the most comfortable sales position there is.</p>
+    <div class="callout">
+      <p class="eyebrow">Say it your way</p>
+      <p>"Ads are a faucet: turn them on, water flows, turn them off, it stops. Content is a garden: slow, then suddenly everywhere. Most businesses need the faucet while the garden grows. What almost nobody needs is only the faucet, forever."</p>
+    </div>
+  </section>
+
+  <section id="leads">
+    <p class="eyebrow">03 · Raised hands</p>
+    <h2>Leads, lead magnets and the list you own</h2>
+    <p>A <strong>lead</strong> is a person who raised a hand and left a way to reach them. Not a follower, not a like: a name with a contact route attached. This distinction matters because owners confuse audience with leads. Ten thousand followers you cannot message individually is applause. Forty people who DMed the word AUDIT is business.</p>
+    <p>A <strong>lead magnet</strong> is something genuinely useful, given away to make raising the hand easy: a free check, a guide, a price calculator. Your own DM keywords are exactly this: AUDIT gives a free three-fix review, BOTTLENECK gives a free automatable-or-not verdict. The rule that keeps lead magnets honest: it must be worth something even if the person never buys. Generosity is the marketing.</p>
+    <h3>The list you own</h3>
+    <p>Here is a plain truth that lands hard: <strong>followers are rented, an email list is owned.</strong> Instagram can change its algorithm, lock an account, or fade like every platform eventually does, and the audience goes with it. An email or phone list is the one audience nobody can take away. It feels old-fashioned, and it quietly outperforms almost everything, because it arrives in a place people actually check, from a sender they chose. For any client, "start collecting emails" is among the highest-value boring advice you can give.</p>
+    <div class="callout">
+      <p class="eyebrow">Say it your way</p>
+      <p>"Followers are rented, your list is owned. If Instagram disappeared tomorrow, who could you still reach? That answer is the real size of your audience."</p>
+    </div>
+  </section>
+
+  <section id="ads">
+    <p class="eyebrow">04 · The faucet, up close</p>
+    <h2>Ads and remarketing, demystified</h2>
+    <p>An ad campaign has three parts, and knowing them lets you talk about ads without ever running one on camera:</p>
+    <ul>
+      <li><strong>Targeting:</strong> who sees it. Platforms know age, place and interests, so a Bonaire rental can show ads only to people currently on, or headed to, Bonaire.</li>
+      <li><strong>Creative:</strong> what they see: the image or video and the words. This is the part that decides everything, and it is Pack 01 and Module 2 knowledge, compressed to three seconds.</li>
+      <li><strong>Budget:</strong> what you pay. Platforms sell attention by auction, so cost depends on who else wants the same eyeballs.</li>
+    </ul>
+    <p>Two honest warnings that build instant trust. First, ads amplify what exists: send paid traffic to a site that fails the five second test and you are paying to be ignored, which is why "fix the site first, then run ads" is real advice and not upselling. Second, ads are a learning system: the platform needs some spend and some time to figure out who responds, so judging ads after three days and twenty euros is like judging a gym after one visit.</p>
+    <h3>Remarketing, the "ads that follow you" mystery solved</h3>
+    <p><strong>Remarketing</strong> means showing ads specifically to people who already visited you. That is the whole trick behind "I looked at shoes once and now they follow me everywhere." It works because those people already know you, so they are one small nudge from becoming a lead. It is the cheapest, most efficient ad money there is, and explaining the mystery on camera is a wonderful reel: everyone has experienced it, almost nobody knows its name.</p>
+    <div class="callout">
+      <p class="eyebrow">Say it your way</p>
+      <p>"You know those ads that follow you after you looked at something once? That is called remarketing, it is cheap, and it works because you were already interested. Your business can do that too, and most of your competitors have no idea."</p>
+    </div>
+  </section>
+
+  <section id="crm">
+    <p class="eyebrow">05 · The memory</p>
+    <h2>CRM: the memory of the business</h2>
+    <p><strong>CRM</strong> stands for customer relationship management, but the useful translation is: <strong>the memory of the business.</strong> Who asked about a rental last month and never booked? Who came three times last year and deserves a call before high season? A CRM is where that lives, so following up stops depending on the owner remembering.</p>
+    <p>The connection to everything else in the Academy: leads leak between the raised hand and the sale, and the leak is almost always follow-up. The lead who messaged on Tuesday and got a reply on Friday bought elsewhere on Wednesday. A CRM plus simple automation (Pack 02: rules, not AI) fixes exactly this: every hand raised gets an answer, a reminder, a follow-up, without anyone's memory involved. And notice: <strong>a CRM is the phone test applied to marketing.</strong> If all the customer knowledge lives in the owner's head and WhatsApp scroll, the owner is the bottleneck again, just on the sales side.</p>
+    <p>Two more terms complete the picture. <strong>Acquisition</strong> is everything spent getting a new customer; <strong>retention</strong> is keeping the ones you have. The plain math every owner feels immediately: selling again to a happy customer costs almost nothing, while every new stranger must be bought or earned. Which is why the boring trio, list, CRM, follow-up, so often beats another round of ads.</p>
+    <div class="callout">
+      <p class="eyebrow">Say it your way</p>
+      <p>"Most businesses do not have a getting-customers problem, they have a forgetting-customers problem. The people who almost booked, the ones who loved it last year, nobody follows up. That is not a marketing budget issue, that is a memory issue, and memory is exactly what software is good at."</p>
+    </div>
+  </section>
+
+  <section id="decoder">
+    <p class="eyebrow">06 · Vocabulary</p>
+    <h2>Terminology decoder</h2>
+    <p>Plain version on camera, real term when the client uses it first.</p>
+    <div class="tablewrap">
+      <table>
+        <tr><th>Term</th><th>What it actually means</th><th>How you say it on camera</th></tr>
+        <tr><td class="term">Funnel</td><td>The pipeline: strangers, visitors, leads, customers, each stage smaller.</td><td class="say">"the path from stranger to customer"</td></tr>
+        <tr><td class="term">Lead</td><td>A person who raised a hand and left a contact route.</td><td class="say">"someone who raised their hand"</td></tr>
+        <tr><td class="term">Lead magnet</td><td>Something useful given away to make hand-raising easy.</td><td class="say">"a free useful thing that starts the conversation"</td></tr>
+        <tr><td class="term">Organic</td><td>Unpaid reach: content, SEO, reviews, word of mouth. Compounds.</td><td class="say">"the garden: slow, then it works while you sleep"</td></tr>
+        <tr><td class="term">Paid / ads</td><td>Bought reach. Instant, adjustable, stops when you stop.</td><td class="say">"the faucet: on when you pay, off when you stop"</td></tr>
+        <tr><td class="term">Targeting</td><td>Choosing who sees an ad: place, age, interests, behavior.</td><td class="say">"showing it only to the right people"</td></tr>
+        <tr><td class="term">Creative</td><td>The ad itself: image or video plus words.</td><td class="say">"the ad people actually see"</td></tr>
+        <tr><td class="term">Remarketing</td><td>Ads shown only to previous visitors. Cheap and effective.</td><td class="say">"the ads that follow you, working for you"</td></tr>
+        <tr><td class="term">Conversion rate</td><td>The percentage that takes the step: visitors who book, leads who buy.</td><td class="say">"how many lookers become bookers"</td></tr>
+        <tr><td class="term">Reach / impressions</td><td>How many people saw it, and how many times in total.</td><td class="say">"how many eyeballs"</td></tr>
+        <tr><td class="term">Engagement</td><td>Interactions: likes, comments, shares, saves. Applause, not income.</td><td class="say">"applause, which is nice, but applause"</td></tr>
+        <tr><td class="term">Algorithm</td><td>The platform's sorting system deciding who sees what.</td><td class="say">"the platform deciding who sees you"</td></tr>
+        <tr><td class="term">CRM</td><td>The system holding every customer, lead and conversation.</td><td class="say">"the memory of your business"</td></tr>
+        <tr><td class="term">Acquisition</td><td>Everything spent gaining one new customer.</td><td class="say">"what a new customer costs you"</td></tr>
+        <tr><td class="term">Retention</td><td>Keeping and reselling to existing customers.</td><td class="say">"keeping the ones you already won"</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section id="drills">
+    <p class="eyebrow">07 · Make it yours</p>
+    <h2>Teach-back drills</h2>
+    <p>Out loud, own words. Then say "quiz me on module 3" and I will push until it holds.</p>
+    <ol class="drill">
+      <li>Draw the pipeline from memory and name which service fixes each gap. Where does Pack 01 live in it? Where does the CRM live?</li>
+      <li>Explain garden versus faucet to a restaurant owner deciding between ads and Instagram content, and end with a recommendation.</li>
+      <li>What is the difference between a follower and a lead? Why does the distinction change what a business should post?</li>
+      <li>Explain remarketing to someone who just said "those following ads are creepy." Turn the creepiness into the business case.</li>
+      <li>A client with a bad website wants to run ads now. What do you say, and how do you say it without killing the deal?</li>
+      <li>Why does an email list beat followers? Whose platform is whose?</li>
+      <li>Explain "you have a forgetting-customers problem" and name the two tools that fix it.</li>
+    </ol>
+
+    <h3>Pushbacks you will actually get, and calm answers</h3>
+    <dl class="pushback">
+      <dt>I tried ads once and they did not work.</dt>
+      <dd>Very likely true, and very likely not the ads' fault. Ads amplify what exists: if the site loses people in five seconds, ads pay to lose them faster. And ads need a few weeks of learning before judging them, not a few days. Let us check where the pipeline leaked before spending another euro on the faucet.</dd>
+      <dt>I post every day and get nothing from it.</dt>
+      <dd>Then the posts are probably applause posts: nice to see, nothing to do. Content works when it teaches something useful and ends with one small step, like a word to DM. And check the boring half: when someone does message, how fast does an answer come? Content brings the hand up, follow-up shakes it.</dd>
+      <dt>I do not want to be salesy.</dt>
+      <dd>Good, salesy does not work anyway. The alternative is not silence, it is generosity: teach what you know, show your work, answer real questions, and let people come. That is what I do myself, it is why you are talking to me, and it feels nothing like selling from either side.</dd>
+      <dt>Marketing people have burned me before.</dt>
+      <dd>You and half the business owners I meet. Here is my difference, and you can hold me to it: I will not sell you a tactic. We find where people actually fall out of your pipeline, we fix that one leak, and we measure it. If the leak is somewhere I do not work, I will say so and point you to who does.</dd>
+    </dl>
+
+    <h3>One camera note</h3>
+    <p>Marketing content about marketing gets meta fast. Keep it concrete by always filming from the owner's chair: "you posted every day and nothing happened, here is why" beats "content strategy explained." And the remarketing mystery reel is the single easiest hook in this module, because every viewer has personally experienced it.</p>
+  </section>
+
+  <section id="threeways">
+    <p class="eyebrow">08 · Going deeper</p>
+    <h2>Say it three ways</h2>
+
+    <div class="beat">
+      <h3>The funnel</h3>
+      <p><strong>To a pro:</strong> "Before we buy traffic we find the leak: acquisition, conversion or follow-up. Fixing the leaking stage is usually worth more than doubling the top."</p>
+      <p><strong>Everyday:</strong> "The path from stranger to customer, and finding where people fall out of it."</p>
+      <p><strong>Kitchen table:</strong> "Think of carrying water in a bucket from the tap to your garden. If the bucket has a hole, the answer is not running faster with more water. It is patching the hole. Marketing money is the water. We look for the hole first."</p>
+    </div>
+
+    <div class="beat">
+      <h3>Organic versus paid</h3>
+      <p><strong>To a pro:</strong> "Paid gives you volume on demand with zero residual value; organic compounds but lags a quarter. We size the paid budget to bridge exactly the gap while organic matures."</p>
+      <p><strong>Everyday:</strong> "The faucet and the garden. The faucet stops when you stop paying, the garden keeps growing."</p>
+      <p><strong>Kitchen table:</strong> "Ads are like paying a guy to stand on the corner shouting about your shop. He shouts as long as you pay him. Reviews, content and being findable are like your reputation in the neighborhood: slower to build, but nobody can switch it off."</p>
+    </div>
+
+    <div class="beat">
+      <h3>Remarketing</h3>
+      <p><strong>To a pro:</strong> "Warm audiences convert at a fraction of the cost of cold. We put the pixel in place first, so every visitor you already paid for becomes a retargetable asset."</p>
+      <p><strong>Everyday:</strong> "The ads that follow you around, working for your business instead."</p>
+      <p><strong>Kitchen table:</strong> "Someone walks into your shop, looks at a shirt, and leaves. Remarketing is being allowed to gently tap that exact person on the shoulder a few days later: still thinking about the shirt? You only tap people who already showed interest, which is why it works."</p>
+    </div>
+  </section>
+
+  <section id="cases">
+    <p class="eyebrow">09 · Evidence</p>
+    <h2>Case files and the pain map</h2>
+
+    <h3>Case: the engine you are watching right now</h3>
+    <p>Your most honest case study is your own: short videos that teach one useful thing, a DM keyword that makes raising a hand effortless, and a reply that is genuinely worth having even if the person never buys. Teach, lower the threshold, deliver value first. When a client asks "does content actually work," you can answer with the only proof that cannot be argued with: "you are talking to me because of it." Use it exactly that plainly.</p>
+
+    <h3>Picture this: the restaurant and the dead months</h3>
+    <p>A composite, not a client: a restaurant packed in high season, empty benches in low season, owner considering ads to "get new people." But the gold is already in the house: hundreds of past guests who loved it and were never asked for their email, never messaged again. The fix is not finding strangers, it is remembering friends: collect contacts at the table, one warm message when low season starts, a reason to come back. New customers cost the most; returning ones cost a message. This story reframes marketing for every seasonal business on an island, which is most of them.</p>
+
+    <h3>The pain map: growth pains, per audience</h3>
+    <div class="tablewrap">
+      <table>
+        <tr><th>Who</th><th>The pain in this domain</th><th>The helping line, never salesy</th></tr>
+        <tr><td class="term">Rentals and tours</td><td>Season feast, off-season famine; every customer bought fresh, none retained.</td><td class="say">"How many of last year's guests could you reach today with one message?"</td></tr>
+        <tr><td class="term">Restaurants and bars</td><td>Full room, empty list; loyalty exists in person and nowhere else.</td><td class="say">"Your regulars love you. Do you have any way to invite them back besides hoping?"</td></tr>
+        <tr><td class="term">Salons and personal care</td><td>No-shows and gaps; rebooking left to chance instead of a reminder.</td><td class="say">"What does an empty chair cost you, and who is in charge of refilling it?"</td></tr>
+        <tr><td class="term">Shops and boutiques</td><td>Posting daily into the void; applause metrics, no counter traffic.</td><td class="say">"Which post last month actually brought someone through the door? How would we know?"</td></tr>
+        <tr><td class="term">Realtors and services</td><td>Feast-or-famine referrals; no system between "we should talk" and the deal.</td><td class="say">"Where do the people who said 'maybe later' live in your system? Anywhere?"</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section id="questions">
+    <p class="eyebrow">10 · The door openers</p>
+    <h2>The questions that open doors</h2>
+
+    <div class="beat">
+      <h3>"Your last five customers, where did each one actually come from?"</h3>
+      <p>The single most clarifying marketing question that exists. Concrete cases beat opinions about channels every time. Listen for the gap between what they believe ("Instagram!") and what the five names say ("word of mouth, four times"), because the gap is where money is being wasted.</p>
+    </div>
+    <div class="beat">
+      <h3>"What happens after someone messages you and does not book?"</h3>
+      <p>The honest answer is nearly always "nothing." Said out loud, by them, it becomes unbearable in the best way. Follow with: "so the people who were one small nudge from buying get zero nudges?" The fix is a follow-up habit or a simple system, and you sell both.</p>
+    </div>
+    <div class="beat">
+      <h3>"How many past customers could you reach today, on a list you own?"</h3>
+      <p>Not followers: reachable, on their own list. For most small businesses the answer is zero, and the realization stings productively. The insider follow-up: "then every season starts from scratch, right?" Seasonal owners feel that one in the chest.</p>
+    </div>
+    <div class="beat">
+      <h3>"What are your two busiest months, and your two deadest, and what do you currently do in September about February?"</h3>
+      <p>Only someone who understands seasonal business asks about February in September. The question itself is proof of experience. Listen for "nothing, we just brace," and you have the project: build the list in season, warm it before the dip.</p>
+    </div>
+    <div class="beat">
+      <h3>"If Instagram vanished tomorrow, what would be left of your marketing?"</h3>
+      <p>Not fear-mongering, an inventory. It surfaces the rented-versus-owned distinction in one image. Whatever survives the question, site, list, reviews, referrals, is the real estate; everything else is rented. Then you can talk about buying some land.</p>
+    </div>
+  </section>
+
+
+  <footer>~&lt; Academy · Module 3 · Salty Code Studio · next: Module 4, AI, explained like a grown-up</footer>
+</div>

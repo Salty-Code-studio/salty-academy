@@ -1,0 +1,399 @@
+<title>Academy M2 · Branding and Positioning</title>
+<style>
+  :root {
+    --sand: #F5F1E8;
+    --ink: #16282E;
+    --surf: #0E7C86;
+    --dune: #8A7F6A;
+    --hairline: #DDD5C4;
+    --card: #FDFBF6;
+    --surf-soft: rgba(14, 124, 134, 0.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --sand: #0F1B1E;
+      --ink: #EDE6D6;
+      --surf: #4FB3BC;
+      --dune: #9A917E;
+      --hairline: #24373C;
+      --card: #14232780;
+      --surf-soft: rgba(79, 179, 188, 0.1);
+    }
+  }
+  :root[data-theme="light"] {
+    --sand: #F5F1E8;
+    --ink: #16282E;
+    --surf: #0E7C86;
+    --dune: #8A7F6A;
+    --hairline: #DDD5C4;
+    --card: #FDFBF6;
+    --surf-soft: rgba(14, 124, 134, 0.08);
+  }
+  :root[data-theme="dark"] {
+    --sand: #0F1B1E;
+    --ink: #EDE6D6;
+    --surf: #4FB3BC;
+    --dune: #9A917E;
+    --hairline: #24373C;
+    --card: #14232780;
+    --surf-soft: rgba(79, 179, 188, 0.1);
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--sand);
+    color: var(--ink);
+    font-family: "Iowan Old Style", "Palatino", Georgia, serif;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    margin: 0;
+    padding: 0 1.25rem;
+  }
+  .wrap { max-width: 44rem; margin: 0 auto; padding: 3.5rem 0 6rem; }
+  .mark {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: 1.1rem; letter-spacing: 0.02em;
+    color: var(--surf);
+  }
+  .eyebrow {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--dune); margin: 0 0 0.6rem;
+  }
+  h1 {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: clamp(2rem, 5vw, 2.9rem);
+    line-height: 1.08; letter-spacing: -0.015em; margin: 0.4rem 0 1rem;
+    text-wrap: balance;
+  }
+  h2 {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: 1.45rem; letter-spacing: -0.01em;
+    margin: 0 0 0.9rem; text-wrap: balance;
+  }
+  h3 {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 600; font-size: 1.08rem; margin: 1.6rem 0 0.4rem;
+  }
+  p { margin: 0 0 1.05rem; }
+  section { border-top: 1px solid var(--hairline); padding-top: 2.4rem; margin-top: 2.6rem; }
+  .lede { font-size: 1.15rem; }
+  .muted { color: var(--dune); }
+  .toc { list-style: none; padding: 0; margin: 1.4rem 0 0; display: flex; flex-direction: column; gap: 0.45rem; }
+  .toc a {
+    color: var(--ink); text-decoration: none;
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif; font-weight: 500; font-size: 0.95rem;
+  }
+  .toc a:hover, .toc a:focus-visible { color: var(--surf); }
+  .toc .n {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; color: var(--surf); margin-right: 0.6rem;
+  }
+  a:focus-visible { outline: 2px solid var(--surf); outline-offset: 3px; border-radius: 2px; }
+  .callout {
+    background: var(--surf-soft);
+    border-left: 2px solid var(--surf);
+    padding: 1rem 1.2rem; margin: 1.4rem 0;
+    font-size: 1rem;
+  }
+  .callout .eyebrow { color: var(--surf); margin-bottom: 0.35rem; }
+  .callout p:last-child { margin-bottom: 0; }
+  .statrow { display: flex; gap: 1rem; flex-wrap: wrap; margin: 1.5rem 0; }
+  .stat {
+    flex: 1 1 240px; background: var(--card); border: 1px solid var(--hairline);
+    padding: 1.15rem 1.25rem;
+  }
+  .stat .big {
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: 2.2rem; letter-spacing: -0.02em;
+    color: var(--surf); line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat .src {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--dune); margin-top: 0.7rem;
+  }
+  .stat p { font-size: 0.94rem; margin: 0.4rem 0 0; }
+  .tablewrap { overflow-x: auto; margin: 1.5rem 0; border: 1px solid var(--hairline); }
+  table { border-collapse: collapse; width: 100%; min-width: 620px; font-size: 0.95rem; }
+  th {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--dune); text-align: left; font-weight: 500;
+    padding: 0.8rem 1rem; border-bottom: 1px solid var(--hairline);
+  }
+  td { padding: 0.8rem 1rem; border-bottom: 1px solid var(--hairline); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td.term {
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+    font-weight: 600; font-size: 0.92rem; white-space: nowrap;
+  }
+  td.say { color: var(--surf); font-style: italic; }
+  .beat {
+    background: var(--card); border: 1px solid var(--hairline);
+    padding: 1.4rem 1.5rem; margin: 1.3rem 0;
+  }
+  .beat h3 { margin-top: 0; }
+  .beat ol { margin: 0.6rem 0 0; padding-left: 1.3rem; }
+  .beat ol li { margin-bottom: 0.55rem; }
+  .beat .hookline { font-style: italic; color: var(--surf); }
+  .beat .close {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.8rem; letter-spacing: 0.06em; margin-top: 0.9rem;
+    color: var(--dune);
+  }
+  .drill { margin: 1.2rem 0; padding: 0; list-style: none; counter-reset: drill; }
+  .drill li {
+    counter-increment: drill; position: relative;
+    padding: 0.85rem 0 0.85rem 2.6rem; border-bottom: 1px solid var(--hairline);
+  }
+  .drill li::before {
+    content: "Q" counter(drill);
+    position: absolute; left: 0; top: 0.95rem;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; color: var(--surf); letter-spacing: 0.05em;
+  }
+  .drill li:last-child { border-bottom: none; }
+  .pushback { margin: 1.2rem 0; }
+  .pushback dt {
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+    font-weight: 600; font-size: 0.98rem; margin-top: 1.2rem;
+  }
+  .pushback dt::before { content: "\201C"; color: var(--surf); }
+  .pushback dt::after { content: "\201D"; color: var(--surf); }
+  .pushback dd { margin: 0.35rem 0 0; font-size: 0.98rem; }
+  ul { padding-left: 1.25rem; }
+  ul li { margin-bottom: 0.5rem; }
+  strong { font-weight: 600; }
+  footer {
+    border-top: 1px solid var(--hairline); margin-top: 3.5rem; padding-top: 1.5rem;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dune);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+  }
+</style>
+<div class="wrap">
+  <header>
+    <div class="mark">~&lt; salty code studio</div>
+    <p class="eyebrow" style="margin-top:2.2rem">Academy · Module 2 · Branding and Positioning</p>
+    <h1>Recognising when the real problem is the brand</h1>
+    <p class="lede">Clients come to you saying "I need a new website" or "I need more customers." Often the real issue is upstream: nobody knows what they stand for, they look interchangeable, or they attract price-shoppers. This module teaches you to diagnose which brand problem is actually in the room, and to talk about branding without a drop of agency fluff.</p>
+    <ul class="toc">
+      <li><a href="#model"><span class="n">01</span>The mental model: the slot in the head</a></li>
+      <li><a href="#diagnosis"><span class="n">02</span>The diagnosis map: symptom to real issue</a></li>
+      <li><a href="#positioning"><span class="n">03</span>Positioning: choosing who it is for</a></li>
+      <li><a href="#messaging"><span class="n">04</span>Messaging and perceived value</a></li>
+      <li><a href="#visual"><span class="n">05</span>Visual identity and consistency</a></li>
+      <li><a href="#decoder"><span class="n">06</span>Terminology decoder</a></li>
+      <li><a href="#drills"><span class="n">07</span>Teach-back drills and pushbacks</a></li>
+          <li><a href="#threeways"><span class="n">08</span>Say it three ways</a></li>
+      <li><a href="#cases"><span class="n">09</span>Case files and the pain map</a></li>
+      <li><a href="#questions"><span class="n">10</span>The questions that open doors</a></li>
+    </ul>
+  </header>
+
+  <section id="model">
+    <p class="eyebrow">01 · The foundation</p>
+    <h2>The mental model: the slot in the head</h2>
+    <p>Strip away every agency word and branding is two simple things:</p>
+    <p><strong>Your brand is what people say about you when you are not in the room. Positioning is the slot you occupy in a customer's head.</strong></p>
+    <p>The head part matters because human memory is lazy. Customers do not store paragraphs about businesses, they store one slot: "the fancy one," "the cheap one," "the one for tourists," "the one my sister uses." If you have not chosen your slot, the market assigns you one, and the default slot is "one of the others." That is the most expensive slot there is, because "one of the others" competes on price only.</p>
+    <p>So branding is not decoration. It is the answer to one question, repeated everywhere: <strong>why you, instead of the others?</strong> The logo, the words, the colors are just the delivery trucks for that answer.</p>
+    <div class="callout">
+      <p class="eyebrow">Say it your way</p>
+      <p>"Your brand is not your logo. It is the sentence a customer uses when they recommend you to a friend. Do you know what that sentence is? Because if you do not choose it, the market chooses for you."</p>
+    </div>
+  </section>
+
+  <section id="diagnosis">
+    <p class="eyebrow">02 · Diagnosis</p>
+    <h2>The diagnosis map: symptom to real issue</h2>
+    <p>This is the party trick of the module, like the five second test and the phone test before it. Owners describe symptoms, never causes. Your value is hearing the symptom and naming the real issue. Learn this table cold:</p>
+    <div class="tablewrap">
+      <table>
+        <tr><th>What the owner says</th><th>The real issue</th><th>Why</th></tr>
+        <tr><td class="term">"Customers always haggle on price"</td><td>Positioning</td><td>They look interchangeable, and interchangeable things get compared on price only. Nobody haggles with the specialist.</td></tr>
+        <tr><td class="term">"People do not get what we do"</td><td>Messaging</td><td>The words are vague, clever, or about themselves. The offer needs to survive one plain sentence.</td></tr>
+        <tr><td class="term">"We look cheaper than we are"</td><td>Visual identity</td><td>Perceived value is judged by the eyes before the offer is read. Dated visuals discount the price for you.</td></tr>
+        <tr><td class="term">"People do not really trust us yet"</td><td>Credibility</td><td>Proof problem from Pack 01: no reviews, no faces, no evidence shown where strangers look.</td></tr>
+        <tr><td class="term">"We look different everywhere"</td><td>Consistency</td><td>Every touchpoint has a different logo, tone and color. Recognition never accumulates, so trust never compounds.</td></tr>
+        <tr><td class="term">"We attract the wrong customers"</td><td>Positioning again</td><td>The brand signals broadcast to everyone, so everyone shows up, including the bargain hunters.</td></tr>
+      </table>
+    </div>
+    <p>Notice what this table does in a sales conversation: the owner says "we need a nicer logo," you ask two questions, and you discover the real issue is that customers haggle, which is positioning, which a logo alone will not fix. Saying that out loud, including "a logo alone will not fix this," is the moment you stop being a supplier and become an advisor.</p>
+  </section>
+
+  <section id="positioning">
+    <p class="eyebrow">03 · The choice</p>
+    <h2>Positioning: choosing who it is for</h2>
+    <p>Positioning is deciding three things on purpose: <strong>who it is for, what makes it different, and what you are willing to not be.</strong> The last part is the hard one and the important one. A brand that is for everyone is for no one, because "for everyone" reads as "nothing special" in a lazy human memory.</p>
+    <h3>Why narrowing feels wrong and works anyway</h3>
+    <p>Every owner fears the same thing: "if I say I am for X, I lose everyone who is not X." The reality runs the other way. The specialist attracts more of everyone, because being clearly for someone signals competence to all. People hire the wedding photographer for family shoots too. The dive shop "for beginners who are a bit nervous" gets experienced divers as well, because caring that much about beginners signals they care, full stop. Narrow the message, not the door.</p>
+    <h3>The differentiator test</h3>
+    <p>A <strong>differentiator</strong> is what makes a business genuinely different, and it must pass the same copy-paste test proof had to pass in Pack 01: if a competitor could truthfully claim it too, it is not a differentiator. "Quality and service" fails for everyone. "The only rental in town where every booking is confirmed within a minute, day or night" passes, and notice that one is built on systems, which is why Modules 2 and 5 sell each other.</p>
+    <div class="callout">
+      <p class="eyebrow">Say it your way</p>
+      <p>"Being for everyone is the most expensive marketing mistake there is, because it makes you invisible to everyone. Pick who you are for. The others will still come, they will just come on your terms."</p>
+    </div>
+  </section>
+
+  <section id="messaging">
+    <p class="eyebrow">04 · The words</p>
+    <h2>Messaging and perceived value</h2>
+    <p><strong>Messaging</strong> is the small set of sentences a business repeats everywhere: what you do, for whom, why you. Not a slogan, a working vocabulary. The test for good messaging is brutal and simple: could a stranger repeat your pitch to another stranger after hearing it once? If your own customers cannot repeat it, it does not exist.</p>
+    <p>The most common messaging disease is talking about yourself. "We are passionate about quality" is self-talk. "Your scooter is confirmed before you finish your coffee" is customer-talk. The fix is mechanical: start sentences with the customer's situation, not with "we."</p>
+    <h3>Perceived value: the price tag written in pixels</h3>
+    <p><strong>Perceived value</strong> is what a customer assumes something costs before hearing the price. It is set by signals: the photos, the typography, the way the offer is described, the confidence of the prices themselves. Here is the sentence that makes it click for owners: <strong>people do not price-shop the specialist, they price-shop the generic.</strong> When a business looks like every other business, price becomes the only thing left to compare. Raising perceived value is often cheaper than lowering prices, and it is the only one of the two that compounds.</p>
+    <div class="callout">
+      <p class="eyebrow">Say it your way</p>
+      <p>"Customers decide what you probably cost before you ever tell them. If your website looks like a bargain, they will treat your price as one. Looking premium is not vanity, it is pricing power."</p>
+    </div>
+  </section>
+
+  <section id="visual">
+    <p class="eyebrow">05 · The look</p>
+    <h2>Visual identity and consistency</h2>
+    <p><strong>Visual identity</strong> is the recognition system: logo, colors, typography, photo style. The key word is system. A logo is one item; an identity is the set of rules that makes everything from the Instagram post to the invoice recognizably one company. Those rules usually live in a <strong>brand kit</strong> or brand guidelines: a short document that says exactly which colors, fonts and logo versions to use, so the business looks the same no matter who makes the next flyer.</p>
+    <h3>Why consistency is the multiplier</h3>
+    <p>Trust is built by repetition: seeing the same name, look and tone again and again until it feels familiar, and familiar feels safe. Every inconsistency resets the counter. A business that looks different on its sign, its site and its socials is paying for three first impressions and collecting none of the compound interest. This is why consistency beats brilliance: a decent identity applied everywhere outperforms a beautiful one applied randomly.</p>
+    <p>And a straight answer for the "brand versus logo" confusion, because a client will ask: the logo is the flag, the brand is the country. Redesigning the flag does not change the country, which is exactly why a rebrand that only touches the logo changes nothing that customers feel.</p>
+    <div class="callout">
+      <p class="eyebrow">Say it your way</p>
+      <p>"Trust is repetition. Same look, same words, same feeling, everywhere your customer meets you. Every time you show up looking different, you start over as a stranger."</p>
+    </div>
+  </section>
+
+  <section id="decoder">
+    <p class="eyebrow">06 · Vocabulary</p>
+    <h2>Terminology decoder</h2>
+    <p>Same rule as always: plain version on camera, real term when the client uses it first.</p>
+    <div class="tablewrap">
+      <table>
+        <tr><th>Term</th><th>What it actually means</th><th>How you say it on camera</th></tr>
+        <tr><td class="term">Brand</td><td>The sum of what people think and say about a business.</td><td class="say">"what people say when you are not in the room"</td></tr>
+        <tr><td class="term">Positioning</td><td>The chosen slot in the customer's head: for whom, different how.</td><td class="say">"the slot you own in people's heads"</td></tr>
+        <tr><td class="term">Differentiator</td><td>A claim competitors cannot truthfully copy.</td><td class="say">"the thing only you can say"</td></tr>
+        <tr><td class="term">Niche</td><td>The deliberately narrowed audience or specialty.</td><td class="say">"who you are really for"</td></tr>
+        <tr><td class="term">Messaging</td><td>The repeated core sentences: what, for whom, why you.</td><td class="say">"the words you repeat everywhere"</td></tr>
+        <tr><td class="term">Tone of voice</td><td>The personality of the words: formal, warm, playful, direct.</td><td class="say">"how your business sounds"</td></tr>
+        <tr><td class="term">Visual identity</td><td>The recognition system: logo, colors, type, photo style.</td><td class="say">"your recognizable look"</td></tr>
+        <tr><td class="term">Brand kit / guidelines</td><td>The rulebook for applying the identity consistently.</td><td class="say">"the rulebook so everything matches"</td></tr>
+        <tr><td class="term">Perceived value</td><td>What people assume you cost before seeing the price.</td><td class="say">"what you look like you cost"</td></tr>
+        <tr><td class="term">Touchpoint</td><td>Any place a customer meets the brand: site, socials, invoice, van.</td><td class="say">"everywhere a customer meets you"</td></tr>
+        <tr><td class="term">Credibility</td><td>Whether strangers believe you are real and good. Proof's territory.</td><td class="say">"whether strangers believe you"</td></tr>
+        <tr><td class="term">Rebrand</td><td>Deliberately changing the positioning and identity, not just the logo.</td><td class="say">"changing what you stand for, not just the logo"</td></tr>
+        <tr><td class="term">Target audience</td><td>The specific group the brand is built to attract.</td><td class="say">"your ideal customer"</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section id="drills">
+    <p class="eyebrow">07 · Make it yours</p>
+    <h2>Teach-back drills</h2>
+    <p>Out loud, own words. Then say "quiz me on module 2" and I will push back until it holds.</p>
+    <ol class="drill">
+      <li>A client says customers always haggle. Which brand problem is that, and how do you explain it in two sentences?</li>
+      <li>Explain "narrow the message, not the door" to a hair salon owner who is afraid of losing walk-ins.</li>
+      <li>What is the copy-paste test for a differentiator? Invent one differentiator for a car rental that passes it.</li>
+      <li>What is the difference between a logo, a visual identity and a brand? Use the flag and country line, then say it a second way in your own words.</li>
+      <li>Why does consistency beat brilliance? What resets the trust counter?</li>
+      <li>Explain perceived value using a menu: two identical dishes, one described plainly, one described well, different prices people will pay.</li>
+      <li>Run the diagnosis map from memory: name four symptoms and the real issue behind each.</li>
+    </ol>
+
+    <h3>Pushbacks you will actually get, and calm answers</h3>
+    <dl class="pushback">
+      <dt>Branding is for big companies with big budgets.</dt>
+      <dd>Big companies spend big because they have thousands of touchpoints. A small business has maybe ten, which means you can be perfectly consistent for a fraction of the cost, and consistency is the part that builds trust. Small is actually the easiest size to brand well.</dd>
+      <dt>I do not want to pick a niche, I will lose customers.</dt>
+      <dd>Everyone fears that, and the opposite happens. The specialist gets recommended, because "the one for X" is a sentence people can repeat, and "the one that does everything" is not. You are not closing the door to anyone, you are giving people a reason to point at you.</dd>
+      <dt>My cousin made my logo and I like it.</dt>
+      <dd>Then keep it, honestly. The logo is rarely the problem. The question is whether everything around it tells one story: do your site, your socials and your sign look like the same company, and does a stranger know within seconds who you are for? If yes, your cousin did great. If no, the logo was never the issue.</dd>
+      <dt>Can you just make it look more premium?</dt>
+      <dd>I can, and looks are part of it. But premium is a promise, and the look only works if the rest keeps that promise: the words, the prices, the way you respond. If we upgrade the look and keep bargain-style messaging, customers feel the mismatch immediately. Let us do the small full sweep instead of the shiny half one.</dd>
+    </dl>
+
+    <h3>One camera note</h3>
+    <p>Branding content works best as diagnosis content: film the symptoms, not the theory. "If customers always haggle, you do not have a price problem" is a hook. "Let me explain brand strategy" is a scroll-past. Lead with the symptom every time, it is how the right viewer recognizes themselves.</p>
+  </section>
+
+  <section id="threeways">
+    <p class="eyebrow">08 · Going deeper</p>
+    <h2>Say it three ways</h2>
+
+    <div class="beat">
+      <h3>Positioning</h3>
+      <p><strong>To a pro:</strong> "You are competing in an undifferentiated middle. We pick the segment where you already win, and rebuild the message so that segment recognizes you instantly."</p>
+      <p><strong>Everyday:</strong> "The slot you own in people's heads: who you are for, and why you instead of the others."</p>
+      <p><strong>Kitchen table:</strong> "Think of the market square. There are five fruit stands, but everyone knows 'the one with the sweet mangoes.' That stand chose to be known for one thing, and now people walk past four stands to reach it. Your business needs its mango."</p>
+    </div>
+
+    <div class="beat">
+      <h3>Perceived value</h3>
+      <p><strong>To a pro:</strong> "Your visual presentation is discounting you before the price is read. We align the signals with the actual quality so you stop subsidizing the gap."</p>
+      <p><strong>Everyday:</strong> "What you look like you cost. People decide it before you tell them."</p>
+      <p><strong>Kitchen table:</strong> "Same bottle of wine, one with a beautiful label, one with a printed sticker. People happily pay more for the first one and swear it tastes better. Your business has a label too. Right now, what does yours say?"</p>
+    </div>
+
+    <div class="beat">
+      <h3>Consistency</h3>
+      <p><strong>To a pro:</strong> "Every touchpoint is running a different identity, so no recognition compounds. One system, applied everywhere, and the same budget starts building equity instead of noise."</p>
+      <p><strong>Everyday:</strong> "Same look, same words, same feeling, everywhere a customer meets you."</p>
+      <p><strong>Kitchen table:</strong> "You trust your favorite bar because it feels the same every time you walk in. Now imagine it had different music, different prices and a different name every visit. You would stop going, without even knowing why. That is what an inconsistent business does to customers."</p>
+    </div>
+  </section>
+
+  <section id="cases">
+    <p class="eyebrow">09 · Evidence</p>
+    <h2>Case files and the pain map</h2>
+
+    <h3>Case: the sail maker who said one thing</h3>
+    <p>Our work for a custom windsurfing sail brand on Bonaire. The live site is deliberately almost empty: the logo, one sentence saying custom sails made by one maker on Bonaire, and one contact button. That is positioning as subtraction: a one-person craft brand does not need ten pages, it needs one unmistakable sentence and an easy way to talk to the maker. The camera lesson: sometimes the premium move is saying less, because confidence is quiet and insecurity is ten menu items.</p>
+
+    <h3>Case: the athlete who showed receipts</h3>
+    <p>Our site for a professional windsurfer: real competition results, sponsors, and his story told in chapters, built to be sent to sponsors and race organizers. The brand problem of an athlete is the brand problem of every service business: strangers with money need to believe quickly. The answer was architecture, not adjectives: results first, story second, contact last. Swap "athlete" for "realtor" or "consultant" and the blueprint holds, which is exactly how you should tell it.</p>
+
+    <h3>The pain map: brand pains, per audience</h3>
+    <div class="tablewrap">
+      <table>
+        <tr><th>Who</th><th>The pain in this domain</th><th>The helping line, never salesy</th></tr>
+        <tr><td class="term">Rentals and tours</td><td>Interchangeable with every competitor; chosen on price and location only.</td><td class="say">"When a tourist compares five rentals, what makes them stop at yours? Honestly."</td></tr>
+        <tr><td class="term">Restaurants and bars</td><td>Great food, generic presence; the place photographs better than its Instagram.</td><td class="say">"Does your online presence make people hungry, or just informed?"</td></tr>
+        <tr><td class="term">Salons and personal care</td><td>Competing with cheaper chairs; loyal clients, but new ones haggle.</td><td class="say">"Your regulars pay happily. Why do new people ask for discounts? That gap is fixable."</td></tr>
+        <tr><td class="term">Shops and boutiques</td><td>Handmade quality read as hobby project online; price resistance follows.</td><td class="say">"In the shop people feel the quality with their hands. What does the feeling online come from?"</td></tr>
+        <tr><td class="term">Realtors and services</td><td>Losing listings to the big-name agency purely on perceived weight.</td><td class="say">"The big agency wins on familiar, not on better. What are you giving people to remember you by?"</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section id="questions">
+    <p class="eyebrow">10 · The door openers</p>
+    <h2>The questions that open doors</h2>
+
+    <div class="beat">
+      <h3>"When people compare you to others, what do they compare on?"</h3>
+      <p>If the answer is price, the diagnosis is done: they look interchangeable. Say it back gently: "then the problem is not your price, it is that nothing else is visible enough to compare." Listen for relief; owners suspect this and nobody ever confirmed it.</p>
+    </div>
+    <div class="beat">
+      <h3>"What is the sentence a happy customer uses when they recommend you?"</h3>
+      <p>If they know it instantly, that sentence is the brand, and your job is putting it everywhere. If they do not know, that silence is the finding: the brand exists only by accident. Either answer moves the conversation forward, which is what makes this question safe.</p>
+    </div>
+    <div class="beat">
+      <h3>"If you raised your prices twenty percent tomorrow, what would happen, and how do you know?"</h3>
+      <p>The perceived-value stress test. Fear of raising prices is almost always fear that the presentation cannot carry it. Listen for "people would leave," then ask which people, because losing the bargain hunters is usually a raise in disguise.</p>
+    </div>
+    <div class="beat">
+      <h3>"Who is your favorite customer, and why are not all of them like that?"</h3>
+      <p>The positioning question wearing friendly clothes. The favorite customer is the niche, described from life. The follow-up writes itself: "what if we built everything to attract more of exactly her?"</p>
+    </div>
+    <div class="beat">
+      <h3>"Put your Instagram, your website and your sign next to each other. Same company?"</h3>
+      <p>The consistency audit, done in ten seconds with their own phone. No lecture needed, the screens argue for you. Listen for "we have been meaning to fix that," which means they already know, and knowing plus a path equals a project.</p>
+    </div>
+  </section>
+
+
+  <footer>~&lt; Academy · Module 2 · Salty Code Studio · next: Module 3, Growth and Marketing</footer>
+</div>
