@@ -107,13 +107,17 @@
 <div class="app" id="app"></div>
 <script src="data1.js"></script>
 <script src="data2.js"></script>
+<script src="data3.js"></script>
 <script>
 (function(){
 "use strict";
 var MODS = (window.ACADEMY_PART1||[]).concat(window.ACADEMY_PART2||[]);
+var EXTRAS = window.ACADEMY_EXTRAS||{};
+MODS.forEach(function(m){ var e=EXTRAS[m.id]; if(e){ m.idea=e.idea; m.speak=e.speak; } });
 var KEY = "salty-academy-game-v1";
 var RANKS = [[0,"Deckhand"],[150,"Beachcomber"],[400,"Wave Rider"],[800,"Reef Captain"],[1400,"Harbor Master"],[2200,"Salty Legend"]];
-var XP = { quiz:10, card:5, translate:12, diagnose:12, bossQ:10, bossPass:50 };
+var XP = { quiz:10, card:5, translate:12, diagnose:12, speak:8, bossQ:10, bossPass:50 };
+var CONF_BONUS = { guess:0, pretty:1, know:3 };
 var BOSS_N = 10, BOSS_PASS = 8;
 
 var S = load();
@@ -200,6 +204,12 @@ function home(){
     + '<span class="chip">🎓 <b>'+totalMastery()+'%</b> mastery</span>'
     + '<span class="chip">🏅 <b>'+p.badges.length+'</b> badges</span>'
     + '</div>';
+  if (p.last && p.last.mod){
+    var lm = MODS.filter(function(x){return x.id===p.last.mod;})[0];
+    if (lm) h += '<div class="panel" style="border-left:2.5px solid var(--surf)"><div class="row">'
+      + '<span class="grow"><b>Pick up where you left off</b><br><span class="muted">'+lm.num+' · '+esc(lm.title)+' · '+esc(p.last.mode)+'</span></span>'
+      + '<button class="btn" style="width:auto;margin:0;padding:.6rem 1rem" onclick="GA.play(\''+lm.id+'\',\''+p.last.mode+'\')">Continue →</button></div></div>';
+  }
   if (p.wrongQueue.length)
     h += '<button class="btn ghost" onclick="GA.review()">🔁 Review '+p.wrongQueue.length+' missed item'+(p.wrongQueue.length===1?'':'s')+'</button>';
   MODS.forEach(function(m){
@@ -210,10 +220,11 @@ function home(){
       + '<span class="sub">'+(passed?'✓ mastered':'boss not yet beaten')+'</span></span>'
       + ring(pct) + '</button>';
   });
-  h += '<button class="btn quiet" onclick="GA.leaderboard()">🏆 Leaderboard &amp; badges</button>'
+  h += '<div class="row"><button class="btn quiet grow" onclick="GA.leaderboard()">🏆 Leaderboard</button>'
+    + '<button class="btn quiet grow" onclick="GA.library()">📖 Term library</button></div>'
     + '<div class="panel"><p class="eyebrow">Live training</p>'
     + '<p style="font-size:.92rem">Flashcards teach the words, the Arena makes them yours. Open a Claude session and say <b>"run me a prospect"</b> for live roleplay, or <b>"quiz me on module 2"</b> for deep drills.</p></div>'
-    + '<p class="footerline">~&lt; salty code studio · progress saves on this device</p>';
+    + '<p class="footerline">~&lt; built with sea salt · learned by doing</p>';
   render(h);
   if (toastRank){ setTimeout(function(){ alert("Rank up! You are now "+toastRank+" 🌊"); toastRank=null; }, 150); }
 }
@@ -254,6 +265,7 @@ function modScreen(id){
   if (m.quiz && m.quiz.length) h += '<button class="btn quiet" onclick="GA.play(\''+id+'\',\'quiz\')">❓ Quiz <span class="muted">· 8 questions</span></button>';
   if (m.translate && m.translate.length) h += '<button class="btn quiet" onclick="GA.play(\''+id+'\',\'translate\')">🗣️ Say it right <span class="muted">· pick the human answer</span></button>';
   if (m.diagnose && m.diagnose.length) h += '<button class="btn quiet" onclick="GA.play(\''+id+'\',\'diagnose\')">🩺 Diagnose <span class="muted">· symptom to real problem</span></button>';
+  if (m.speak && m.speak.length) h += '<button class="btn quiet" onclick="GA.play(\''+id+'\',\'speak\')">🎤 Talk from Three <span class="muted">· speak it out loud</span></button>';
   h += '<button class="btn" onclick="GA.play(\''+id+'\',\'boss\')">⚔️ Boss round <span style="opacity:.8">· '+BOSS_N+' mixed, need '+BOSS_PASS+'</span></button>';
   h += '<a class="btn ghost" style="text-decoration:none" href="'+m.read+'">📚 Read the module</a>';
   render(h);
@@ -271,6 +283,7 @@ function buildItems(m, mode){
   if (mode==="quiz") return shuffle(wrap("quiz", m.quiz)).slice(0,8);
   if (mode==="translate") return shuffle(wrap("translate", m.translate));
   if (mode==="diagnose") return shuffle(wrap("diagnose", m.diagnose));
+  if (mode==="speak") return shuffle((m.speak||[]).map(function(d,i){ return {kind:"speak", id:"s:"+m.id+":"+i, data:d}; }));
   if (mode==="boss"){
     var pool = wrap("quiz",m.quiz).concat(wrap("translate",m.translate)).concat(wrap("diagnose",m.diagnose));
     return shuffle(pool).slice(0,BOSS_N);
@@ -280,13 +293,22 @@ function buildItems(m, mode){
 function play(id, mode){
   var m = MODS.filter(function(x){return x.id===id;})[0];
   run = { mode:mode, mod:m, items:buildItems(m,mode), i:0, score:0, xp:0 };
-  touchStreak(); P().plays++; save();
+  touchStreak(); var p=P(); p.plays++; p.last={mod:id, mode:mode}; save();
+  if ((mode==="quiz"||mode==="boss") && m.idea) return ideaScreen(m, mode);
   step();
+}
+function ideaScreen(m, mode){
+  render(topnav(m.num+' · '+m.title)
+    + '<div class="panel" style="padding:1.6rem 1.4rem">'
+    + '<p class="eyebrow" style="color:var(--surf)">Before you start · one idea to hold on to</p>'
+    + '<p class="qtext" style="margin:.4rem 0 .2rem">'+esc(m.idea)+'</p></div>'
+    + '<p class="muted">'+(mode==="boss"?BOSS_N+' mixed questions, '+BOSS_PASS+' needed. ':'8 questions, an explanation after every answer. ')+'No timer. Think it through, and say how sure you are before you check.</p>'
+    + '<button class="btn" onclick="GA.begin()">Let’s go →</button>');
 }
 function reviewRun(){
   var p=P(), items=[];
   p.wrongQueue.slice(0,12).forEach(function(id){
-    var parts=id.split(":"), kindMap={c:"cards",q:"quiz",t:"translate",d:"diagnose"};
+    var parts=id.split(":"), kindMap={c:"cards",q:"quiz",t:"translate",d:"diagnose",s:"speak"};
     var m = MODS.filter(function(x){return x.id===parts[1];})[0];
     if (!m) return;
     var arr = m[kindMap[parts[0]]];
@@ -302,8 +324,18 @@ function step(){
   var h = topnav(title)
     + '<div class="progressline"><i style="width:'+Math.round(100*run.i/run.items.length)+'%"></i></div>';
   if (it.kind==="cards") h += renderCard(it);
+  else if (it.kind==="speak") h += renderSpeak(it);
   else h += renderMC(it);
   render(h);
+}
+function renderSpeak(it){
+  var d = it.data;
+  var chips = d.words.map(function(w){ return '<span class="chip" style="font-size:1rem;padding:.5rem 1.1rem">'+esc(w)+'</span>'; }).join(" ");
+  return '<p class="eyebrow">Talk from Three · no recording, just you</p>'
+    + '<p class="qtext">'+esc(d.prompt)+'</p>'
+    + '<div class="statbar" style="margin:1rem 0 1.2rem">'+chips+'</div>'
+    + '<p class="muted">Speak your answer out loud for about thirty seconds, using the three words as anchors. Then reveal the talking points and grade yourself honestly.</p>'
+    + '<div id="speakreveal"><button class="btn" onclick="GA.reveal()">Reveal the talking points</button></div>';
 }
 function renderCard(it){
   var c = it.data;
@@ -324,15 +356,49 @@ function renderMC(it){
   if (run.mode==="boss") eyebrow = "Boss round · " + eyebrow;
   var opts = d.a.map(function(txt,i){ return {txt:txt, ok:i===0}; });
   it.shuffled = shuffle(opts);
+  it.conf = "pretty";
   var h = '<p class="eyebrow">'+eyebrow+'</p><p class="qtext">'+esc(prompt)+'</p>';
   it.shuffled.forEach(function(o,i){
     h += '<button class="opt" id="opt'+i+'" onclick="GA.answer('+i+')">'+esc(o.txt)+'</button>';
   });
+  h += '<p class="muted" style="margin:.9rem 0 .3rem">How sure are you? <span class="muted" style="font-size:.78rem">(honesty pays: +'+CONF_BONUS.know+' xp if right, priority review if wrong)</span></p>'
+    + '<div class="row" id="confrow">'
+    + '<button class="chip" id="conf-guess" onclick="GA.conf(\'guess\')">🎲 Guessing</button>'
+    + '<button class="chip" id="conf-pretty" onclick="GA.conf(\'pretty\')" style="border-color:var(--surf);color:var(--surf)">🤔 Pretty sure</button>'
+    + '<button class="chip" id="conf-know" onclick="GA.conf(\'know\')">💪 I know this</button>'
+    + '</div>';
   return h;
 }
 window.GA = {
   home:home, pick:pickPlayer, mod:modScreen, play:play, review:reviewRun,
-  leaderboard:leaderboard,
+  leaderboard:leaderboard, library:library,
+  begin:function(){ step(); },
+  conf:function(level){
+    var it = run.items[run.i]; it.conf = level;
+    ["guess","pretty","know"].forEach(function(l){
+      var b=document.getElementById("conf-"+l);
+      if (b){ b.style.borderColor = (l===level)?"var(--surf)":"var(--hairline)";
+        b.style.color = (l===level)?"var(--surf)":"var(--ink)"; }
+    });
+  },
+  reveal:function(){
+    var it = run.items[run.i], d = it.data;
+    var pts = d.points.map(function(t){ return '<li>'+esc(t)+'</li>'; }).join("");
+    document.getElementById("speakreveal").innerHTML =
+      '<div class="why"><b>The talking points:</b><ul style="margin:.5rem 0 0">'+pts+'</ul></div>'
+      + '<p class="muted">How did it go, honestly?</p>'
+      + '<button class="btn" onclick="GA.speakGrade(2)">🌊 Nailed it · flowed naturally</button>'
+      + '<button class="btn quiet" onclick="GA.speakGrade(1)">〰️ Halfway · hit some points, stumbled</button>'
+      + '<button class="btn ghost" onclick="GA.speakGrade(0)">🫧 Blanked · show it again later</button>';
+    window.scrollTo(0, document.body.scrollHeight);
+  },
+  speakGrade:function(level){
+    var it = run.items[run.i];
+    if (level===2){ markCorrect(it.id); clearWrong(it.id); run.score++; run.xp+=XP.speak; addXP(XP.speak); }
+    else if (level===1){ clearWrong(it.id); run.xp+=Math.floor(XP.speak/2); addXP(Math.floor(XP.speak/2)); }
+    else markWrong(it.id);
+    run.i++; step();
+  },
   choose:function(n){ S.current=n; save(); home(); },
   create:function(){
     var v = document.getElementById("pname").value.trim();
@@ -359,11 +425,19 @@ window.GA = {
       if (o.ok) b.classList.add("correct");
       else if (j===i) b.classList.add("wrong");
     });
-    var gain = run.mode==="boss" ? XP.bossQ : (XP[it.kind]||10);
-    if (picked.ok){ run.score++; run.xp+=gain; addXP(gain); markCorrect(it.id); clearWrong(it.id); }
-    else markWrong(it.id);
+    var cr=document.getElementById("confrow"); if (cr) cr.querySelectorAll("button").forEach(function(b){ b.disabled=true; });
+    var gain = (run.mode==="boss" ? XP.bossQ : (XP[it.kind]||10)) + (picked.ok ? (CONF_BONUS[it.conf]||0) : 0);
+    var confNote = "";
+    if (picked.ok){ run.score++; run.xp+=gain; addXP(gain); markCorrect(it.id); clearWrong(it.id);
+      if (it.conf==="know") confNote = " Called it, too: +"+CONF_BONUS.know+" xp.";
+    } else {
+      markWrong(it.id);
+      if (it.conf==="know"){ var p=P(), qi=p.wrongQueue.indexOf(it.id); if(qi>0){ p.wrongQueue.splice(qi,1); p.wrongQueue.unshift(it.id); save(); }
+        confNote = " You were sure about this one, so it goes to the front of your review queue."; }
+      else if (it.conf==="guess") confNote = " Honest guess, no harm: now you know it.";
+    }
     var d=it.data;
-    var extra = '<div class="why">'+(picked.ok?'<b>Correct.</b> ':'<b>The answer:</b> '+esc(d.a[0])+'<br>')+esc(d.why||"")+'</div>'
+    var extra = '<div class="why">'+(picked.ok?'<b>Correct.</b> ':'<b>The answer:</b> '+esc(d.a[0])+'<br>')+esc(d.why||"")+esc(confNote)+'</div>'
       + '<button class="btn" onclick="GA.next()">'+(run.i+1>=run.items.length?'Finish':'Next')+' →</button>';
     app.appendChild(el(extra));
     window.scrollTo(0, document.body.scrollHeight);
@@ -410,6 +484,30 @@ function leaderboard(){
   h += '</div><button class="btn quiet" style="margin-top:1.2rem" onclick="GA.home()">Home</button>';
   render(h);
 }
+function library(){
+  var h = topnav("Term library")
+    + '<p class="eyebrow">The term · the meaning · the human version</p>'
+    + '<h2>Quick reference, when something has not clicked yet</h2>'
+    + '<input type="text" id="libsearch" placeholder="Search a term..." oninput="GA.libFilter(this.value)" autocomplete="off">';
+  MODS.forEach(function(m){
+    if (!m.cards || !m.cards.length) return;
+    h += '<p class="eyebrow" style="margin-top:1.4rem">'+m.icon+' '+m.num+' · '+esc(m.title)+'</p>';
+    m.cards.forEach(function(c){
+      h += '<details class="panel lib-item" style="margin:.4rem 0;padding:.8rem 1rem" data-term="'+esc((c.t+" "+c.d).toLowerCase())+'">'
+        + '<summary style="cursor:pointer;font-weight:600">'+esc(c.t)+'</summary>'
+        + '<p style="margin:.5rem 0 .2rem;font-size:.93rem">'+esc(c.d)+'</p>'
+        + '<p style="margin:0;font-size:.93rem;font-style:italic;color:var(--surf)">&ldquo;'+esc(c.s)+'&rdquo;</p></details>';
+    });
+  });
+  h += '<button class="btn quiet" style="margin-top:1.2rem" onclick="GA.home()">Home</button>';
+  render(h);
+}
+GA.libFilter = function(v){
+  v = v.trim().toLowerCase();
+  document.querySelectorAll(".lib-item").forEach(function(d){
+    d.style.display = (!v || d.getAttribute("data-term").indexOf(v)>=0) ? "" : "none";
+  });
+};
 home();
 })();
 </script>
