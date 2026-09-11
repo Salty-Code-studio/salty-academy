@@ -1,0 +1,149 @@
+// Salty Academy game data · part 4: the human bank.
+// Extra questions written like real life: short scenes, short options.
+// Merged into each pack's quiz/diagnose pools at load.
+window.ACADEMY_MORE = {
+p1: {
+  quiz: [
+    {q:"A friend shows you her new site: gorgeous photos, but you cannot tell what she actually sells. What is the problem?", a:["Pretty but not clear","Nothing, pretty sells","Too few pages","The photos are too big"], why:"Beautiful and vague still loses. Clear first, pretty second."},
+    {q:"Your customer opens your site on the beach, on slow hotel wifi. What matters most in that exact moment?", a:["It loads fast","The logo looks sharp","The about page","The color scheme"], why:"Three seconds of blank screen and they are back on Instagram. Speed is the front door."},
+    {q:"'We are passionate about quality.' What is wrong with this homepage line?", a:["Anyone could say it, so it says nothing","It is too short","Passion sounds unprofessional","Nothing, it builds trust"], why:"The copy-paste test: if a competitor could paste it, it proves nothing."},
+    {q:"A visitor lands, scrolls twice, leaves without tapping anything. In one word, what happened?", a:["A bounce","A conversion","A lead","A sale"], why:"Landed and left without doing anything: that is a bounce."},
+    {q:"Where do your best reviews belong on the site?", a:["Where people decide: up top, near the book button","In the footer","On a separate reviews page only","In small print"], why:"Proof works at the moment of doubt, not three scrolls after it."},
+    {q:"What is the one job of a homepage headline?", a:["Say what you sell, and for whom","Sound inspiring","Be short enough for a t-shirt","Mention how long you have existed"], why:"Clear beats clever. Every single time."},
+    {q:"Above the fold you have three buttons: Book now, Learn more, Follow us. What is the fix?", a:["One button: Book now","Add a fourth option","Make all three bigger","Change the colors"], why:"One obvious next step. More choices means slower decisions means no decision."},
+    {q:"A cafe site has no opening hours listed. What does a hungry visitor actually do?", a:["Checks a competitor that does show them","Sends a polite email","Calls and waits","Drives over to look"], why:"Nobody works for information. The site with the answer gets the table."},
+    {q:"Which of these is real proof on a builder's website?", a:["Photos of jobs they actually did, with names","'Trusted by many happy clients'","A stock photo of a handshake","'Quality is our passion'"], why:"Real names, real work. The rest is wallpaper."},
+    {q:"Your aunt asks why her webshop 'does not work'. Visitors come, nobody buys. Your FIRST look is at...", a:["What visitors see in the first five seconds","Her logo files","Her business plan","Her competitors' prices"], why:"Plenty of visitors plus no buyers usually means the site fails speed, clarity or proof."}
+  ],
+  diagnose: [
+    {say:"'People tap my Instagram link and then... nothing. No bookings.'", a:["Conversion: the page behind the link fails the five second test","Instagram: post more often","Pricing: too expensive"], why:"The link click proves interest. What happens in the next five seconds decides the booking."},
+    {say:"'My designer won an award with my site. I get zero calls.'", a:["Clarity and proof: award-pretty is not customer-clear","Phone provider issues","People do not call anymore"], why:"Design juries reward taste. Customers reward knowing what, for whom, what next."}
+  ]
+},
+p2: {
+  quiz: [
+    {q:"A rental owner answers booking requests from his bed at 11 pm. What is that, honestly?", a:["A bottleneck wearing pajamas","Great customer service","Hustle culture, respect","A marketing strategy"], why:"Dedication that a system should have replaced months ago."},
+    {q:"'When a booking comes in, send a confirmation email.' Rules or judgment?", a:["Rules: plain automation, no AI needed","Judgment: needs AI","Neither, needs a human","Depends on the weather"], why:"When this happens, do that. The boring, reliable, valuable kind."},
+    {q:"A client wants 'an AI chatbot'. You discover the real pain is retyping bookings into three places. What do they need first?", a:["One system where things are typed once","The chatbot, as requested","A bigger team","A new website"], why:"Automation before AI. Kill the double typing before teaching a robot to chat."},
+    {q:"What does one double-booked Saturday actually cost?", a:["The refund, plus the review, plus the trust","Just the refund","Nothing, it happens","One awkward phone call"], why:"Errors are the expensive part of manual work, not the hours."},
+    {q:"Your quote for custom software feels high to a client. What number do you put next to it?", a:["What the manual work costs per year: hours × rate × 52","A discount","A competitor's price","The number of code lines"], why:"The bottleneck bills the business every week, forever. Compare against that."},
+    {q:"The owner is on holiday, phone off. A customer wants to book. In a healthy business, what happens?", a:["The system takes the request, staff can see and approve it","Everything waits two weeks","The customer calls the owner's mother","The booking is lost, c'est la vie"], why:"The phone test, passed: the business runs without one person's thumbs."},
+    {q:"Which business should probably NOT get custom software?", a:["One whose process is completely standard","One drowning in double typing","One where everything runs through the owner","One with three disagreeing lists"], why:"Standard process, standard tools. Custom is for businesses whose way of working IS the edge."},
+    {q:"A client fears 'the robot talking nonsense to customers'. What kills that fear?", a:["Nothing goes out without their one-tap approval","A longer contract","Promising it never errs","Avoiding the topic"], why:"Human in the loop: the machine prepares, the human keeps the yes."},
+    {q:"WhatsApp, a spreadsheet, a notebook and memory. What is this stack called?", a:["The duct-tape stage, and everyone passes through it","Best practice","A CRM","Enterprise architecture"], why:"Nobody chose it, it grew. Works at five customers a week, cracks at twenty-five."},
+    {q:"What is the smartest FIRST project for a hesitant client?", a:["One quick win: the most painful repeated task","The full platform at once","A six-month master plan","A logo refresh"], why:"Deliver one relief fast, earn trust, then go after the bigger bottleneck."}
+  ],
+  diagnose: [
+    {say:"'My wife runs the agenda, I run the counter, and Saturday we sold the same scooter twice.'", a:["Two lists disagreeing: one source of truth needed","A marriage problem","Understaffing: hire a third person"], why:"Nobody made a mistake. Two lists eventually always disagree."},
+    {say:"'I spend my whole Sunday sending invoices.'", a:["A rules job a machine should do while he sleeps","Normal admin, part of business","A pricing problem"], why:"Invoices follow rules. Rules are automation's home turf. Sundays are for the beach."}
+  ]
+},
+m1: {
+  quiz: [
+    {q:"A client asks: 'my nephew put our site on his own hosting, is that okay?' Your first question:", a:["Who can access it if the nephew disappears?","How much does he charge?","Is he good with computers?","Does it look nice?"], why:"Ownership first. Sites die with vanished nephews every day."},
+    {q:"Someone Googles 'scooter rental' plus your town. You show up nowhere. Where do you look FIRST?", a:["Your Google Business Profile","Your Instagram bio","Your competitor's site","A bigger ad budget"], why:"For local search, the map box with reviews and hours pays before anything else."},
+    {q:"A client wants to change a price on her site. It takes an email to a builder and four days. What is missing?", a:["A CMS: her own key to her own site","Patience","A faster builder","A second website"], why:"Day-to-day changes belong with the owner, in minutes, free."},
+    {q:"The browser shows 'Not secure' on a shop's site. Customers think...", a:["'Can I even trust these people?'","Nothing, nobody reads that","'Cool retro vibes'","'Must be cheap!'"], why:"That missing padlock (HTTPS) is a credibility leak, and the fix is quick."},
+    {q:"'We guarantee #1 on Google within 30 days.' Your reply?", a:["Nobody can guarantee that, not even Google","Sounds great, where do I sign?","Only if you pay double","Google decides on Fridays"], why:"Saying this out loud is how you instantly separate from the cold-callers."},
+    {q:"A restaurant's phone rings all day with 'are you open?'. Cheapest fix?", a:["Correct hours on the site and Google profile","Hire a receptionist","A phone menu system","Ignore the calls"], why:"The site should answer what people keep calling to ask. The phone log is the content plan."},
+    {q:"What actually makes a small business site rank better over time?", a:["Fast, clear, real words, real reviews, patience","A secret trick","Paying Google monthly","Keyword stuffing"], why:"SEO is a garden. Half of it is just Pack 01 done well, plus months."},
+    {q:"Your client's site looks perfect on her laptop. Where do you check it before agreeing?", a:["On a phone, where her customers actually are","On a bigger monitor","In dark mode","Printed out"], why:"Most visitors arrive on phones. The laptop view is the minority report."},
+    {q:"Frontend or backend: where does 'the confirmation email did not send' live?", a:["Backend: the machinery behind the screens","Frontend: the visible part","Neither, it is the wifi","The domain"], why:"Visitors never see the backend. They only feel whether it works."},
+    {q:"What is a landing page, at a birthday party?", a:["One page, one audience, one action","A page you land on after a flight","The homepage's little brother","Any page with a form"], why:"Built for one job: one offer, one button, nothing else to click."}
+  ],
+  diagnose: [
+    {say:"'We are invisible on Google but my Instagram is popping.'", a:["Findability: the searchers never find what the scrollers love","Content: post even more","Ads: boost everything"], why:"Instagram catches scrollers. Google catches people ready to buy. You want both nets in the water."},
+    {say:"'Our old web guy owns the domain and wants 500 to release it.'", a:["The hostage pattern: sadly common, fixable, never again","A fair fee for his service","A reason to start a new business name"], why:"This is exactly why the deed belongs in the owner's drawer from day one."}
+  ]
+},
+m2: {
+  quiz: [
+    {q:"Two coffee places, same street, same beans, same price. One is always full. Most likely difference?", a:["People know what that one stands for","Better espresso machine","Luck","Bigger sign"], why:"The full one owns a slot in people's heads. The other is 'the other one'."},
+    {q:"A client says: 'make the logo bigger, sales are slow.' What is your honest first move?", a:["Check what customers compare her on before touching the logo","Make it bigger, client is king","Make it smaller, contrarian style","Add a second logo"], why:"The logo is rarely the problem. Diagnose before decorating."},
+    {q:"Your photographer friend shoots 'everything: weddings, products, pets, drone'. Who hires her?", a:["Nobody specific, and that is the problem","Everyone, obviously","Only pet owners","Drone enthusiasts"], why:"For-everything reads as for-no-one. The specialist gets the calls, and the overflow work too."},
+    {q:"A guest house raises prices 20% after a visual upgrade and better photos. Bookings hold. What happened?", a:["Perceived value caught up with real value","A miracle","Inflation","The market went crazy"], why:"People decide what something costs by its signals. The signals finally matched the quality."},
+    {q:"Which sentence could ONLY come from one specific rental company?", a:["'Every booking answered within a minute, day or night'","'Quality service and great prices'","'Your satisfaction is our priority'","'Welcome to our website'"], why:"The differentiator test: if competitors cannot truthfully paste it, it is yours."},
+    {q:"Same business: playful on Instagram, formal on the site, chaotic on the invoice. Customers feel...", a:["Like they met three different companies","Impressed by the range","Nothing, nobody notices","Excited by the variety"], why:"Every inconsistency resets the trust counter. Same voice everywhere, and trust compounds."},
+    {q:"'What do you do?' at a birthday. The GOOD answer sounds like:", a:["'I build booking systems for island rentals'","'I operate in the digital solutions space'","'A bit of everything really'","'It is hard to explain'"], why:"If people can repeat it, they can recommend you. That sentence is the brand."},
+    {q:"A boutique owner hates that 'only bargain hunters come in'. Where is the leak?", a:["Her signals broadcast 'cheap': positioning and presentation","The neighborhood","The weather","Bargain hunters are everywhere"], why:"You attract who your signals invite. Change the signals, change the crowd."},
+    {q:"What does a brand kit actually prevent?", a:["Every new flyer looking like a different company","Creativity","High printing costs","Long meetings"], why:"The rulebook keeps every touchpoint recognizably one company, whoever makes it."},
+    {q:"When is a rebrand actually worth it?", a:["When what you stand for changed, not just your taste in logos","Every two years, like tires","When a competitor rebrands","When the intern is bored"], why:"The flag follows the country. Repainting the flag alone changes nothing customers feel."}
+  ],
+  diagnose: [
+    {say:"'Clients love us once they work with us. Getting them to start is the struggle.'", a:["Perceived value and proof: the outside undersells the inside","Pricing: go cheaper","Sales scripts: push harder"], why:"The work convinces, the presentation does not. Close that gap and starting gets easy."},
+    {say:"'I lowered my prices and somehow got LESS bookings.'", a:["Cheap signals invited doubt: perceived value dropped below trust","Not low enough yet","The economy"], why:"Price is a signal too. Suspiciously cheap reads as risky, not as a deal."}
+  ]
+},
+m3: {
+  quiz: [
+    {q:"A gym owner wants ads for new members in January. Half his last-year members quit by March. Better plan?", a:["Fix the leak first: keep the members he already paid for","Double the January budget","Both ads and billboards","A mascot"], why:"Filling a leaking bucket is the most expensive sport in marketing."},
+    {q:"Your post got 400 likes and zero customers. What was it?", a:["Applause: nice, but not income","A huge success","Proof ads do not work","Shadow banned"], why:"Likes are applause. Business is a raised hand with a way to reach them."},
+    {q:"A tourist looked at your kite-surf lessons page and left. Next week your ad 'still thinking about it?' appears to her. That is...", a:["Remarketing: warm, cheap, effective","Creepy and illegal","A coincidence","Spam"], why:"Only people who already showed interest see it. One small nudge for the almost-convinced."},
+    {q:"Where does 'DM the word AUDIT' fit in the pipeline?", a:["It makes raising a hand effortless: stranger becomes lead","It is the sale itself","It is the follow-up","It is retention"], why:"A lead magnet lowers the threshold: one word instead of a form with nine fields."},
+    {q:"You have 40 euros a month for marketing, no more. First priority?", a:["Collecting contacts you own from every happy customer","Boosting random posts","A radio spot","Business cards"], why:"The list is the only audience nobody can take away, and it costs almost nothing to build."},
+    {q:"'We tried Facebook ads for one week, waste of money.' What really happened?", a:["Judged before the system could learn, probably on a leaky page","Facebook does not work","Their industry is different","Ads are a scam"], why:"Ads need learning time, and they amplify whatever page they land on, including broken ones."},
+    {q:"Restaurant, Tuesday, empty. Which weapon is FASTEST?", a:["A message to their own list: tonight, something special","A new website","A rebrand","An SEO strategy"], why:"The faucet takes days, the garden takes months, a message to warm contacts takes an hour."},
+    {q:"What separates a follower from a lead?", a:["A lead left a way to reach them directly","Leads pay more","Followers are fake","Nothing, same thing"], why:"You cannot personally reach ten thousand followers. You can reach forty people who DMed."},
+    {q:"Your reels teach useful things for free. A skeptical friend asks why you give it away. Because...", a:["Generosity earns trust, and trust earns clients","You have no other content ideas","Everyone does it","The algorithm demands it"], why:"Teach first, sell second. You are the walking proof of the method."},
+    {q:"Which metric should a small business owner check MOST often?", a:["How many raised hands, and how fast we answered them","Total impressions","Follower count","Likes per post"], why:"Hands raised and answer speed are the pipeline. The rest is scenery."}
+  ],
+  diagnose: [
+    {say:"'We get inquiries but by the time I reply, they booked elsewhere.'", a:["Follow-up speed: the lead died waiting","Pricing: too expensive","Bad luck, tourists are fickle"], why:"Tuesday's lead, Friday's reply, Wednesday's competitor. Speed is the whole game here."},
+    {say:"'Our summer is insane, our winter pays nothing, every year again.'", a:["Retention and the list: winter is fished from summer's contacts","Winter ads to strangers","Close in winter"], why:"The gold for February walks through the door in July. Catch contacts in season."}
+  ]
+},
+m4: {
+  quiz: [
+    {q:"Your accountant friend spends evenings renaming client PDFs. AI-shaped or rules-shaped?", a:["AI-shaped: reading and sorting messy input","Rules-shaped: simple if-then","Neither: hire an intern","Blockchain-shaped"], why:"Messy, judgment-flavored reading is exactly where AI earns its keep, with a human glance after."},
+    {q:"'Which AI should my business buy?' The honest counter-question:", a:["'Which task do you never want to do again?'","'How much budget do you have?'","'ChatGPT, everyone buys ChatGPT'","'Do you prefer blue or green logos?'"], why:"Task first, tool second. The setup around it matters more than the brand on it."},
+    {q:"The AI drafted a customer email with a wrong price in it. Whose fault?", a:["The setup's: real prices were never grounded underneath","The AI is broken","The customer's","Nobody's, ship it"], why:"A model without your data quotes the world instead of your price list. Grounding is the job."},
+    {q:"Which sentence from a vendor should make a business owner RUN?", a:["'Our AI needs no human review at all'","'Start small with one workflow'","'Your data stays yours'","'It will make mistakes sometimes'"], why:"No-review-needed is the brochure talking. Professionals design for the mistakes."},
+    {q:"An agent, in normal words, is AI that...", a:["Does the legwork itself and brings you the result to approve","Talks in a chat window only","Watches you type","Replaces the wifi router"], why:"Chatbot talks, assistant does tasks on request, agent takes the steps and queues the yes."},
+    {q:"'Write it in our tone of voice.' What actually teaches the AI your tone?", a:["Pasting two real examples of how you write","Saying 'be more us'","Typing in your accent","It knows already"], why:"Show, do not describe. Examples beat adjectives, every time."},
+    {q:"The receptionist quietly uses free ChatGPT for customer emails, with names and details. What is this?", a:["Shadow AI: make it official, safe and better instead of banning it","Initiative, promote her","A fireable offense","Impossible, she would never"], why:"It is already happening in most businesses. Governance beats prohibition, and it is a service you sell."},
+    {q:"What does 'the model hallucinated' mean at a kitchen table?", a:["It said nonsense with full confidence","It crashed","It got hacked","It fell asleep"], why:"Plausible is not true. That friend who never says 'I do not know'."},
+    {q:"Best FIRST AI project for a small hotel:", a:["Drafting replies to the twenty questions guests always ask","A robot receptionist with a face","Predicting the stock market","An AI-generated anthem"], why:"Repeated, judgment-light, human-approved: the quick win that builds trust for round two."},
+    {q:"'Will AI take my job?' asks the bookkeeper. The grown-up answer:", a:["It takes tasks, not jobs: the boring hours go first","Yes, within a year","Never, AI is hype","Only on Mondays"], why:"You stop paying seniors to do junior work. The judgment stays human, the drudgery leaves."}
+  ],
+  diagnose: [
+    {say:"'We bought an AI tool six months ago. Nobody uses it.'", a:["Tool before task: nobody knew which problem it solved","Lazy employees","The tool needs an update"], why:"AI bought as a gadget gathers dust. AI aimed at a hated task gets used before lunch."},
+    {say:"'The chatbot on our site makes customers angrier than no answer at all.'", a:["It pretends to know everything: give it honesty and a handoff to humans","Customers hate technology","Make the chatbot apologize more"], why:"A bot that says 'a colleague will answer this one' beats a bot that improvises confidently."}
+  ]
+},
+m5: {
+  quiz: [
+    {q:"The booking shows on the owner's phone but not on the counter computer. What broke?", a:["Sync: two screens, not reading one truth","The internet, probably","The customer typed wrong","Mercury is retrograde"], why:"All screens should read one list, at the same moment. Anything else breeds surprises."},
+    {q:"A client fears losing 10 years of customer history when switching systems. You say:", a:["'It is a house move with movers: boxed, labeled, checked, nothing lost'","'Fresh start, old data is baggage'","'Print everything first'","'Risky, better stay put'"], why:"Migration is routine work with a scary name. Say exactly that."},
+    {q:"Payment arrives, and the booking marks itself paid, and the confirmation sends. What made that possible?", a:["An integration: the systems talk, no human messenger","Luck","The customer did it","A very fast intern"], why:"Payment rings the doorbell, the rules do the running. Nobody retypes anything."},
+    {q:"'Can your system talk to my accounting software?' is really asking about...", a:["Whether both sides have a plug: an API","The color scheme","The font","The price"], why:"Good modern tools have plugs. A closed box without one is the real warning sign."},
+    {q:"Excel has run the shop fine for years. When does it stop being fine?", a:["Two people editing at once, or one typo selling the same scooter twice","Never, Excel is eternal","The day it looks old","When Microsoft says so"], why:"A spreadsheet trusts everyone to be careful forever. A database makes careful automatic."},
+    {q:"The owner asks 'where IS our data, actually?' The healthy answer:", a:["Professional cloud servers, backed up automatically, accounts in your name","On Kevin's laptop","In the drawer, on a USB stick","Good question, nobody knows"], why:"Guarded data centers plus daily copies beat the drawer and Kevin's laptop, every time."},
+    {q:"Which question exposes the most about a business's systems in ten seconds?", a:["'How many places does one booking get written down?'","'Which software do you use?'","'How old is your laptop?'","'Do you like technology?'"], why:"Count the places, count the risks. Every number above one is a mistake waiting."},
+    {q:"The dashboard's real test is:", a:["The owner checks it instead of calling someone","It has many colorful charts","It fills the whole screen","It beeps"], why:"A glance replacing a phone call: that is a dashboard doing its job."},
+    {q:"What is an internal tool, in plain words?", a:["Software only the team sees, customers never touch it","A hammer in the back office","Any app on the work phone","The admin's secret files"], why:"Half of all bottleneck-removal is invisible to customers and transformative anyway."},
+    {q:"'What happens when it breaks?' The professional answer starts with:", a:["'We know before you do, and here is the fix path'","'It will not break'","'You call, we see'","'Restart it and pray'"], why:"Things occasionally break everywhere. Monitoring plus a plan is what separates pros from hope."}
+  ],
+  diagnose: [
+    {say:"'Our availability lives in my head. It works, mostly.'", a:["Single source of truth missing: 'mostly' is the expensive word","A memory training issue","Perfectly fine for now"], why:"Heads go on holiday, get sick, and forget. One list that everything reads from does not."},
+    {say:"'We stopped taking online payments because checking the bank app all day drove us crazy.'", a:["A missing doorbell: the payment should tell the booking itself","Online payments are overrated","Check the app less often"], why:"A webhook turns 'checking all day' into 'gets told the second it happens'."}
+  ]
+},
+m6: {
+  quiz: [
+    {q:"Prospect says 'our website is bad, what would a new one cost?' Your best FIRST sentence:", a:["'What makes you say it is bad? Walk me through what happens now.'","'Between three and eight thousand.'","'Very bad indeed, I checked.'","'New websites start Monday.'"], why:"Diagnose before quoting. The stated problem and the real problem differ half the time."},
+    {q:"In the first ten minutes with a prospect, you should mostly be...", a:["Asking and shutting up","Presenting your portfolio","Explaining your process","Talking prices"], why:"Two thirds them, one third you. Pitches get price-shopped, diagnoses get hired."},
+    {q:"The prospect went quiet after your insider question. You...", a:["Let the silence work: their story is coming","Fill it quickly with your pitch","Ask three more questions rapid-fire","Apologize for the question"], why:"The silence after a good question is where the real brief gets written."},
+    {q:"You realize mid-conversation their problem is staffing, not software. You say:", a:["'This is not something I should sell you. Here is who can help.'","Nothing, sell the software anyway","'Software fixes everything eventually'","'Let us start small then'"], why:"Losing one wrong deal buys a referral machine. Honesty is the long game."},
+    {q:"Which closing line keeps the momentum alive?", a:["'I will send the audit Thursday, and if it looks right we start with the calendar.'","'Think about it and let me know.'","'Call me whenever.'","'No pressure at all, ever.'"], why:"A concrete next step with a date. Fog is where great conversations go to die."},
+    {q:"The prospect lists FOUR problems. You...", a:["Pick the one that bleeds most, park the rest openly","Solve all four in one proposal","Pick the easiest","Pick the priciest"], why:"One recommendation, sized to the biggest leak. A menu makes them the expert, and they freeze."},
+    {q:"'You are the third rental owner this month who told me exactly this.' Why does this line work?", a:["Honest normalization: shame closes people, normalcy opens them","It brags about your client count","It fills time","It confuses them"], why:"Only say it because it is true, and their confession becomes safe to continue."},
+    {q:"When does the ONE client story enter the conversation?", a:["After their wound is on the table, matched to it, in thirty seconds","In the first minute, as an icebreaker","At the end, as a bonus","Twice, for emphasis"], why:"Situation, turn, takeaway, then hand it back: 'sound familiar?'"},
+    {q:"'What does something like this cost?' in minute two. Your move:", a:["'Honest answer: depends on the bottleneck. Let us find it first, then you get a real number.'","A number, any number","'Cheaper than you fear!'","Change the subject"], why:"A real diagnosis earns a real quote. A guessed number haunts the whole deal."},
+    {q:"The best proof you have done this before is...", a:["Asking about the moment only insiders know exists","A thick portfolio PDF","Name-dropping clients","Your years of experience"], why:"'Late return, next renter at the counter, what happens?' No slide can match that."}
+  ],
+  diagnose: [
+    {say:"'Everyone I quote says they will think about it, then vanishes.'", a:["No diagnosis before the quote: the number arrived before the trust","Prices too high","Ghosting is normal now"], why:"A quote without a shared diagnosis is just a number to compare. Diagnose first, quote second."},
+    {say:"'I explained our whole tech stack and the client's eyes glazed over.'", a:["Wrong register: kitchen-table language was needed","A boring client","Should have used more diagrams"], why:"Match the listener, then go one notch simpler. The decoder column exists for exactly this."}
+  ]
+}
+};

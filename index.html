@@ -246,12 +246,19 @@
 <script src="data1.js"></script>
 <script src="data2.js"></script>
 <script src="data3.js"></script>
+<script src="data4.js"></script>
 <script>
 (function(){
 "use strict";
 var MODS = (window.ACADEMY_PART1||[]).concat(window.ACADEMY_PART2||[]);
 var EXTRAS = window.ACADEMY_EXTRAS||{};
 MODS.forEach(function(m){ var e=EXTRAS[m.id]; if(e){ m.idea=e.idea; m.speak=e.speak; } });
+var MORE = window.ACADEMY_MORE||{};
+MODS.forEach(function(m){ var x=MORE[m.id]; if(x){
+  if (x.quiz) m.quiz = (m.quiz||[]).concat(x.quiz);
+  if (x.diagnose) m.diagnose = (m.diagnose||[]).concat(x.diagnose);
+  if (x.translate) m.translate = (m.translate||[]).concat(x.translate);
+}});
 var META = {
   p1:{big:"CONVERT", desc:"Why websites lose customers, and the speed-clarity-proof fix."},
   p2:{big:"UNBLOCK", desc:"Find the bottleneck, untangle the terminology, explain the useful fix."},
