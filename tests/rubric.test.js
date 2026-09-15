@@ -74,3 +74,53 @@ test("nice groups do not change the state but are reported", function(){
   assert.strictEqual(r.state, "understood");
   assert.deepStrictEqual(r.niceHit, [0]);
 });
+
+test("prefix matching accepts stems within one character of length", function(){
+  var U = global.window.SA_UTIL;
+  var pairs = [
+    ["losing", "lose"],
+    ["bouncing", "bounce"],
+    ["leaves", "leave"]
+  ];
+  pairs.forEach(function(pair){
+    var one = { must:[[pair[1]]] };
+    var r = R.grade(pair[0], one);
+    assert.strictEqual(r.state, "understood",
+      U.stem(pair[0]) + " should match " + U.stem(pair[1]));
+  });
+});
+
+test("prefix matching rejects stems that differ by more than one character", function(){
+  var pairs = [
+    ["background", "back"],
+    ["secondary", "second"],
+    ["market", "mark"]
+  ];
+  pairs.forEach(function(pair){
+    var one = { must:[[pair[1]]] };
+    var r = R.grade(pair[0], one);
+    assert.strictEqual(r.state, "notyet");
+  });
+});
+
+test("an ordinary sentence about a background image does not pass the speed rubric", function(){
+  var r = R.grade("The background image is low resolution, which is a secondary concern for now.", SPEED);
+  assert.notStrictEqual(r.state, "understood");
+});
+
+test("minMust at or above the group count warns once, unless there is only one group", function(){
+  var calls = [];
+  var original = console.warn;
+  console.warn = function(msg){ calls.push(msg); };
+  try {
+    R.grade("a b", { must:[["a"],["b"]], minMust:2 });
+    assert.strictEqual(calls.length, 1);
+    assert.ok(calls[0].indexOf("2") >= 0);
+
+    calls = [];
+    R.grade("a", { must:[["a"]], minMust:1 });
+    assert.strictEqual(calls.length, 0);
+  } finally {
+    console.warn = original;
+  }
+});

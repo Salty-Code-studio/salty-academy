@@ -10,12 +10,16 @@ function stemList(text){
 
 /* Stemming alone is not enough: "bouncing" stems to "bounc" while "bounce" stems to "bounce",
    and "losing" stems to "los" while "lose" stays "lose". So two stems also match when one is a
-   prefix of the other and the shorter is at least three characters. Rubric authors control the
-   synonym lists, so the occasional loose match (car / care) is a cost worth paying. */
+   prefix of the other, the shorter is at least three characters, and the two stems differ in
+   length by no more than one character. That length cap is load bearing: without it, "back"
+   prefix matches "background" and "second" prefix matches "secondary", both of which are
+   confident false positives on ordinary words that share no meaning with the synonym. Rubric
+   authors control the synonym lists, so the occasional loose match within that one character
+   window (car / care) is a cost worth paying. */
 function stemsMatch(a, b){
   if (a === b) return true;
   var short = a.length < b.length ? a : b, long = a.length < b.length ? b : a;
-  return short.length >= 3 && long.indexOf(short) === 0;
+  return short.length >= 3 && long.length - short.length <= 1 && long.indexOf(short) === 0;
 }
 
 function groupHit(group, stemList, flat){
@@ -37,6 +41,11 @@ function grade(answer, rubric){
   var miss = (rubric && rubric.miss) || [];
   var minMust = rubric && typeof rubric.minMust === "number"
     ? rubric.minMust : Math.ceil(must.length / 2);
+
+  if (must.length > 1 && minMust >= must.length && typeof console !== "undefined" && console.warn) {
+    console.warn("SA_RUBRIC: minMust (" + minMust + ") is >= the number of must groups (" +
+      must.length + "), so partial credit can never be awarded for this rubric.");
+  }
 
   var hit = [], missed = [], niceHit = [];
   must.forEach(function(g, i){ (groupHit(g, stems, flat) ? hit : missed).push(i); });

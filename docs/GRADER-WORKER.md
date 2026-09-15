@@ -55,7 +55,21 @@ The worker must return exactly this shape:
   right, so the client can show a self-override instead of a flat verdict.
 
 Any other shape, a non 200 response, a network error, or a timeout is treated
-by the client as a failed call.
+by the client as a failed call. The client waits at most 8 seconds for a
+response, using `AbortController` to cancel the request; a worker that
+accepts the connection and never replies is treated the same as one that is
+down.
+
+## Untrusted response fields
+
+`misconception`, `reason`, and `nudge` come from the worker, which means they
+are untrusted input by the time `engine/ai.js` reads them. `engine/ai.js`
+passes them through unescaped on purpose. The renderer that puts these
+strings on the page is responsible for escaping them before they reach the
+DOM. Escaping them a second time in `engine/ai.js` would show the learner
+literal entity codes instead of the worker's text, so do not add escaping
+there. If a new renderer is added for this data, it must escape these three
+fields itself.
 
 ## Key handling
 
@@ -82,3 +96,16 @@ silently and re-grades the same answer locally with `SA_RUBRIC.grade`. This
 means the worker is purely additive: if it is slow, if it is down, if it is
 never built at all, the learner still gets a verdict and the app keeps
 working exactly as it does today, offline and for free.
+
+## Guidance for rubric authors: pick distinctive synonyms
+
+The local matcher accepts a stem as a match when it is a short prefix of a
+longer stem in the learner's answer. This is what lets "losing" match the
+synonym "lose" and "bouncing" match "bounce". The same rule means a very
+short synonym, three or four characters once stemmed, can collide with a
+longer, unrelated word that happens to start the same way. "back" is the
+worked example: it prefix matches "background", so a rubric that uses "back"
+as a synonym for someone leaving a page would also, wrongly, credit an
+answer that only mentions a background image. Prefer whole, distinctive
+words over short ones, and prefer a two word phrase when the short word is
+the clearest way to say the idea, for example "go back" instead of "back".
