@@ -36,7 +36,7 @@ test("migrate is safe on an empty or broken v1 blob", function(){
 
 test("blankPlayer has every v2 field", function(){
   var p = ST.blankPlayer();
-  ["xp","badges","boss","streak","lastDay","plays","history","last","concepts","seen","wrongQueue","completed","completedShown","openFlags"]
+  ["xp","badges","boss","streak","lastDay","plays","history","last","concepts","seen","right","wrongQueue","completed","completedShown","openFlags"]
     .forEach(function(k){ assert.ok(k in p, "missing " + k); });
   assert.strictEqual(p.xp, 0);
   assert.strictEqual(p.completed, null);

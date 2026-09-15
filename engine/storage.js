@@ -7,7 +7,7 @@ var KEY_V1 = "salty-academy-game-v1";
 
 function blankPlayer(){
   return { xp:0, badges:[], boss:{}, streak:0, lastDay:null, plays:0,
-           history:[], last:null, concepts:{}, seen:{}, wrongQueue:[],
+           history:[], last:null, concepts:{}, seen:{}, right:{}, wrongQueue:[],
            completed:null, completedShown:false, openFlags:[] };
 }
 

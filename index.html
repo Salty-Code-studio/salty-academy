@@ -336,9 +336,9 @@ function itemsOf(m){ return (IDX.byPack[m.id] || []).map(function(it){ return it
 function mastery(m){ return MY.packMastery(P(), m.id); }
 function totalMastery(){ return MY.totalMastery(P()); }
 function recalled(m){
-  var p = P(), n = 0;
+  var p = P(), right = p.right || {}, n = 0;
   (IDX.byPack[m.id] || []).forEach(function(it){
-    if (it.format === "flash" && p.seen[it.id]) n++;
+    if (it.format === "flash" && right[it.id]) n++;
   });
   return n;
 }
@@ -353,21 +353,24 @@ function toRevisit(m){
 /* One call from every answer path: records the concept movement, the seen flag and the review queue. */
 function recordAnswer(item, correct, confidence){
   var p = P();
+  if (!p.right) p.right = {};
   p.seen[item.id] = (p.seen[item.id] || 0) + 1;
+  if (correct) p.right[item.id] = 1;
   MY.record(p, item.concepts, correct, confidence, NOW());
   var at = p.wrongQueue.indexOf(item.id);
   if (correct){ if (at >= 0) p.wrongQueue.splice(at, 1); }
-  else {
+  else if (confidence === "know"){
     if (at >= 0) p.wrongQueue.splice(at, 1);
-    if (confidence === "know") p.wrongQueue.unshift(item.id);
-    else p.wrongQueue.push(item.id);
+    p.wrongQueue.unshift(item.id);
+  } else {
+    if (at < 0) p.wrongQueue.push(item.id);
   }
   save();
   checkAll();
 }
 function checkAll(){
-  var p=P(), all=true;
-  IDX.items.forEach(function(it){ if (it.format==="flash" && !p.seen[it.id]) all=false; });
+  var p=P(), right = p.right || {}, all=true;
+  IDX.items.forEach(function(it){ if (it.format==="flash" && !right[it.id]) all=false; });
   if (all) grant("words");
   if (MODS.every(function(m){ return p.boss[m.id]; })) grant("master");
 }
