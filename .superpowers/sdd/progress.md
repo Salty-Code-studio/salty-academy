@@ -33,3 +33,13 @@ Task 12: complete (commits e40adab..4c8ae71, review clean after one fix pass). T
   Also fixed: TEST_SPEC duplicated the engine's SPEC (drift risk), finalsHome did not set the nav view, GA.answer had no mastery xp branch, and the cinematic ran ~7.3s against a specified 8 to 12s window.
   Observed and worth keeping: Mastery 2 reports shortfall 1 today, honestly flagging that the application-format pool is thin. Task 13 is what fills it.
 UI PHASE COMPLETE (Tasks 8-12). Content sweep begins at Task 13.
+Task 13 content sweep, pack by pack (each its own commit):
+  p1 done (df1f97f) 45 untagged -> 0. 14 rewritten, 1 retired. Longest-correct ratio 0.26.
+  Schema amendment (6c17805): speak prompts got their own id letter `s`, so they no longer share the flashcard namespace.
+  p2 done (17e5a6a) 48 -> 0. 13 rewritten, 3 retired. Ratio 0.35, capped because I had forbidden touching data4 options.
+  AMENDED for later packs: data4 items keep their scenes and why-lines, but option wording and length may be adjusted to kill the longest-answer tell.
+  m1 done (e435994) 44 -> 0. 9 rewritten, 5 retired. Ratio 0.226.
+  m2 done (ccac815) 44 -> 0. 12 rewritten, 2 retired. Ratio 0.125.
+  CARRY TO TASK 14: p2's ratio of 0.35 is above the one third target. Fix it in the final pass now that data4 options are fair game.
+  m3 done 46 -> 0. Legacy had a quiz+translate+diagnose array I initially miscounted (16 legacy items, not 12): 15 rewritten, 1 retired (a redundant remarketing definition question, duplicate in spirit of data4's kite-surf scene). First-pass ratio came back 0.79 using character-length measurement instead of eyeballed word count; fixed by trimming/padding down to 0.138. Added 1 new mastery quiz (targeting), 1 new mastery diagnose (conversion-rate), 2 open module items (funnel, garden-faucet), 1 match item (reach/engagement/paid/organic), 2 open mastery items (acquisition, creative). 6 mastery items total, 4 of them open/diagnose. All 16 m3 concepts now have at least 2 tagged items.
+  CARRY TO TASK 14: measure the longest-correct ratio by character length, not eyeballed word count. The two diverged badly on this pack.

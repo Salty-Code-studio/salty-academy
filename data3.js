@@ -95,17 +95,17 @@ window.ACADEMY_EXTRAS = {
   m3: {
     idea: "Marketing is a pipeline: strangers, visitors, leads, customers. Find the leak before spending a euro.",
     speak: [
-      {prompt:"The leaking bucket", words:["Water","Hole","Patch"], points:[
+      {id:"s.m3.funnel.a", c:["c.m3.funnel"], prompt:"The leaking bucket", words:["Water","Hole","Patch"], points:[
         "Marketing money is water carried in a bucket from the tap to the garden.",
         "If the bucket leaks, the answer is not more water, it is patching the hole.",
         "Lots of visitors but no bookings? The leak is the website, not the ads.",
         "Nobody has heard of you? That is a reach problem, a different fix."]},
-      {prompt:"Garden and faucet", words:["Ads","Content","Compound"], points:[
+      {id:"s.m3.garden-faucet.a", c:["c.m3.garden-faucet","c.m3.organic","c.m3.paid"], prompt:"Garden and faucet", words:["Ads","Content","Compound"], points:[
         "Ads are a faucet: instant flow, stops the second you stop paying.",
         "Content, reviews and SEO are a garden: slow, then working while you sleep.",
         "Most businesses need the faucet while the garden grows.",
         "Almost nobody needs only the faucet, forever."]},
-      {prompt:"Followers versus the list", words:["Rented","Owned","Reach"], points:[
+      {id:"s.m3.algorithm.a", c:["c.m3.algorithm","c.m3.crm"], prompt:"Followers versus the list", words:["Rented","Owned","Reach"], points:[
         "Followers are rented: the platform owns them and the algorithm decides.",
         "An email or phone list is owned: nobody can take it away.",
         "If Instagram vanished tomorrow, who could you still reach?",
