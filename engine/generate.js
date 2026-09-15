@@ -82,23 +82,14 @@ function build(testNo, player, index, opts){
     });
   }
 
-  /* For the weighted transfer test, narrow to whatever the current heaviest weight
-     is before picking. A flat weighted draw across a big pool drowns out the one or
-     two items that actually cover a learner's weak concept; narrowing first is what
-     makes the test genuinely lean on weak spots instead of hoping randomness helps. */
-  function candidatePool(pool, packFilter){
-    var avail = available(pool, packFilter);
-    if (!spec.weighted || avail.length < 2) return avail;
-    var max = 0;
-    avail.forEach(function(it){ max = Math.max(max, weightOf(it)); });
-    return avail.filter(function(it){ return weightOf(it) === max; });
-  }
-
+  /* Weighted draw across the whole available pool, no narrowing. pickWeighted
+     already turns weightOf into proportional odds: a weight of 3 against a
+     weight of 1 means three times as likely, not certain. Narrowing to the
+     top weight first would collapse that into an argmax pick. */
   function takeOne(pool, packFilter, isRepeat){
     var avail = available(pool, packFilter);
     if (!avail.length) return false;
-    var candidates = candidatePool(pool, packFilter);
-    var got = pickWeighted(candidates, weightOf, 1, rng);
+    var got = pickWeighted(avail, weightOf, 1, rng);
     if (!got.length) return false;
     taken[got[0].id] = 1;
     out.push(got[0]);
@@ -119,8 +110,16 @@ function build(testNo, player, index, opts){
     break;
   }
 
+  /* A coverage hole is silent unless it is named: a pack that contributed no
+     items at all (its eligible pool was empty) still needs to show up, even
+     though "still sample the whole course" is one of the two headline rules. */
+  var packsMissing = packIds.filter(function(pk){
+    return !out.some(function(it){ return it.pack === pk; });
+  });
+
   return { testNo:testNo, title:spec.title, focus:spec.focus,
-           items:U.shuffle(out).slice(0, spec.n), shortfall:shortfall };
+           items:U.shuffle(out).slice(0, spec.n), shortfall:shortfall,
+           packsMissing:packsMissing };
 }
 
 root.SA_GENERATE = { unlocked:unlocked, build:build, pickWeighted:pickWeighted };

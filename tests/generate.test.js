@@ -80,6 +80,22 @@ test("shortfall counts forced repeats instead of silently shrinking the test", f
   assert.ok(t.shortfall > 0, "expected a reported shortfall");
 });
 
+test("packsMissing is empty when every pack has eligible items", function(){
+  [1,2,3].forEach(function(testNo){
+    var t = G.build(testNo, allMastered(player()), index(), {});
+    assert.deepStrictEqual(t.packsMissing, [], "test " + testNo + " should report no missing packs");
+  });
+});
+
+test("a pack with no eligible items shows up in packsMissing instead of staying silent", function(){
+  var idx = index(), p = allMastered(player());
+  idx.items = idx.items.filter(function(i){ return i.pack !== "m4"; });
+  idx.byPack.m4 = [];
+  var t = G.build(3, p, idx, {});
+  assert.strictEqual(t.items.length, 18, "the test still fills to size from the other packs");
+  assert.deepStrictEqual(t.packsMissing, ["m4"]);
+});
+
 test("pickWeighted favours heavy entries with a stubbed rng", function(){
   var pool = ["light","heavy"];
   var w = function(x){ return x === "heavy" ? 9 : 1; };
@@ -88,7 +104,67 @@ test("pickWeighted favours heavy entries with a stubbed rng", function(){
   assert.strictEqual(G.pickWeighted(pool, w, 5, Math.random).length, 2, "never exceeds the pool");
 });
 
-test("test 3 leans on the learner's weak concepts", function(){
+/* Statistical contract for test 3's weighting. The math behind the constants below
+   (WEAK_TRIALS, WEAK_HIT_THRESHOLD) is worked out from this exact fixture:
+
+   m4 has 13 concepts. Items get concepts[(f+v) % 13] for format index f (0..5) and
+   version v (0,1), so only the format-0/version-0 item (a "module" item) lands on
+   concepts[0], the weak concept. That gives m4's 12-item pool these weights:
+     - 1 item (the weak one, module)         weight 3   (misconception -> weights() = 3)
+     - 5 other module items                  weight 1 each (mastered -> weights() = 1)
+     - 6 mastery-tagged items                weight 2 each (weight 1 concept * 2x "use" bonus)
+     total pool weight = 3 + 5*1 + 6*2 = 20
+
+   Test 3 first draws one item per pack (the "cover every pack" pass, 8 draws for
+   8 packs), then fills to size 18 by drawing 10 more from the whole remaining pool.
+   Only the m4 per-pack draw can select the weak item during the first pass, so:
+     P(weak selected in the m4 per-pack draw) = 3/20 = 0.15
+   Since the fill pass can only add further chances (the weak item stays eligible if
+   it survives the first pass), 0.15 is an exact, provable LOWER BOUND on P(hit) for
+   any correctly weighted implementation. The full multi-stage weighted-without-
+   replacement probability has no simple closed form by hand, so it was measured with
+   a 300,000-trial simulation against this exact fixture: P(hit) = 0.334 +/- 0.002
+   (95% CI), comfortably above the 0.15 floor.
+
+   For a flat, unweighted implementation (weightOf === 1 for every item), weighted
+   sampling without replacement degenerates into simple random sampling, which DOES
+   have a closed form:
+     P(weak in the m4 per-pack draw)              = 1/12
+     P(weak in the 10-item fill pass | it survived) = 10/88
+       (96 items total, 8 leave in the per-pack pass, 88 remain; 10 more are drawn)
+     P(hit | flat) = 1/12 + (11/12)(10/88) = 44/528 + 55/528 = 99/528 = 3/16 = 0.1875
+
+   0.334 vs 0.1875 is real separation, but 40 trials (the original count) cannot
+   resolve it: mean 13.2 vs 7.5, sd ~3.0 and ~2.5, about 1.5 sigma apart, confirmed by
+   simulation to produce overlapping hit-count ranges for the two implementations.
+   That overlap is exactly how the narrowing bug (finding 1) hid behind a 30-of-40
+   threshold: narrowing makes the weak item appear in literally every test (100%),
+   so any threshold well under 40 passed trivially without ever exercising the real
+   proportional-draw math. Raising the trial count is what "adjust the fixture" means
+   here: 2000 trials narrows both distributions enough that a single hit-count
+   threshold cleanly separates them (correct mean ~668, sd ~21; flat mean 375,
+   sd ~17.5; threshold 550 sits ~5.6 sd below the correct mean and ~10 sd above the
+   flat mean), verified empirically below and in the task report.
+
+   On non-determinism: this fixture has exactly one item in the whole 96-item pool
+   that even touches the weak concept (only concepts[(f+v) % 13] === 0 happens once,
+   at format 0 / version 0). So whenever the weak concept appears in a test it is
+   necessarily that same item id; comparing full 18-item id-sets for variety does NOT
+   by itself catch narrowing here, because the other 7 packs still have several items
+   tied at the same top weight, so their slots keep rolling randomly even when the
+   m4 slot has collapsed to a single deterministic pick (verified: the old narrowing
+   code produced 2000 distinct full id-sets in 2000 builds, same as the fix). The
+   assertion that actually catches finding 1 is that the weak item's PRESENCE is not
+   constant: under narrowing every single build includes it (hits === WEAK_TRIALS,
+   the same 100% collapse the reviewer measured as "200 of 200"), so asserting
+   hits < WEAK_TRIALS directly fails against narrowing while trivially holding for a
+   correctly weighted draw (~33%, nowhere near 100%). Both checks are kept below: the
+   lower bound proves the weighting favours the weak spot, the upper bound proves
+   that favour is probabilistic, not an argmax lock. */
+var WEAK_TRIALS = 2000;
+var WEAK_HIT_THRESHOLD = 550;
+
+test("test 3 leans on the learner's weak concepts, and the draw is not deterministic", function(){
   var idx = index(), p = allMastered(player());
   var weak = global.window.SA_CONCEPTS.byPack("m4")[0].id;
   M.record(p, [weak], false, "know", 1789000000000);
@@ -96,9 +172,20 @@ test("test 3 leans on the learner's weak concepts", function(){
     if (c.id !== weak) for (var i=0;i<5;i++) M.record(p, [c.id], true, "know", 1789000000000);
   });
   var hits = 0;
-  for (var r=0;r<40;r++){
+  var idSets = {};
+  for (var r=0;r<WEAK_TRIALS;r++){
     var t = G.build(3, p, idx, {});
     if (t.items.some(function(i){ return i.concepts.indexOf(weak) >= 0; })) hits++;
+    idSets[t.items.map(function(i){ return i.id; }).sort().join(",")] = 1;
   }
-  assert.ok(hits >= 30, "the weak concept appeared in only " + hits + " of 40 tests");
+  assert.ok(hits >= WEAK_HIT_THRESHOLD,
+    "the weak concept appeared in only " + hits + " of " + WEAK_TRIALS + " tests, " +
+    "expected at least " + WEAK_HIT_THRESHOLD + " (analytic lower bound 15%, measured " +
+    "rate ~33%, see the comment above this test)");
+  assert.ok(hits < WEAK_TRIALS,
+    "the weak concept appeared in every single one of " + WEAK_TRIALS + " tests: " +
+    "that is a deterministic pick (argmax), not a weighted draw");
+  assert.ok(Object.keys(idSets).length > 1,
+    "every generated test had the exact same full set of item ids across all " +
+    WEAK_TRIALS + " builds, which would mean nothing in the whole test varies at all");
 });
