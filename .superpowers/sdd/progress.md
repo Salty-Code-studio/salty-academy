@@ -64,3 +64,9 @@ FINAL WHOLE-BRANCH REVIEW (Fable, code surface only; content audited separately)
   One Important finding, fixed (38c44d3): the run-token guard covered quitting and starting a new run but not the header nav, so with a remote grader switched on, navigating mid-grade would have recorded mastery and xp for an off-screen question and then thrown. Dormant with local grading. Fixed plus a defensive container check.
   Minors left as follow-ups, none blocking: a loader throw yields a blank #app with no message; esc() and shuffle() exist both in the IIFE and in SA_UTIL; a player named with a backslash or `__proto__` misbehaves; dead fields p.plays, run.partial, it.picks and unused MY.due / MY.label; flashcards inside a mastery run pay 5 xp where other formats pay 10.
 STATE: branch feat/academy-v2, 41 commits, 78 tests green, 418 items all tagged. Verified end to end in Chrome. NOT DEPLOYED, awaiting Mo.
+
+DEPLOYED 2026-09-15. Tagged `v1-pre-rebuild` at fced5f2 first, merged feat/academy-v2 into main as a no-ff merge (8ecc177), pushed main and the tag.
+  Live verification: all 15 assets 200, all script tags versioned ?v=2, noindex intact, no alert( in the served file.
+  In-browser on the live URL: engine loaded, 114 concepts, 418 items, 0 untagged, sprints in p1/p2/m6 across four formats, library/speak/profile all render, 17 concepts tracked, zero console errors.
+  The smoke-test player was removed afterwards and localStorage restored to the empty state it was found in.
+  Rollback: git checkout main && git reset --hard v1-pre-rebuild && git push --force-with-lease origin main
