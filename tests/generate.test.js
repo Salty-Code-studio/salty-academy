@@ -163,6 +163,7 @@ test("pickWeighted favours heavy entries with a stubbed rng", function(){
    that favour is probabilistic, not an argmax lock. */
 var WEAK_TRIALS = 2000;
 var WEAK_HIT_THRESHOLD = 550;
+var WEAK_HIT_MAX = 800;
 
 test("test 3 leans on the learner's weak concepts, and the draw is not deterministic", function(){
   var idx = index(), p = allMastered(player());
@@ -178,13 +179,10 @@ test("test 3 leans on the learner's weak concepts, and the draw is not determini
     if (t.items.some(function(i){ return i.concepts.indexOf(weak) >= 0; })) hits++;
     idSets[t.items.map(function(i){ return i.id; }).sort().join(",")] = 1;
   }
-  assert.ok(hits >= WEAK_HIT_THRESHOLD,
-    "the weak concept appeared in only " + hits + " of " + WEAK_TRIALS + " tests, " +
-    "expected at least " + WEAK_HIT_THRESHOLD + " (analytic lower bound 15%, measured " +
-    "rate ~33%, see the comment above this test)");
-  assert.ok(hits < WEAK_TRIALS,
-    "the weak concept appeared in every single one of " + WEAK_TRIALS + " tests: " +
-    "that is a deterministic pick (argmax), not a weighted draw");
+  assert.ok(hits >= WEAK_HIT_THRESHOLD && hits <= WEAK_HIT_MAX,
+    "weak concept hit count " + hits + " outside band [" + WEAK_HIT_THRESHOLD + ", " +
+    WEAK_HIT_MAX + "] (low " + (hits < WEAK_HIT_THRESHOLD ? "suggests flat weighting" : "") +
+    ", high " + (hits > WEAK_HIT_MAX ? "suggests squared or collapsed weighting" : "") + ")");
   assert.ok(Object.keys(idSets).length > 1,
     "every generated test had the exact same full set of item ids across all " +
     WEAK_TRIALS + " builds, which would mean nothing in the whole test varies at all");
