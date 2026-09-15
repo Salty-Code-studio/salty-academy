@@ -184,6 +184,17 @@
   .termrow { display:flex; gap:.4rem; flex-wrap:wrap; }
   .chip.term { cursor:pointer; border-style:dashed; }
   .opt[disabled] { opacity:.45; cursor:not-allowed; }
+  textarea#openans { width:100%; font:inherit; font-size:1rem; padding:.8rem;
+    border:1px solid var(--line); border-radius:10px; background:var(--paper); color:var(--ink);
+    resize:vertical; margin:.4rem 0 .8rem; }
+  .matchgrid { display:flex; flex-direction:column; gap:.5rem; margin:.6rem 0 1rem; }
+  .matchrow { display:flex; gap:.6rem; align-items:center; flex-wrap:wrap;
+    border:1px solid var(--line); border-radius:10px; padding:.6rem .7rem; }
+  .matchrow .ml { flex:1 1 55%; font-size:.95rem; }
+  .matchrow select { flex:1 1 40%; font:inherit; padding:.45rem; border-radius:8px;
+    border:1px solid var(--line); background:var(--paper); color:var(--ink); }
+  .matchrow.correct { border-color:#3F7D5F; }
+  .matchrow.wrong { border-color:#B0452F; }
   /* idea interstitial */
   .idea { background:var(--teal); color:var(--teal-ink); border-radius:16px; padding:2rem 1.8rem; margin:.5rem 0 1.2rem; }
   .idea .eyebrow { color:var(--blue); }
@@ -714,8 +725,10 @@ function step(){
   var h = playbar(label + ' · ' + (run.i+1) + '/' + run.items.length)
     + '<div class="progressline"><i style="width:'+Math.round(100*run.i/run.items.length)+'%"></i></div>'
     + '<div class="narrow">';
-  if (it.kind==="flash") h += renderCard(it);
+  if (it.kind==="cards" || it.kind==="flash") h += renderCard(it);
   else if (it.kind==="speak") h += renderSpeak(it);
+  else if (it.kind==="open") h += renderOpen(it);
+  else if (it.kind==="match") h += renderMatch(it);
   else h += renderMC(it);
   h += '</div>';
   view = run.back;
@@ -764,6 +777,44 @@ function renderMC(it){
       + '<span class="letter">'+String.fromCharCode(65+i)+'</span><span>'+esc(o.txt)+'</span></button>';
   });
   h += '<p class="muted" id="confhint" style="font-size:.78rem">Pick one of the three above to unlock the answers. Being honest here is the whole point.</p>';
+  return h;
+}
+function renderOpen(it){
+  var d = it.data;
+  it.conf = null;
+  return '<p class="eyebrow">In your own words</p>'
+    + '<p class="qtext">' + esc(d.ask) + '</p>'
+    + '<p class="muted" style="margin:.2rem 0 .3rem">First: how sure are you?</p>'
+    + '<div class="confrow">'
+    + '<button class="chip" id="conf-guess" onclick="GA.conf(\'guess\')">I am guessing</button>'
+    + '<button class="chip" id="conf-pretty" onclick="GA.conf(\'pretty\')">Pretty sure</button>'
+    + '<button class="chip" id="conf-know" onclick="GA.conf(\'know\')">I know this</button>'
+    + '</div>'
+    + '<textarea id="openans" rows="4" placeholder="Two or three sentences is plenty. Write it the way you would say it out loud."></textarea>'
+    + '<button class="btn wide" id="opensubmit" disabled onclick="GA.submitOpen()">Check my answer</button>'
+    + '<p class="muted" id="confhint" style="font-size:.78rem">Pick one of the three above first.</p>';
+}
+function renderMatch(it){
+  var d = it.data;
+  it.conf = null;
+  it.picks = {};
+  it.left = d.pairs.map(function(p, i){ return { i:i, txt:p.l }; });
+  it.right = window.SA_UTIL.shuffle(d.pairs.map(function(p, i){ return { i:i, txt:p.r }; }));
+  var h = '<p class="eyebrow">Match them up</p><p class="qtext">' + esc(d.ask) + '</p>'
+    + '<p class="muted" style="margin:.2rem 0 .3rem">First: how sure are you?</p>'
+    + '<div class="confrow">'
+    + '<button class="chip" id="conf-guess" onclick="GA.conf(\'guess\')">I am guessing</button>'
+    + '<button class="chip" id="conf-pretty" onclick="GA.conf(\'pretty\')">Pretty sure</button>'
+    + '<button class="chip" id="conf-know" onclick="GA.conf(\'know\')">I know this</button>'
+    + '</div><div class="matchgrid">';
+  it.left.forEach(function(l){
+    h += '<div class="matchrow"><div class="ml">' + esc(l.txt) + '</div><select class="mr" id="m'+l.i+'">'
+      + '<option value="">pick one</option>';
+    it.right.forEach(function(r){ h += '<option value="'+r.i+'">' + esc(r.txt) + '</option>'; });
+    h += '</select></div>';
+  });
+  h += '</div><button class="btn wide" id="matchsubmit" disabled onclick="GA.submitMatch()">Check</button>'
+    + '<p class="muted" id="confhint" style="font-size:.78rem">Pick one of the three above first.</p>';
   return h;
 }
 function results(){
@@ -826,6 +877,51 @@ function teachPanel(item, headline){
   return h;
 }
 
+function showOpenResult(it, r){
+  var d = it.data;
+  var icon = r.state === "understood" ? "🌊" : r.state === "partial" ? "〰️" : "🫧";
+  var word = r.state === "understood" ? "Understood" : r.state === "partial" ? "Partly understood" : "Not yet";
+  var h = "";
+
+  if (r.lowConfidence){
+    /* The grader is not sure, so it does not pretend. The learner decides, honestly. */
+    h = '<div id="selfgrade"><div class="why"><b>I am not sure how to score that one.</b><br>'
+      + 'Read the model answer and tell me honestly.</div>'
+      + '<div class="teach"><b>The answer we were looking for</b><p>' + esc(d.model) + '</p></div>'
+      + '<button class="btn wide" onclick="GA.selfGrade(\'understood\')">I said that, in my own words</button>'
+      + '<button class="btn wide dark" onclick="GA.selfGrade(\'partial\')">Half of it</button>'
+      + '<button class="btn wide ghost" onclick="GA.selfGrade(\'notyet\')">No, I missed it</button></div>';
+    document.querySelector(".narrow").appendChild(el(h));
+    window.scrollTo(0, document.body.scrollHeight);
+    return;
+  }
+
+  gradeOpenFinal(it, r.state, '<b>' + icon + ' ' + word + '.</b> ' + esc(r.reason) + ' ' + esc(r.nudge) + '<br>');
+}
+
+function gradeOpenFinal(it, state, headline){
+  if (it.answered) return;
+  it.answered = true;
+  var correct = state === "understood";
+  var conf = it.conf || "pretty";
+  /* Partly understood counts as a miss for the concept box but is not sent to the review queue as a
+     confident error, so it drops one box instead of resetting. That is what "partial" should cost. */
+  recordAnswer(it.item, correct, correct ? conf : (conf === "know" && state === "partial" ? "pretty" : conf));
+  var gain = correct ? (run.mode === "boss" || run.mode === "mastery" ? XP.bossQ : XP.sprint) + (CONF_BONUS[conf] || 0)
+                     : (state === "partial" ? Math.floor(XP.sprint / 2) : 0);
+  if (correct) run.score++;
+  if (state === "partial") run.partial = (run.partial || 0) + 1;
+  run.xp += gain; addXP(gain);
+  var extra = teachPanel(it.item, headline)
+    + '<div class="teach"><b>The answer we were looking for</b><p>' + esc(it.data.model) + '</p></div>'
+    + '<button class="btn wide" onclick="GA.next()">'
+    + (run.i+1 >= run.items.length ? 'Finish' : 'Next') + ' →</button>';
+  var box = document.getElementById("selfgrade");
+  if (box) box.remove();
+  document.querySelector(".narrow").appendChild(el(extra));
+  window.scrollTo(0, document.body.scrollHeight);
+}
+
 /* ---------- interactions ---------- */
 window.GA = {
   nav:function(v){
@@ -869,6 +965,10 @@ window.GA = {
       if (b) b.classList.toggle("sel", l===level);
     });
     document.querySelectorAll(".opt").forEach(function(b){ b.disabled = false; });
+    var openBtn = document.getElementById("opensubmit");
+    if (openBtn) openBtn.disabled = false;
+    var matchBtn = document.getElementById("matchsubmit");
+    if (matchBtn) matchBtn.disabled = false;
     var hint = document.getElementById("confhint");
     if (hint) hint.textContent = "No timer. Think it through.";
   },
@@ -925,6 +1025,52 @@ window.GA = {
       ? '<b>Correct.</b> '
       : '<b>The answer was:</b> ' + esc(d.a[0]) + '<br>';
     var extra = teachPanel(it.item, headline + esc(confNote) + ' ')
+      + '<button class="btn wide" onclick="GA.next()">'
+      + (run.i+1 >= run.items.length ? 'Finish' : 'Next') + ' →</button>';
+    document.querySelector(".narrow").appendChild(el(extra));
+    window.scrollTo(0, document.body.scrollHeight);
+  },
+  submitOpen:function(){
+    var it = run.items[run.i];
+    if (!it.conf) return;
+    if (it.answered) return;
+    var answer = document.getElementById("openans").value;
+    document.getElementById("opensubmit").disabled = true;
+    document.getElementById("openans").disabled = true;
+    document.querySelectorAll(".confrow button").forEach(function(b){ b.disabled = true; });
+    window.SA_AI.grade(it.item, answer).then(function(r){ showOpenResult(it, r); });
+  },
+  selfGrade:function(state){
+    var it = run.items[run.i];
+    if (it.answered) return;
+    var p = P();
+    p.openFlags.push({ id: it.item.id, at: NOW(), said: state });
+    if (p.openFlags.length > 50) p.openFlags = p.openFlags.slice(-50);
+    save();
+    document.querySelectorAll(".narrow .btn").forEach(function(b){ b.remove(); });
+    gradeOpenFinal(it, state, "<b>Your call.</b> ");
+  },
+  submitMatch:function(){
+    var it = run.items[run.i], right = 0, total = it.left.length;
+    if (!it.conf) return;
+    if (it.answered) return;
+    it.answered = true;
+    it.left.forEach(function(l){
+      var sel = document.getElementById("m"+l.i);
+      sel.disabled = true;
+      var ok = sel.value !== "" && Number(sel.value) === l.i;
+      sel.parentNode.classList.add(ok ? "correct" : "wrong");
+      if (ok) right++;
+    });
+    document.getElementById("matchsubmit").disabled = true;
+    document.querySelectorAll(".confrow button").forEach(function(b){ b.disabled = true; });
+    var correct = right === total;
+    recordAnswer(it.item, correct, it.conf || "pretty");
+    var gain = correct ? XP.sprint + (CONF_BONUS[it.conf] || 0) : 0;
+    if (correct) run.score++;
+    run.xp += gain; addXP(gain);
+    var headline = '<b>' + right + ' of ' + total + ' matched.</b> ';
+    var extra = teachPanel(it.item, headline)
       + '<button class="btn wide" onclick="GA.next()">'
       + (run.i+1 >= run.items.length ? 'Finish' : 'Next') + ' →</button>';
     document.querySelector(".narrow").appendChild(el(extra));
