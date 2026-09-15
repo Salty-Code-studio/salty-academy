@@ -106,9 +106,13 @@ by at most one character. This is what lets "losing" match the synonym
 "back" from matching an unrelated word like "background" (five characters
 apart, well outside the window). What the one character window still allows
 is a short synonym colliding with another short, unrelated word that starts
-the same way. "car" is the worked example: it stems to "car", and a
-learner's unrelated word "care" also stems to "car", so a rubric that uses
-"car" as a synonym would wrongly credit an answer that only mentions taking
-care of something. Prefer whole, distinctive words over short ones, and
-check any three or four character synonym against the other short, common
-words it might accidentally match once stemmed.
+the same way. "car" is the worked example. Both words are short enough that
+the stemmer leaves them alone, so the stemmer is not what confuses them:
+"car" stays "car" and "care" stays "care". The collision happens one step
+later, in the prefix rule, because "car" is a prefix of "care" and the two
+are only one character apart. A rubric using "car" as a synonym will
+therefore credit an answer that only mentions taking care of something.
+Prefer whole, distinctive words over short ones, and check any three or
+four character synonym against the other short, common words it might
+accidentally match. If you are ever chasing a false match, look at
+stemsMatch before you look at stem.
