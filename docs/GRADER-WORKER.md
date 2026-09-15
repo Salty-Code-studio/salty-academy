@@ -99,13 +99,16 @@ working exactly as it does today, offline and for free.
 
 ## Guidance for rubric authors: pick distinctive synonyms
 
-The local matcher accepts a stem as a match when it is a short prefix of a
-longer stem in the learner's answer. This is what lets "losing" match the
-synonym "lose" and "bouncing" match "bounce". The same rule means a very
-short synonym, three or four characters once stemmed, can collide with a
-longer, unrelated word that happens to start the same way. "back" is the
-worked example: it prefix matches "background", so a rubric that uses "back"
-as a synonym for someone leaving a page would also, wrongly, credit an
-answer that only mentions a background image. Prefer whole, distinctive
-words over short ones, and prefer a two word phrase when the short word is
-the clearest way to say the idea, for example "go back" instead of "back".
+The local matcher accepts a stem as a match when it is a prefix of a longer
+stem in the learner's answer, but only when the two stems differ in length
+by at most one character. This is what lets "losing" match the synonym
+"lose" and "bouncing" match "bounce", while stopping a short synonym like
+"back" from matching an unrelated word like "background" (five characters
+apart, well outside the window). What the one character window still allows
+is a short synonym colliding with another short, unrelated word that starts
+the same way. "car" is the worked example: it stems to "car", and a
+learner's unrelated word "care" also stems to "car", so a rubric that uses
+"car" as a synonym would wrongly credit an answer that only mentions taking
+care of something. Prefer whole, distinctive words over short ones, and
+check any three or four character synonym against the other short, common
+words it might accidentally match once stemmed.

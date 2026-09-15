@@ -103,6 +103,11 @@ test("prefix matching rejects stems that differ by more than one character", fun
   });
 });
 
+test("speeding earns the first must group of the speed rubric", function(){
+  var r = R.grade("The site really needs speeding up on mobile.", SPEED);
+  assert.ok(r.hit.indexOf(0) >= 0);
+});
+
 test("an ordinary sentence about a background image does not pass the speed rubric", function(){
   var r = R.grade("The background image is low resolution, which is a secondary concern for now.", SPEED);
   assert.notStrictEqual(r.state, "understood");

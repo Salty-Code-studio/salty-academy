@@ -3,6 +3,7 @@
 "use strict";
 
 var STOP_ENDINGS = ["ings","ing","ers","er","es","s","ed","ly"];
+var VOWELS = "aeiou";
 
 function norm(s){
   return String(s == null ? "" : s)
@@ -17,7 +18,15 @@ function stem(w){
   if (w.length <= 4) return w;
   for (var i=0;i<STOP_ENDINGS.length;i++){
     var e = STOP_ENDINGS[i];
-    if (w.length - e.length >= 3 && w.slice(-e.length) === e) return w.slice(0, -e.length);
+    if (w.length - e.length >= 3 && w.slice(-e.length) === e){
+      var remainder = w.slice(0, -e.length);
+      /* Do not strip an ending that begins with a vowel when the remainder would end
+         with that same vowel: "speed" minus "ed" leaves "spe", which is wrong, because
+         the "ee" belongs to the word, not the suffix. This is what keeps speed, need,
+         feed, seed, agreed, succeed and proceed intact. */
+      if (VOWELS.indexOf(e.charAt(0)) >= 0 && remainder.slice(-1) === e.charAt(0)) continue;
+      return remainder;
+    }
   }
   return w;
 }
