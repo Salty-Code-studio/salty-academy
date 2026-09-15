@@ -258,9 +258,9 @@
     100% { opacity:0; transform:translate(-50%, -46px) scale(1); }
   }
   @media (prefers-reduced-motion: reduce) {
-    .flashinner, .fg, .progressline i { transition:none; }
+    .flashinner, .ring .fg, .progressline i { transition:none; }
     .xpsplash { animation:none; opacity:1; }
-    .bar i, .lvbar i { transition:none; }
+    .pack .bar i, .lvbar i { transition:none; }
   }
   @media (max-width:640px){
     .topin { padding:.85rem 1rem; }
@@ -462,7 +462,26 @@ function el(html){ var d=document.createElement("div"); d.innerHTML=html; return
 function mod(id){ return MODS.filter(function(x){return x.id===id;})[0]; }
 var app = document.getElementById("app");
 var view = "learn";
+var barVisHandler = null;
 function render(html){ app.innerHTML = html; window.scrollTo(0,0); syncNav(); }
+function raiseBars(){
+  var bars = document.querySelectorAll(".bar i[data-w]");
+  function snap(){ bars.forEach(function(i){ i.style.width = i.getAttribute("data-w") + "%"; }); }
+  if (barVisHandler){ document.removeEventListener("visibilitychange", barVisHandler); barVisHandler = null; }
+  if (document.hidden){
+    snap();
+  } else {
+    requestAnimationFrame(function(){ requestAnimationFrame(snap); });
+  }
+  barVisHandler = function(){
+    if (!document.hidden){
+      snap();
+      document.removeEventListener("visibilitychange", barVisHandler);
+      barVisHandler = null;
+    }
+  };
+  document.addEventListener("visibilitychange", barVisHandler);
+}
 function syncNav(){
   document.querySelectorAll("#nav button[data-v]").forEach(function(b){
     b.classList.toggle("active", b.getAttribute("data-v")===view);
@@ -547,7 +566,7 @@ function learn(){
       + '<div class="big">'+esc(meta.big)+'</div>'
       + '<h3>'+esc(m.title)+'</h3>'
       + '<p class="desc">'+esc(meta.desc)+'</p>'
-      + '<div class="recall"><span>'+rc+' of '+tot+' recalled</span><span>'+(rev? rev+' to revisit':'')+'</span></div>'
+      + '<div class="recall"><span>'+rc+' of '+tot+' recalled</span></div>'
       + '<div class="bar"><i style="width:0;background:linear-gradient(90deg,'
       + t.acc + ',' + t.btn + ')" data-w="' + pct + '"></i></div>'
       + '<div class="recall" style="margin-top:.35rem"><span>'+pct+'% understood</span>'
@@ -568,11 +587,7 @@ function learn(){
   h += '<div class="panel" style="margin-top:1.4rem"><p class="eyebrow" style="margin-bottom:.3rem">Live training</p>'
     + '<p class="muted" style="margin:0">The Arena makes it yours: open a Claude session and say <b>"run me a prospect"</b> for live sales roleplay, or <b>"quiz me on module 2"</b> for deep drills.</p></div>';
   render(h);
-  requestAnimationFrame(function(){
-    requestAnimationFrame(function(){
-      document.querySelectorAll(".bar i[data-w]").forEach(function(i){ i.style.width = i.getAttribute("data-w") + "%"; });
-    });
-  });
+  raiseBars();
   if (toastRank){
     var t = toastRank; toastRank = null;
     var b = el('<div class="rankup">' + rankIco(P().xp) + ' Rank up. You are now <b>' + esc(t) + '</b>.</div>');
@@ -1084,9 +1099,11 @@ window.GA = {
     run.i++; step();
   },
   answer:function(i){
-    var it = run.items[run.i], picked = it.shuffled[i];
+    var it = run.items[run.i];
     if (!it.conf) return;
     if (it.answered) return;
+    if (i < 0 || i >= it.shuffled.length) return;
+    var picked = it.shuffled[i];
     it.answered = true;
     it.shuffled.forEach(function(o,j){
       var b=document.getElementById("opt"+j); b.disabled=true;
