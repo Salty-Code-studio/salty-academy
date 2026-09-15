@@ -19,12 +19,12 @@ function migrate(v1){
     var o = players[name] || {}, p = blankPlayer();
     p.xp = typeof o.xp === "number" ? o.xp : 0;
     p.badges = Array.isArray(o.badges) ? o.badges.slice() : [];
-    p.boss = o.boss && typeof o.boss === "object" ? o.boss : {};
+    p.boss = o.boss && typeof o.boss === "object" ? Object.assign({}, o.boss) : {};
     p.streak = typeof o.streak === "number" ? o.streak : 0;
     p.lastDay = o.lastDay || null;
     p.plays = typeof o.plays === "number" ? o.plays : 0;
     p.history = Array.isArray(o.history) ? o.history.slice(-40) : [];
-    p.last = o.last || null;
+    p.last = o.last && typeof o.last === "object" ? Object.assign({}, o.last) : null;
     out.players[name] = p;
   });
   if (v1.current && out.players[v1.current]) out.current = v1.current;

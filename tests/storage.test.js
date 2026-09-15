@@ -53,3 +53,18 @@ test("load prefers v2 and falls back to migrating v1", function(){
   var s2 = ST.load(function(k){ return store[k] || null; });
   assert.strictEqual(s2.current, "Rudo");
 });
+
+test("migrate falls back to null when current player does not exist", function(){
+  var v1 = { current: "NonExistent", players: { Mo: { xp: 100 } } };
+  var v2 = ST.migrate(v1);
+  assert.strictEqual(v2.current, null);
+  assert.ok(v2.players.Mo);
+});
+
+test("mutating migrated player boss does not mutate source v1 object", function(){
+  var v1 = { players: { Mo: { xp: 100, boss: {p1:1, p2:1} } } };
+  var v2 = ST.migrate(v1);
+  v2.players.Mo.boss.p3 = 1;
+  assert.strictEqual(v2.players.Mo.boss.p3, 1);
+  assert.strictEqual(v1.players.Mo.boss.p3, undefined);
+});
