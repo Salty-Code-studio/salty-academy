@@ -184,6 +184,7 @@
   .termrow { display:flex; gap:.4rem; flex-wrap:wrap; }
   .chip.term { cursor:pointer; border-style:dashed; }
   .opt[disabled] { opacity:.45; cursor:not-allowed; }
+  .btn[disabled] { opacity:.45; cursor:not-allowed; }
   textarea#openans { width:100%; font:inherit; font-size:1rem; padding:.8rem;
     border:1px solid var(--line); border-radius:10px; background:var(--paper); color:var(--ink);
     resize:vertical; margin:.4rem 0 .8rem; }
@@ -661,24 +662,26 @@ function progressView(){
 
 /* ---------- play engine ---------- */
 var run = null;
+var runToken = 0;
 function wrap(it){ return { kind:it.format, id:it.id, data:it.data, mod:mod(it.pack), item:it }; }
-function poolMC(m){
+function modulePool(m){
   return (IDX.byPack[m.id] || []).filter(function(it){
-    return it.use === "module" && ["quiz","translate","diagnose"].indexOf(it.format) >= 0;
+    return it.use === "module" && ["quiz","translate","diagnose","open","match"].indexOf(it.format) >= 0;
   }).map(wrap);
 }
 function startRun(mode, m, items, back){
-  run = { mode:mode, mod:m, items:items, i:0, score:0, xp:0, back:back||view };
+  runToken++;
+  run = { mode:mode, mod:m, items:items, i:0, score:0, xp:0, back:back||view, token:runToken };
   touchStreak(); var p=P(); p.plays++; if (m) p.last={mod:m.id}; save();
 }
 function sprintRun(id){
   var m = mod(id);
-  startRun("sprint", m, shuffle(poolMC(m)).slice(0,8), "sprint");
+  startRun("sprint", m, shuffle(modulePool(m)).slice(0,8), "sprint");
   ideaScreen(m, "sprint");
 }
 function bossRun(id){
   var m = mod(id);
-  startRun("boss", m, shuffle(poolMC(m)).slice(0,BOSS_N), "sprint");
+  startRun("boss", m, shuffle(modulePool(m)).slice(0,BOSS_N), "sprint");
   ideaScreen(m, "boss");
 }
 function cardsRun(id){
@@ -716,7 +719,7 @@ function ideaScreen(m, mode){
     + '</div></div>');
 }
 function playbar(title){
-  return '<div class="playbar"><button onclick="GA.quitRun()">← Back</button><span class="grow"></span><span>'+esc(title)+'</span></div>';
+  return '<div class="playbar"><button id="backbtn" onclick="GA.quitRun()">← Back</button><span class="grow"></span><span>'+esc(title)+'</span></div>';
 }
 function step(){
   if (!run || run.i >= run.items.length) return results();
@@ -1033,12 +1036,27 @@ window.GA = {
   submitOpen:function(){
     var it = run.items[run.i];
     if (!it.conf) return;
+    if (it.pending) return;
     if (it.answered) return;
+    it.pending = true;
     var answer = document.getElementById("openans").value;
     document.getElementById("opensubmit").disabled = true;
     document.getElementById("openans").disabled = true;
     document.querySelectorAll(".confrow button").forEach(function(b){ b.disabled = true; });
-    window.SA_AI.grade(it.item, answer).then(function(r){ showOpenResult(it, r); });
+    var backBtn = document.getElementById("backbtn");
+    if (backBtn) backBtn.disabled = true;
+    /* The grade can resolve after the learner has quit or started a different run (this is
+       dormant with local grading, which resolves same-microtask, but goes live the moment
+       SA_CONFIG.graderUrl is set). Capture this run's identity now and refuse to touch the DOM
+       or record anything unless the run that submitted is still the run on screen, showing the
+       same item. Disabling Back above narrows the window; this guard is what makes it correct. */
+    var pendingRun = run, pendingToken = run.token;
+    window.SA_AI.grade(it.item, answer).then(function(r){
+      it.pending = false;
+      if (!run || run !== pendingRun || run.token !== pendingToken || run.items[run.i] !== it) return;
+      if (backBtn) backBtn.disabled = false;
+      showOpenResult(it, r);
+    });
   },
   selfGrade:function(state){
     var it = run.items[run.i];
