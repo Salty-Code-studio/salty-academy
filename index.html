@@ -257,10 +257,36 @@
     35%  { transform:translate(-50%, -2px) scale(1); }
     100% { opacity:0; transform:translate(-50%, -46px) scale(1); }
   }
+  /* cinematic */
+  .cine { position:fixed; inset:0; z-index:200; overflow-y:auto;
+    background:radial-gradient(circle at 80% 0%, rgba(157,191,210,.25), transparent 55%),
+      linear-gradient(160deg,#0B1F22,#1E3A3D 55%,#0B1F22); color:var(--teal-ink);
+    padding:3.2rem 1.4rem 2.4rem; }
+  .cineskip { position:fixed; top:1.1rem; right:1.1rem; z-index:201; background:transparent;
+    border:1px solid rgba(239,233,219,.4); color:var(--teal-ink); border-radius:999px;
+    padding:.5rem 1.1rem; font-weight:600; font-size:.82rem; }
+  .cinein { max-width:640px; margin:0 auto; text-align:center; }
+  .cinein .eyebrow { color:var(--blue); }
+  .cinetitle { font-weight:700; font-size:clamp(1.5rem,4vw,2.2rem); margin:.3rem 0 1.6rem; letter-spacing:-.01em; }
+  .cine .ladder { justify-content:center; }
+  .rung { flex:1 1 90px; display:flex; flex-direction:column; align-items:center; gap:.2rem;
+    background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); border-radius:12px;
+    padding:.8rem .4rem; opacity:.2; transform:translateX(-10px);
+    transition:opacity .5s ease, transform .5s ease; }
+  .rung.lit { opacity:1; transform:translateX(0); }
+  .rung .rico { font-size:1.6rem; }
+  .rung .rname { font-weight:700; font-size:.78rem; }
+  .rung .rxp { font-family:ui-monospace,"SF Mono",Menlo,monospace; font-size:.62rem; color:var(--blue); }
+  .cinefinal { opacity:0; transition:opacity .6s ease; margin-top:2rem; }
+  .cinefinal.show { opacity:1; }
+  .finalcard { background:var(--paper); color:var(--ink); border-radius:16px; padding:2.2rem 1.6rem; }
+  .finalcard .fico { font-size:2.6rem; }
+  .finalcard h1 { font-size:1.6rem; margin:.4rem 0 .5rem; }
   @media (prefers-reduced-motion: reduce) {
     .flashinner, .ring .fg, .progressline i { transition:none; }
     .xpsplash { animation:none; opacity:1; }
     .pack .bar i, .lvbar i { transition:none; }
+    .rung, .cinefinal { transition:none; }
   }
   @media (max-width:640px){
     .topin { padding:.85rem 1rem; }
@@ -580,6 +606,7 @@ function learn(){
       + '</div>';
   });
   h += '</div>';
+  h += window.SA_VIEWS.finalsCard();
   h += '<div class="teaser"><span class="q">“</span><div class="grow">'
     + '<p class="eyebrow" style="margin-bottom:.2rem;color:var(--coral-dark)">Talk from Three</p>'
     + '<b>Three words. Your explanation.</b><br><span class="muted">A 30-second prompt to practise before filming. No recording required.</span></div>'
@@ -592,6 +619,11 @@ function learn(){
     var t = toastRank; toastRank = null;
     var b = el('<div class="rankup">' + rankIco(P().xp) + ' Rank up. You are now <b>' + esc(t) + '</b>.</div>');
     app.insertBefore(b.firstChild, app.firstChild);
+  }
+  var p0 = P();
+  if (p0.completed && !p0.completedShown){
+    p0.completedShown = true; save();
+    window.SA_VIEWS.cinematic(function(){ learn(); });
   }
 }
 
@@ -746,7 +778,9 @@ function progressView(){
     var px = S.players[n].xp;
     h += '<tr class="'+(i===0?'rank1':'')+'"><td>'+(i+1)+'</td><td>'+esc(n)+'</td><td>'+px+'</td><td>'+rankIco(px)+' '+esc(rank(px))+'</td><td>'+S.players[n].streak+'</td></tr>';
   });
-  h += '</table></div><h2>Badges</h2><div>';
+  h += '</table></div>';
+  h += window.SA_VIEWS.achievements();
+  h += '<h2>Badges</h2><div>';
   Object.keys(BADGES).forEach(function(id){
     var b=BADGES[id], got = P().badges.indexOf(id)>=0;
     h += '<span class="badge'+(got?'':' locked')+'">'+b.ico+' '+esc(b.name)+'</span>';
@@ -764,9 +798,10 @@ function modulePool(m){
     return it.use === "module" && ["quiz","translate","diagnose","open","match"].indexOf(it.format) >= 0;
   }).map(wrap);
 }
-function startRun(mode, m, items, back){
+function startRun(mode, m, items, back, extra){
   runToken++;
   run = { mode:mode, mod:m, items:items, i:0, score:0, xp:0, back:back||view, token:runToken };
+  if (extra){ Object.keys(extra).forEach(function(k){ run[k] = extra[k]; }); }
   touchStreak(); var p=P(); p.plays++; if (m) p.last={mod:m.id}; save();
 }
 function sprintRun(id){
@@ -819,7 +854,8 @@ function playbar(title){
 function step(){
   if (!run || run.i >= run.items.length) return results();
   var it = run.items[run.i];
-  var label = (run.mode==="review" ? "Review" : run.mod.num+' · '+(run.mode==="boss"?"Mastery":run.mode==="cards"?"Flashcards":run.mode==="speak"?"Talk from Three":"Salty Sprint"));
+  var label = (run.mode==="review" ? "Review" : run.mode==="mastery" ? "Mastery " + run.testNo
+    : run.mod.num+' · '+(run.mode==="boss"?"Mastery":run.mode==="cards"?"Flashcards":run.mode==="speak"?"Talk from Three":"Salty Sprint"));
   var h = playbar(label + ' · ' + (run.i+1) + '/' + run.items.length)
     + '<div class="progressline"><i style="width:'+Math.round(100*run.i/run.items.length)+'%"></i></div>'
     + '<div class="narrow">';
@@ -918,11 +954,11 @@ function renderMatch(it){
 function results(){
   if (!run) return learn();
   var p=P(), n=run.items.length, sc=run.score, m=run.mod;
-  var labels = {sprint:"Salty Sprint", boss:"Mastery round", cards:"Flashcards", speak:"Talk from Three", review:"Review"};
+  var labels = {sprint:"Salty Sprint", boss:"Mastery round", cards:"Flashcards", speak:"Talk from Three", review:"Review", mastery:"Finals"};
   if (!p.history) p.history = [];
   p.history.push({ t: Date.now(), pack: m?m.id:null, label: labels[run.mode]||run.mode, score: sc, n: n });
   if (p.history.length > 40) p.history = p.history.slice(-40);
-  var passedBoss=false, perfect=false;
+  var passedBoss=false, perfect=false, passedTest=false, need=0;
   if (run.mode==="boss" && m){
     if (sc>=BOSS_PASS){ passedBoss=true;
       if (!p.boss[m.id]){ p.boss[m.id]=1; grant("boss-"+m.id); addXP(XP.bossPass); run.xp+=XP.bossPass; }
@@ -930,21 +966,44 @@ function results(){
       checkAll();
     }
   }
+  if (run.mode === "mastery"){
+    need = Math.ceil(run.items.length * 0.7);
+    passedTest = sc >= need;
+    if (passedTest){
+      if (!p.finals) p.finals = {};
+      if (!p.finals[run.testNo]){ p.finals[run.testNo] = NOW(); addXP(120); run.xp += 120; }
+      if (p.finals[1] && p.finals[2] && p.finals[3] && !p.completed){
+        p.completed = NOW();
+        p.completedShown = false;
+      }
+    }
+  }
   save();
-  var emoji = run.mode==="boss" ? (passedBoss ? (perfect?"👑":"⚔️") : "🫧") : (sc===n && n>1 ? "🌊" : "👍");
+  var emoji = run.mode==="boss" ? (passedBoss ? (perfect?"👑":"⚔️") : "🫧")
+    : run.mode==="mastery" ? (passedTest ? "⚔️" : "🫧")
+    : (sc===n && n>1 ? "🌊" : "👍");
   var line = run.mode==="boss"
     ? (passedBoss ? (perfect? "Flawless. "+m.num+" never stood a chance." : m.num+" mastered.")
        : sc+"/"+n+", you need "+BOSS_PASS+". Read, drill, come back.")
+    : run.mode==="mastery"
+    ? (passedTest ? "Mastery "+run.testNo+" passed. "+sc+" of "+n+"."
+       : "Mastery "+run.testNo+": "+sc+" of "+n+", you need "+need+". Read, drill, come back.")
     : (run.mode==="speak" ? "Practice makes fluent." : sc+" of "+n+" · +"+run.xp+" xp");
   var back = run.back, mid = m ? m.id : null, mode = run.mode;
-  var h = playbar(run.mode==="review"?"Review":(m?m.num:""))
+  var h = playbar(run.mode==="review" ? "Review" : run.mode==="mastery" ? ("Mastery "+run.testNo) : (m?m.num:""))
     + '<div class="narrow center"><div class="result-big">'+emoji+'</div>'
     + '<h1 style="font-size:1.7rem">'+esc(line)+'</h1>'
     + '<p class="muted">Total: '+p.xp+' xp · '+esc(rank(p.xp))+(p.wrongQueue.length? ' · '+p.wrongQueue.length+' to revisit':'')+'</p><br>';
   if (mode==="sprint" && mid) h += '<button class="btn wide" onclick="GA.sprintRun(\''+mid+'\')">Sprint again</button>';
   if (mode==="boss" && mid && !passedBoss) h += '<button class="btn wide" onclick="GA.bossRun(\''+mid+'\')">Try the mastery round again</button>';
   if (mode==="cards" && mid) h += '<button class="btn wide" onclick="GA.cards(\''+mid+'\')">Another round of cards</button>';
-  h += '<button class="btn wide dark" onclick="GA.nav(\''+back+'\')">Done</button></div>';
+  if (mode==="mastery" && !passedTest) h += '<button class="btn wide" onclick="GA.mastery('+run.testNo+')">Try it again</button>';
+  if (p.completed && !p.completedShown){
+    h += '<button class="btn wide dark" onclick="GA.cinematic()">See your journey →</button>';
+  } else {
+    h += '<button class="btn wide dark" onclick="GA.nav(\''+back+'\')">Done</button>';
+  }
+  h += '</div>';
   run = null;
   render(h);
 }
@@ -1038,6 +1097,27 @@ window.GA = {
     learn();
   },
   sprintRun:sprintRun, bossRun:bossRun, cards:cardsRun, speakOne:speakOne, review:reviewRun,
+  mastery:function(n){ window.SA_VIEWS.startMastery(n); },
+  finals:function(){ window.SA_VIEWS.finalsHome(); },
+  cinematic:function(){
+    var p = P();
+    if (!p.completedShown){ p.completedShown = true; save(); }
+    window.SA_VIEWS.cinematic(function(){ learn(); });
+  },
+  cineDone:function(where){
+    var c = document.getElementById("cine");
+    if (c && c.parentNode) c.parentNode.removeChild(c);
+    window.SA_VIEWS.cinematic.onDone = null;
+    if (where === "progress") progressView();
+    else GA.cinematic();
+  },
+  cineSkip:function(){
+    var c = document.getElementById("cine");
+    if (c && c.parentNode) c.parentNode.removeChild(c);
+    var onDone = window.SA_VIEWS.cinematic.onDone;
+    window.SA_VIEWS.cinematic.onDone = null;
+    if (onDone) onDone(); else learn();
+  },
   speakFilter:function(f){ speakHome(f); },
   libTab:function(f){ libraryView(f); },
   begin:function(){ step(); },
@@ -1199,6 +1279,10 @@ window.GA = {
     });
   }
 };
+var VCTX = { P:P, S:S, save:save, MODS:MODS, IDX:IDX, RANKS:RANKS, rank:rank, rankIco:rankIco,
+             esc:esc, el:el, render:render, playbar:playbar, startRun:startRun, step:step,
+             addXP:addXP, XP:XP, GEN:GEN, MY:MY, mod:mod, TH:TH, nav:function(v){ GA.nav(v); } };
+window.SA_VIEWS.init(VCTX);
 learn();
 })();
 </script>
