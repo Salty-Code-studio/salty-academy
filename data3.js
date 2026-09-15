@@ -135,17 +135,17 @@ window.ACADEMY_EXTRAS = {
   m5: {
     idea: "Every system is three layers: a place data lives, rules that move it, screens people touch.",
     speak: [
-      {prompt:"Three layers", words:["Data","Rules","Screens"], points:[
+      {id:"s.m5.three-layers.a", c:["c.m5.three-layers","c.m5.backend","c.m5.frontend"], prompt:"Three layers", words:["Data","Rules","Screens"], points:[
         "A place where information lives: the database.",
         "Rules that move it: what happens when a booking or payment lands.",
         "Screens people touch: the website and the team's dashboard.",
         "When a business feels broken, one of the three is missing or doubled."]},
-      {prompt:"Why double bookings happen", words:["Lists","Disagree","One"], points:[
+      {id:"s.m5.three-layers.b", c:["c.m5.three-layers","c.m5.realtime","c.m5.database"], prompt:"Why double bookings happen", words:["Lists","Disagree","One"], points:[
         "A double booking is never bad luck: it is two lists disagreeing about one scooter.",
         "Paper agenda, WhatsApp thread, spreadsheet: three filing cabinets that drift apart.",
         "The fix is not being more careful, it is one list that everything reads from.",
         "Same availability on the website, the phone and the counter: one source of truth."]},
-      {prompt:"Plugs and doorbells", words:["API","Webhook","Messenger"], points:[
+      {id:"s.m5.api.a", c:["c.m5.api","c.m5.webhook","c.m5.integration"], prompt:"Plugs and doorbells", words:["API","Webhook","Messenger"], points:[
         "An API is the plug a system offers so other software can connect.",
         "A webhook is the doorbell: it rings you the instant something happens.",
         "An integration is the finished bridge: payment tells booking, booking tells email.",
