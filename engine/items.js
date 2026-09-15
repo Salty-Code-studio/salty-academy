@@ -4,7 +4,8 @@
 "use strict";
 var C = root.SA_CONCEPTS;
 
-var ID_RE = /^[qtdoxf]\.(p1|p2|m1|m2|m3|m4|m5|m6)\.[a-z][a-z-]*\.[a-z]$/;
+// First letter: q=quiz, t=translate, d=diagnose, o=open, x=match, f=flashcard, s=speak
+var ID_RE = /^[qtdoxfs]\.(p1|p2|m1|m2|m3|m4|m5|m6)\.[a-z][a-z-]*\.[a-z]$/;
 var FIELDS = [ ["cards","flash"], ["quiz","quiz"], ["translate","translate"],
                ["diagnose","diagnose"], ["speak","speak"], ["open","open"], ["match","match"] ];
 

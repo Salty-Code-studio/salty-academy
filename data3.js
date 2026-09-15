@@ -5,22 +5,22 @@ window.ACADEMY_EXTRAS = {
   p1: {
     idea: "A website is a salesperson. Its job: open the door fast, make the offer clear, and prove it can be trusted.",
     speak: [
-      {id:"f.p1.salesperson.a", c:["c.p1.salesperson","c.p1.cta","c.p1.proof"], prompt:"What is a website for?", words:["Clarity","Trust","Next step"], points:[
+      {id:"s.p1.salesperson.a", c:["c.p1.salesperson","c.p1.cta","c.p1.proof"], prompt:"What is a website for?", words:["Clarity","Trust","Next step"], points:[
         "It is your hardest working salesperson, on duty every hour of every day.",
         "Visitors scan, they do not read: they decide in seconds.",
         "One headline that says what you sell, one action impossible to miss.",
         "Proof up front: real reviews, real work, real names."]},
-      {id:"f.p1.five-second.b", c:["c.p1.five-second","c.p1.friction"], prompt:"Explain the five second test", words:["Show","Ask","Gone"], points:[
+      {id:"s.p1.five-second.b", c:["c.p1.five-second","c.p1.friction"], prompt:"Explain the five second test", words:["Show","Ask","Gone"], points:[
         "Show anyone a homepage for five seconds, then take it away.",
         "Three questions: what do they sell, who is it for, what do I do next?",
         "Miss one answer and a real visitor is already gone.",
         "Guessing is effort, and the back button is free."]},
-      {id:"f.p1.speed.c", c:["c.p1.speed","c.p1.bounce"], prompt:"Why speed is money", words:["Blank","Silence","Gone"], points:[
+      {id:"s.p1.speed.c", c:["c.p1.speed","c.p1.bounce"], prompt:"Why speed is money", words:["Blank","Silence","Gone"], points:[
         "Three seconds of blank screen feels identical to 'this site is down'.",
         "Google measured it: past three seconds, more than half of mobile visitors leave.",
         "Slow sites get silence, not complaints: you never hear about the lost customers.",
         "The causes are boring: huge photos, bloated themes, cheap faraway hosting."]},
-      {id:"f.p1.proof.b", c:["c.p1.proof","c.p1.value-prop"], prompt:"Proof beats promises", words:["Line","Evidence","Names"], points:[
+      {id:"s.p1.proof.b", c:["c.p1.proof","c.p1.value-prop"], prompt:"Proof beats promises", words:["Line","Evidence","Names"], points:[
         "Two food stands, one has a line: you join the line. Nobody told you to.",
         "The copy-paste test: if a competitor could paste your sentence, it proves nothing.",
         "Real photos, real numbers, real client names pass. Slogans never do.",

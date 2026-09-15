@@ -62,6 +62,14 @@ test("a malformed id throws", function(){
   assert.throws(function(){ IT.build(f); }, /malformed/i);
 });
 
+test("speak-format items with s. prefix load correctly", function(){
+  var f = fixture();
+  f.ACADEMY_PART1[0].cards = [{t:"Speak it", d:"d", s:"s", id:"s.p1.speak-test.a", c:["c.p1.speed"]}];
+  var B = IT.build(f);
+  assert.ok(B.byId["s.p1.speak-test.a"]);
+  assert.strictEqual(B.byId["s.p1.speak-test.a"].format, "flash");
+});
+
 test("build does not mutate the source globals, so a second build on the same globals yields the same item count", function(){
   var f = fixture();
   var B1 = IT.build(f);
