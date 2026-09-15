@@ -77,13 +77,13 @@ var ALL = [
   plain:"Whether a stranger decides in a second that you look trustworthy and still in business.",
   example:"A copyright line saying 2019 quietly tells every visitor the business might be gone.",
   client:"Three out of four people judge whether a company is real by the website alone. Yours is doing that job right now.",
-  aliases:["credibility","trust","trustworthy","looks real","professional"] },
+  aliases:["credibility","builds trust","trustworthy","looks professional"] },
 
 { id:"c.p1.audit", pack:"p1", name:"The audit",
   plain:"A structured walk through a site the way a customer sees it, ending in a short list of fixes ranked by money.",
   example:"Speed, clarity, proof, in that order, with one sentence per problem and what it costs.",
   client:"I look at your site the way your customer does, and I send you the list of what is losing you bookings.",
-  aliases:["audit","review","fix list","walkthrough"] },
+  aliases:["audit","site review","fix list","walkthrough"] },
 
 { id:"c.p1.salesperson", pack:"p1", name:"The site is a salesperson",
   plain:"The website is your hardest working salesperson: on duty every hour, opening the door fast, making the offer clear and proving it.",
@@ -120,13 +120,13 @@ var ALL = [
   plain:"Two separate systems automatically exchanging data with each other, instead of a person copying the same information from one into the other by hand.",
   example:"The booking form and the invoicing tool are connected, so a confirmed booking creates the invoice on its own, with nobody retyping the customer's name a second time.",
   client:"Right now your systems do not talk to each other, so you are the cable between them. An integration makes them talk directly, and you stop being the cable.",
-  aliases:["integration","systems talk to each other","connected systems","no retyping"] },
+  aliases:["integration","systems talk to each other","stop being the cable","no retyping"] },
 
 { id:"c.p2.api", pack:"p2", name:"API",
   plain:"The official connection point a piece of software offers so other programs can plug into it and exchange data, instead of a person doing it by hand.",
   example:"The booking system uses the payment provider's API to check if a deposit actually landed, instead of someone opening the bank app every morning to check.",
   client:"Most modern software has a plug built in for exactly this, called an API. If your tools have one, we can usually connect them without rebuilding anything.",
-  aliases:["api","the plug","connection point","official plug"] },
+  aliases:["api","the plug","connection point","if your tools have one"] },
 
 { id:"c.p2.single-source", pack:"p2", name:"Single source of truth",
   plain:"One place where the real, current, correct version of the data lives, so every other screen and document simply reads from that one place instead of keeping its own copy.",
@@ -150,13 +150,13 @@ var ALL = [
   plain:"The internal screens the team uses to manage bookings, customers and money, hidden from customers and separate from the public facing website.",
   example:"Customers see a simple booking form, but behind it the owner has a back office screen listing every scooter, every booking and every payment status.",
   client:"Think of the back office as the control room behind your website. Customers never see it, but it is where your team actually runs the day.",
-  aliases:["back office","control room","internal screens","staff screens"] },
+  aliases:["back office","control room","internal screens","customers never see it"] },
 
 { id:"c.p2.dashboard", pack:"p2", name:"Dashboard",
   plain:"One screen that shows the current state of the business at a glance, instead of the owner having to open several different tools to piece the picture together.",
   example:"Instead of checking WhatsApp, a spreadsheet and the bank app separately, the owner opens one dashboard that already shows today's bookings, revenue and open requests.",
   client:"Instead of hunting through three apps every morning, everything you need to know lands on one screen. That is a dashboard.",
-  aliases:["dashboard","one screen","at a glance","overview screen"] },
+  aliases:["dashboard","one screen","at a glance","stop hunting through apps"] },
 
 { id:"c.p2.process-map", pack:"p2", name:"Process mapping",
   plain:"Writing down, step by step, the repeated tasks a business actually runs on, so the real workflow is visible before anyone tries to fix or automate it.",
@@ -187,6 +187,12 @@ var ALL = [
   example:"Ten hours a week spent on admin at fifty euros an hour works out to twenty six thousand euros a year, every year, for as long as nothing changes.",
   client:"Let's do the math with your own numbers. Ten hours a week at fifty an hour is twenty six thousand a year, forever, until we fix it. Nobody argues with their own numbers.",
   aliases:["bottleneck bill","hours times rate times 52","yearly cost of admin","do the math"] },
+
+{ id:"c.p2.phone-test", pack:"p2", name:"The phone test",
+  plain:"The question that tests how much of a business lives in one person's head: could the owner switch the phone off for two weeks and come back to a business that ran completely normally?",
+  example:"Ask an owner the question and watch the face, not the answer. When every booking, question and payment squeezes through that one phone, two weeks off is not a holiday, it is a shutdown.",
+  client:"Could you turn your phone off for two weeks without your business stopping? If the honest answer is no, you are the bottleneck, and that is not dedication, it is a queue with a yearly bill attached.",
+  aliases:["phone test","turn your phone off","two week holiday","phone off two weeks"] },
 
 /* ---- m1 · Website Building ---- */
 { id:"c.m1.ux", pack:"m1", name:"User experience",
@@ -273,18 +279,12 @@ var ALL = [
   client:"Launch is the day your site goes live for real, on your own address, where your customers can actually find it.",
   aliases:["launch","go live","site goes live","launch day"] },
 
-{ id:"c.m1.phone-test", pack:"m1", name:"The phone test",
-  plain:"Judging a site on a real phone, held in your hand, instead of trusting how it looks on a wide desktop preview screen.",
-  example:"A site looked perfect on the builder's big monitor, but on an actual phone the menu overlapped the photos and the book button sat off screen.",
-  client:"Before we call anything finished, we check it on an actual phone, because that is where almost all of your customers actually are.",
-  aliases:["phone test","check it on a phone","mobile check","test on your phone"] },
-
 /* ---- m2 · Branding & Positioning ---- */
 { id:"c.m2.brand", pack:"m2", name:"Brand",
   plain:"The sum of what people think and say about a business when it is not in the room.",
   example:"Two coffee places sell the same beans at the same price, but one is always full because people already know what it stands for. That reputation is the brand.",
   client:"Your brand is what people say about you when you are not there to defend it. Everything we build should make that story better.",
-  aliases:["brand","reputation","what people say about you"] },
+  aliases:["your brand","reputation","what people say about you"] },
 
 { id:"c.m2.positioning", pack:"m2", name:"Positioning",
   plain:"The specific slot a business owns in a customer's head: for whom it is, and how it is different from the others.",
@@ -544,8 +544,8 @@ var ALL = [
 { id:"c.m5.backend", pack:"m5", name:"Backend",
   plain:"The rules layer behind the scenes: the logic that decides what happens when a booking, payment or date event fires.",
   example:"When a payment lands, the backend is what marks the booking paid and queues the confirmation email, with nobody clicking anything.",
-  client:"The backend is the machinery behind the screens. Visitors never see it directly, they only feel whether it works.",
-  aliases:["backend","back end","the machinery","behind the screens"] },
+  client:"The backend sits between the database and the screens. It is the rules that fire when something happens, like a payment landing, deciding what happens next before anything reaches a screen.",
+  aliases:["backend","back end","the rules layer","what fires on an event"] },
 
 { id:"c.m5.frontend", pack:"m5", name:"Frontend",
   plain:"The screens people actually touch: the customer facing site and the team's own dashboard.",
@@ -554,10 +554,10 @@ var ALL = [
   aliases:["frontend","front end","the screens","what people touch"] },
 
 { id:"c.m5.api", pack:"m5", name:"API",
-  plain:"The official connection a system offers so other software can plug in and exchange data with it.",
-  example:"The booking system uses the payment provider's API to check whether a deposit actually landed, instead of a person opening the bank app.",
-  client:"An API is the plug a system offers so other software can connect. Good modern tools almost always have one.",
-  aliases:["api","the plug","connection point","official plug"] },
+  plain:"The plug a piece of software exposes so other code can call it directly: ask it a question, hand it an instruction, get structured data back, instead of a person reading a screen and typing what they see.",
+  example:"Checking whether a deposit landed can mean opening the bank app every morning, or it can mean the booking system calling the payment provider's API and getting a yes or no back in one request.",
+  client:"Before wiring two tools together we check one thing first: does this tool have an API, or is it a closed box? A closed box is a warning sign worth knowing about before you commit to a tool.",
+  aliases:["api","closed box","plug or closed box","ask it a question"] },
 
 { id:"c.m5.webhook", pack:"m5", name:"Webhook",
   plain:"A signal one system sends to another the instant something happens, instead of waiting to be asked.",
@@ -566,22 +566,22 @@ var ALL = [
   aliases:["webhook","the doorbell","instant ping","event trigger"] },
 
 { id:"c.m5.integration", pack:"m5", name:"Integration",
-  plain:"A finished connection where two systems exchange data on their own, with no person copying information between them.",
-  example:"Once the booking tool and the invoicing tool are integrated, a confirmed booking creates its own invoice with nobody retyping a name.",
-  client:"An integration means your tools finally talk to each other. You retire as the messenger running information between them.",
-  aliases:["integration","systems talk to each other","connected tools","the bridge"] },
+  plain:"The finished chain built from an API and a webhook: one event fires, a rule reacts, and data moves from one system into another without a screen or a person in between.",
+  example:"A payment lands, a webhook rings the booking system, a backend rule marks the booking paid and queues the confirmation email. Three systems handed the same fact along the chain without anyone retyping it.",
+  client:"An integration is not one thing, it is a small chain: an API to plug into, a webhook to ring the doorbell, and a rule on the other end that reacts. Break any link and a person becomes the missing piece again.",
+  aliases:["integration","the chain","api plus webhook plus rule","the bridge built from parts"] },
 
 { id:"c.m5.dashboard", pack:"m5", name:"Dashboard",
-  plain:"One screen that shows the current state of the business at a glance, instead of several apps checked separately.",
-  example:"Instead of opening WhatsApp, a spreadsheet and the bank app in turn, the owner opens one dashboard showing today's bookings and revenue already.",
-  client:"A dashboard puts everything you need to know on one screen, so checking it replaces a phone call to find out what is going on.",
-  aliases:["dashboard","one screen","overview screen","at a glance"] },
+  plain:"A screen built to answer one or two specific questions at a glance by pulling live numbers straight from the database, instead of a general purpose view of everything.",
+  example:"A good dashboard is built backward from the question an owner actually asks every morning, like how many scooters are out right now, then wired straight to the data that answers exactly that.",
+  client:"The test of a good dashboard is simple: does the owner check the screen, or still pick up the phone to ask someone? If they still call, the dashboard is not built to answer the real question yet.",
+  aliases:["dashboard","built backward from the question","live numbers","does the owner still call"] },
 
 { id:"c.m5.back-office", pack:"m5", name:"Back office",
-  plain:"The internal screens the team uses to run bookings, customers and money, hidden away from customers entirely.",
-  example:"Customers only ever see the simple booking form, while behind it the team's back office lists every scooter, booking and payment status.",
-  client:"Think of the back office as the control room behind your website. Customers never see it, but your team runs the day from there.",
-  aliases:["back office","control room","internal screens","staff screens"] },
+  plain:"The half of the frontend built for the team instead of the customer: the same screens-and-data pattern as the public site, just reading and writing data customers never see.",
+  example:"The public booking form and the back office both talk to the same database, but the back office shows every scooter, every payment status and every booking, because the team needs the whole picture, not just one slice of it.",
+  client:"The back office usually is not a separate system, it is the other half of the same one: same data, same rules, a different screen built for the people running the business instead of the people booking from it.",
+  aliases:["back office","the other half of the frontend","same data different screen","internal tool"] },
 
 { id:"c.m5.internal-tool", pack:"m5", name:"Internal tool",
   plain:"Software built only for the team to use, that customers never open or even know exists.",
@@ -632,10 +632,10 @@ var ALL = [
   aliases:["cloud","the cloud","professional servers","not on one computer"] },
 
 { id:"c.m5.three-layers", pack:"m5", name:"The three layers",
-  plain:"The idea that any piece of business software is three layers: what the customer sees, what the staff sees, and where the data actually lives.",
+  plain:"The idea that any piece of business software is three layers: a place where the data lives, rules that move it, and screens that people touch.",
   example:"A double booking is never bad luck, it is two screens both claiming to be the truth because there is no single place the data actually lives.",
   client:"Every system is three layers: a place data lives, rules that move it, and screens people touch. When a business feels broken, one of the three is missing or doubled.",
-  aliases:["three layers","data rules screens","three layer model","data staff customer"] },
+  aliases:["three layers","data rules screens","three layer model","a place data lives"] },
 
 /* ---- m6 · The Sales Arena ---- */
 { id:"c.m6.spine", pack:"m6", name:"The conversation spine",
@@ -693,7 +693,7 @@ var ALL = [
   aliases:["story arc","situation turn takeaway","the thirty second story","handback question"] },
 
 { id:"c.m6.translation-rule", pack:"m6", name:"The translation rule",
-  plain:"Translating any technical fix into what the client actually cares about: more customers, less hassle, or more trust. Never sell the technology itself.",
+  plain:"Translating any technical fix into what the client actually cares about: more customers, looking professional, or less hassle. Never sell the technology itself.",
   example:"Instead of explaining an API integration, the rep says your booking and your invoice will finally agree with each other automatically.",
   client:"Forget the tech words. What this actually gets you is fewer double bookings and a Tuesday afternoon back in your week.",
   aliases:["translation rule","translate the fix","what they actually care about","kitchen table language"] },
