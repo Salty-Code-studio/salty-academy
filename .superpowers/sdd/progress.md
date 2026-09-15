@@ -70,3 +70,4 @@ DEPLOYED 2026-09-15. Tagged `v1-pre-rebuild` at fced5f2 first, merged feat/acade
   In-browser on the live URL: engine loaded, 114 concepts, 418 items, 0 untagged, sprints in p1/p2/m6 across four formats, library/speak/profile all render, 17 concepts tracked, zero console errors.
   The smoke-test player was removed afterwards and localStorage restored to the empty state it was found in.
   Rollback: git checkout main && git reset --hard v1-pre-rebuild && git push --force-with-lease origin main
+  Phone width confirmed fine by Mo on the live site, 2026-09-15. That was the last open verification gap from Task 14.
