@@ -62,6 +62,40 @@ test("a malformed id throws", function(){
   assert.throws(function(){ IT.build(f); }, /malformed/i);
 });
 
+test("build does not mutate the source globals, so a second build on the same globals yields the same item count", function(){
+  var f = fixture();
+  var B1 = IT.build(f);
+  var B2 = IT.build(f);
+  assert.strictEqual(B2.items.length, B1.items.length);
+});
+
+test("a concept tagged from a different pack than the item throws, naming item, concept and both packs", function(){
+  var f = fixture();
+  f.ACADEMY_PART1[0].quiz[0].c = ["c.m5.api"];
+  assert.throws(function(){ IT.build(f); }, function(err){
+    return /q\.p1\.speed\.a/.test(err.message) &&
+           /c\.m5\.api/.test(err.message) &&
+           /p1/.test(err.message) &&
+           /m5/.test(err.message);
+  });
+});
+
+test("a mastery item may tag a concept from a different pack on purpose", function(){
+  var f = fixture();
+  f.ACADEMY_OPEN.p1[0].c = ["c.m5.api"];
+  var B = IT.build(f);
+  assert.ok(B.byId["o.p1.speed.a"]);
+  assert.deepStrictEqual(B.byId["o.p1.speed.a"].concepts, ["c.m5.api"]);
+});
+
+test("a c field that is not an array throws, naming the item id", function(){
+  var f = fixture();
+  f.ACADEMY_PART1[0].quiz[0].c = "c.p1.speed";
+  assert.throws(function(){ IT.build(f); }, function(err){
+    return /q\.p1\.speed\.a/.test(err.message) && /array/i.test(err.message);
+  });
+});
+
 test("the real data files load without throwing", function(){
   var g = {};
   var saved = global.window;

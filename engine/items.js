@@ -21,33 +21,47 @@ function build(g){
     var e = extras[m.id] || {}, x = more[m.id] || {}, o = open[m.id] || {};
     if (e.idea) m.idea = e.idea;
     if (e.speak) m.speak = e.speak;
+
+    var merged = {};
+    FIELDS.forEach(function(pair){
+      merged[pair[0]] = (m[pair[0]] || []).slice();
+    });
     ["quiz","translate","diagnose"].forEach(function(k){
-      if (x[k]) m[k] = (m[k] || []).concat(x[k]);
+      if (x[k]) merged[k] = merged[k].concat(x[k]);
     });
     if (Array.isArray(o)) {
       o.forEach(function(it){
         var f = it.pairs ? "match" : "open";
-        (m[f] = m[f] || []).push(it);
+        merged[f].push(it);
       });
     }
     byPack[m.id] = [];
 
     FIELDS.forEach(function(pair){
       var key = pair[0], format = pair[1];
-      (m[key] || []).forEach(function(raw, i){
-        var id = raw.id, concepts = Array.isArray(raw.c) ? raw.c.slice() : [];
+      merged[key].forEach(function(raw, i){
+        var id = raw.id;
+        if (raw.c !== undefined && raw.c !== null && !Array.isArray(raw.c)){
+          throw new Error("item " + (id || ("legacy." + m.id + "." + key + "." + i)) + ": c must be an array");
+        }
+        var concepts = Array.isArray(raw.c) ? raw.c.slice() : [];
+        var use = (raw.use === "mastery" ? "mastery" : "module");
         if (!id){
           id = "legacy." + m.id + "." + key + "." + i;
           concepts = [];
         } else {
           if (!ID_RE.test(id)) throw new Error("malformed item id: " + id);
           concepts.forEach(function(cid){
-            if (!C.byId(cid)) throw new Error("item " + id + " points at unknown concept " + cid);
+            var concept = C.byId(cid);
+            if (!concept) throw new Error("item " + id + " points at unknown concept " + cid);
+            if (concept.pack !== m.id && use !== "mastery"){
+              throw new Error("item " + id + " tags concept " + cid + " from pack " + concept.pack +
+                               " but the item belongs to pack " + m.id);
+            }
           });
         }
         if (byId[id]) throw new Error("duplicate item id: " + id);
-        var item = { id:id, pack:m.id, format:format, concepts:concepts,
-                     use:(raw.use === "mastery" ? "mastery" : "module"), data:raw };
+        var item = { id:id, pack:m.id, format:format, concepts:concepts, use:use, data:raw };
         byId[id] = item;
         items.push(item);
         byPack[m.id].push(item);
