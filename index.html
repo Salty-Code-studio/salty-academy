@@ -243,22 +243,28 @@
   <span>~&lt; salty code studio</span>
 </div></footer>
 
+<script src="config.js"></script>
+<script src="engine/util.js"></script>
+<script src="engine/concepts.js"></script>
+<script src="engine/storage.js"></script>
+<script src="engine/mastery.js"></script>
+<script src="engine/rubric.js"></script>
+<script src="engine/ai.js"></script>
 <script src="data1.js"></script>
 <script src="data2.js"></script>
 <script src="data3.js"></script>
 <script src="data4.js"></script>
+<script src="data5.js"></script>
+<script src="engine/items.js"></script>
+<script src="engine/generate.js"></script>
+<script src="views-mastery.js"></script>
 <script>
 (function(){
 "use strict";
-var MODS = (window.ACADEMY_PART1||[]).concat(window.ACADEMY_PART2||[]);
-var EXTRAS = window.ACADEMY_EXTRAS||{};
-MODS.forEach(function(m){ var e=EXTRAS[m.id]; if(e){ m.idea=e.idea; m.speak=e.speak; } });
-var MORE = window.ACADEMY_MORE||{};
-MODS.forEach(function(m){ var x=MORE[m.id]; if(x){
-  if (x.quiz) m.quiz = (m.quiz||[]).concat(x.quiz);
-  if (x.diagnose) m.diagnose = (m.diagnose||[]).concat(x.diagnose);
-  if (x.translate) m.translate = (m.translate||[]).concat(x.translate);
-}});
+var IDX = window.SA_ITEMS.build(window);
+var MODS = IDX.packs;
+var CN = window.SA_CONCEPTS, MY = window.SA_MASTERY, GEN = window.SA_GENERATE;
+function NOW(){ return Date.now(); }
 var META = {
   p1:{big:"CONVERT", desc:"Why websites lose customers, and the speed-clarity-proof fix."},
   p2:{big:"UNBLOCK", desc:"Find the bottleneck, untangle the terminology, explain the useful fix."},
@@ -288,21 +294,22 @@ var THEMES = {
       g:"radial-gradient(circle at 85% 10%, rgba(255,170,120,.4), transparent 55%), linear-gradient(140deg,#8A4432,#54251B)"}
 };
 function TH(id){ return THEMES[id] || THEMES.p1; }
-var KEY = "salty-academy-game-v1";
+var KEY = window.SA_STORAGE.KEY;
 var RANKS = [[0,"Worm","🪱"],[150,"Bait","🪝"],[400,"Small Fish","🐡"],[800,"Fish","🐠"],[1400,"Big Tuna","🐟"],[2200,"Boat","🚤"],[3200,"Fleet","⛵"]];
 var XP = { sprint:10, cards:5, speak:8, bossQ:10, bossPass:50 };
 var CONF_BONUS = { guess:0, pretty:1, know:3 };
 var BOSS_N = 10, BOSS_PASS = 8;
 
-var S = load();
-function load(){ try { return JSON.parse(localStorage.getItem(KEY)||"{}"); } catch(e){ return {}; } }
+var S = window.SA_STORAGE.load(function(k){ return localStorage.getItem(k); });
 function save(){ localStorage.setItem(KEY, JSON.stringify(S)); }
 if (!S.players) S.players = {};
 function P(){ return S.players[S.current]; }
 function newPlayer(name){
-  S.players[name] = { xp:0, correct:{}, wrongQueue:[], badges:[], boss:{}, streak:0, lastDay:null, plays:0 };
+  S.players[name] = window.SA_STORAGE.blankPlayer();
   S.current = name; save();
 }
+var migrationNotice = !!S.migratedFromV1;
+if (migrationNotice){ delete S.migratedFromV1; save(); }
 function today(){ return new Date().toISOString().slice(0,10); }
 function touchStreak(){
   var p = P(), t = today();
@@ -325,39 +332,42 @@ var BADGES = {
 };
 MODS.forEach(function(m){ BADGES["boss-"+m.id] = {ico:m.icon, name:m.num+" mastered"}; });
 function grant(id){ var p=P(); if (p.badges.indexOf(id)<0){ p.badges.push(id); save(); } }
-function itemsOf(m){
-  var out = [];
-  (m.cards||[]).forEach(function(c,i){ out.push("c:"+m.id+":"+i); });
-  (m.quiz||[]).forEach(function(q,i){ out.push("q:"+m.id+":"+i); });
-  (m.translate||[]).forEach(function(q,i){ out.push("t:"+m.id+":"+i); });
-  (m.diagnose||[]).forEach(function(q,i){ out.push("d:"+m.id+":"+i); });
-  return out;
-}
-function mastery(m){
-  var p=P(), ids=itemsOf(m), n=0;
-  ids.forEach(function(id){ if (p.correct[id]) n++; });
-  return ids.length ? Math.round(100*n/ids.length) : 0;
-}
-function totalMastery(){
-  var s=0; MODS.forEach(function(m){ s+=mastery(m); });
-  return Math.round(s/MODS.length);
-}
+function itemsOf(m){ return (IDX.byPack[m.id] || []).map(function(it){ return it.id; }); }
+function mastery(m){ return MY.packMastery(P(), m.id); }
+function totalMastery(){ return MY.totalMastery(P()); }
 function recalled(m){
-  var p=P(), n=0;
-  (m.cards||[]).forEach(function(c,i){ if (p.correct["c:"+m.id+":"+i]) n++; });
+  var p = P(), n = 0;
+  (IDX.byPack[m.id] || []).forEach(function(it){
+    if (it.format === "flash" && p.seen[it.id]) n++;
+  });
   return n;
 }
 function toRevisit(m){
-  var p=P(), n=0;
-  p.wrongQueue.forEach(function(id){ if (id.split(":")[1]===m.id) n++; });
+  var p = P(), n = 0;
+  (p.wrongQueue || []).forEach(function(id){
+    var it = IDX.byId[id];
+    if (it && it.pack === m.id) n++;
+  });
   return n;
 }
-function markCorrect(id){ var p=P(); if(!p.correct[id]){ p.correct[id]=1; } save(); checkAll(); }
-function markWrong(id){ var p=P(); if (p.wrongQueue.indexOf(id)<0) p.wrongQueue.push(id); save(); }
-function clearWrong(id){ var p=P(); var i=p.wrongQueue.indexOf(id); if(i>=0) p.wrongQueue.splice(i,1); save(); }
+/* One call from every answer path: records the concept movement, the seen flag and the review queue. */
+function recordAnswer(item, correct, confidence){
+  var p = P();
+  p.seen[item.id] = (p.seen[item.id] || 0) + 1;
+  MY.record(p, item.concepts, correct, confidence, NOW());
+  var at = p.wrongQueue.indexOf(item.id);
+  if (correct){ if (at >= 0) p.wrongQueue.splice(at, 1); }
+  else {
+    if (at >= 0) p.wrongQueue.splice(at, 1);
+    if (confidence === "know") p.wrongQueue.unshift(item.id);
+    else p.wrongQueue.push(item.id);
+  }
+  save();
+  checkAll();
+}
 function checkAll(){
   var p=P(), all=true;
-  MODS.forEach(function(m){ (m.cards||[]).forEach(function(c,i){ if(!p.correct["c:"+m.id+":"+i]) all=false; }); });
+  IDX.items.forEach(function(it){ if (it.format==="flash" && !p.seen[it.id]) all=false; });
   if (all) grant("words");
   if (MODS.every(function(m){ return p.boss[m.id]; })) grant("master");
 }
@@ -424,6 +434,13 @@ function learn(){
     h += '<div class="resume"><div class="grow"><b>A Sprint is waiting for you.</b><br>'
       + '<span class="muted">'+lm.num+' · '+esc(lm.title)+'</span></div>'
       + '<button class="btn" onclick="GA.sprintRun(\''+lm.id+'\')">Continue →</button></div>';
+  }
+  if (migrationNotice){
+    h += '<div class="resume" style="border-color:var(--line)"><div class="grow">'
+      + '<b>Your questions were rewritten.</b><br><span class="muted">'
+      + 'The pack bars start fresh because they now track understanding per concept, not questions ticked off. '
+      + 'Your xp, your rank and the packs you mastered are all still here.</span></div></div>';
+    migrationNotice = false;
   }
   if (p.wrongQueue.length){
     h += '<div class="resume" style="border-color:var(--line)"><div class="grow"><b>'+p.wrongQueue.length+' item'+(p.wrongQueue.length===1?'':'s')+' to revisit.</b><br>'
@@ -521,9 +538,11 @@ function speakHome(filter){
   MODS.forEach(function(m){
     if (!m.speak || (filter!=="all" && filter!==m.id)) return;
     var t = TH(m.id);
+    var speakItems = (IDX.byPack[m.id] || []).filter(function(it){ return it.format === "speak"; });
     m.speak.forEach(function(s,i){
       n++;
-      var done = P().correct["s:"+m.id+":"+i];
+      var si = speakItems[i];
+      var done = si && P().seen[si.id];
       h += '<button class="scard" style="border-top:4px solid '+t.acc+'" onclick="GA.speakOne(\''+m.id+'\','+i+')">'
         + '<span class="n" style="color:'+t.acc+'">'+("0"+n).slice(-2)+' · 30 seconds · '+m.num+(done?' · ✓ done':'')+'</span>'
         + '<h3>'+esc(s.prompt)+'</h3>'
@@ -621,9 +640,11 @@ function progressView(){
 
 /* ---------- play engine ---------- */
 var run = null;
-function wrapItems(m, kind, arr){ return (arr||[]).map(function(d,i){ return {kind:kind, id:kind[0]+":"+m.id+":"+i, data:d, mod:m}; }); }
+function wrap(it){ return { kind:it.format, id:it.id, data:it.data, mod:mod(it.pack), item:it }; }
 function poolMC(m){
-  return wrapItems(m,"quiz",m.quiz).concat(wrapItems(m,"translate",m.translate)).concat(wrapItems(m,"diagnose",m.diagnose));
+  return (IDX.byPack[m.id] || []).filter(function(it){
+    return it.use === "module" && ["quiz","translate","diagnose"].indexOf(it.format) >= 0;
+  }).map(wrap);
 }
 function startRun(mode, m, items, back){
   run = { mode:mode, mod:m, items:items, i:0, score:0, xp:0, back:back||view };
@@ -641,21 +662,21 @@ function bossRun(id){
 }
 function cardsRun(id){
   var m = mod(id);
-  startRun("cards", m, shuffle(wrapItems(m,"cards",m.cards)), "learn");
+  var pool = (IDX.byPack[m.id] || []).filter(function(it){ return it.format === "flash"; }).map(wrap);
+  startRun("cards", m, shuffle(pool), "learn");
   step();
 }
 function speakOne(id, i){
   var m = mod(id);
-  startRun("speak", m, [{kind:"speak", id:"s:"+m.id+":"+i, data:m.speak[i], mod:m}], "speak");
+  var speakItems = (IDX.byPack[m.id] || []).filter(function(it){ return it.format === "speak"; });
+  startRun("speak", m, [wrap(speakItems[i])], "speak");
   step();
 }
 function reviewRun(){
-  var p=P(), items=[];
-  p.wrongQueue.slice(0,12).forEach(function(id){
-    var parts=id.split(":"), kindMap={c:"cards",q:"quiz",t:"translate",d:"diagnose",s:"speak"};
-    var m = mod(parts[1]); if (!m) return;
-    var arr = m[kindMap[parts[0]]];
-    if (arr && arr[+parts[2]]) items.push({kind:kindMap[parts[0]], id:id, data:arr[+parts[2]], mod:m});
+  var p = P(), items = [];
+  p.wrongQueue.slice(0, 12).forEach(function(id){
+    var it = IDX.byId[id];
+    if (it) items.push({ kind: it.format, id: it.id, data: it.data, mod: mod(it.pack), item: it });
   });
   startRun("review", null, items, "learn");
   step();
@@ -683,7 +704,7 @@ function step(){
   var h = playbar(label + ' · ' + (run.i+1) + '/' + run.items.length)
     + '<div class="progressline"><i style="width:'+Math.round(100*run.i/run.items.length)+'%"></i></div>'
     + '<div class="narrow">';
-  if (it.kind==="cards") h += renderCard(it);
+  if (it.kind==="flash") h += renderCard(it);
   else if (it.kind==="speak") h += renderSpeak(it);
   else h += renderMC(it);
   h += '</div>';
@@ -798,8 +819,8 @@ window.GA = {
   },
   card:function(knew){
     var it = run.items[run.i];
-    if (knew){ markCorrect(it.id); clearWrong(it.id); run.score++; run.xp+=XP.cards; addXP(XP.cards); }
-    else markWrong(it.id);
+    if (knew){ run.score++; run.xp+=XP.cards; addXP(XP.cards); }
+    recordAnswer(it.item, knew, knew ? "pretty" : "guess");
     run.i++; step();
   },
   conf:function(level){
@@ -822,9 +843,9 @@ window.GA = {
   },
   speakGrade:function(level){
     var it = run.items[run.i];
-    if (level===2){ markCorrect(it.id); clearWrong(it.id); run.score++; run.xp+=XP.speak; addXP(XP.speak); }
-    else if (level===1){ clearWrong(it.id); run.xp+=Math.floor(XP.speak/2); addXP(Math.floor(XP.speak/2)); }
-    else markWrong(it.id);
+    if (level===2){ run.score++; run.xp+=XP.speak; addXP(XP.speak); recordAnswer(it.item, true, "pretty"); }
+    else if (level===1){ run.xp+=Math.floor(XP.speak/2); addXP(Math.floor(XP.speak/2)); recordAnswer(it.item, true, "guess"); }
+    else recordAnswer(it.item, false, "guess");
     run.i++; step();
   },
   answer:function(i){
@@ -837,14 +858,13 @@ window.GA = {
     document.querySelectorAll(".confrow button").forEach(function(b){ b.disabled=true; });
     var gain = (run.mode==="boss" ? XP.bossQ : XP.sprint) + (picked.ok ? (CONF_BONUS[it.conf]||0) : 0);
     var confNote = "";
-    if (picked.ok){ run.score++; run.xp+=gain; addXP(gain); markCorrect(it.id); clearWrong(it.id);
+    if (picked.ok){ run.score++; run.xp+=gain; addXP(gain);
       if (it.conf==="know") confNote = " Called it, too: +"+CONF_BONUS.know+" xp.";
     } else {
-      markWrong(it.id);
-      if (it.conf==="know"){ var p=P(), qi=p.wrongQueue.indexOf(it.id); if(qi>0){ p.wrongQueue.splice(qi,1); p.wrongQueue.unshift(it.id); save(); }
-        confNote = " You were sure about this one, so it goes to the front of your review queue."; }
+      if (it.conf==="know") confNote = " You were sure about this one, so it goes to the front of your review queue.";
       else if (it.conf==="guess") confNote = " Honest guess, no harm: now you know it.";
     }
+    recordAnswer(it.item, picked.ok, it.conf);
     var d=it.data;
     var extra = '<div class="why">'+(picked.ok?'<b>Correct.</b> ':'<b>The answer:</b> '+esc(d.a[0])+'<br>')+esc(d.why||"")+esc(confNote)+'</div>'
       + '<button class="btn wide" onclick="GA.next()">'+(run.i+1>=run.items.length?'Finish':'Next')+' →</button>';
