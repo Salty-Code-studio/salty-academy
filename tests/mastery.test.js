@@ -107,3 +107,58 @@ test("label describes the state in plain words", function(){
   M.record(pl, ["c.p1.speed"], true, "guess", T0);
   assert.strictEqual(M.label(pl, "c.p1.speed"), "shaky");
 });
+
+test("label returns getting there and solid for higher boxes", function(){
+  var pl = p();
+  M.record(pl, ["c.p1.speed"], true, "know", T0);
+  M.record(pl, ["c.p1.speed"], true, "know", T0);
+  assert.strictEqual(M.label(pl, "c.p1.speed"), "getting there");
+  M.record(pl, ["c.p1.speed"], true, "know", T0);
+  M.record(pl, ["c.p1.speed"], true, "know", T0);
+  assert.strictEqual(M.label(pl, "c.p1.speed"), "solid");
+});
+
+test("weights gives 2 to a low box concept that is neither fragile nor a misconception", function(){
+  var pl = p();
+  M.record(pl, ["c.p1.speed"], true, "pretty", T0);
+  var s = M.state(pl, "c.p1.speed");
+  assert.strictEqual(s.box, 1);
+  assert.strictEqual(s.fragile, false);
+  assert.strictEqual(s.misconception, false);
+  assert.strictEqual(M.weights(pl)["c.p1.speed"], 2);
+});
+
+test("state returns a copy, not the live stored object", function(){
+  var pl = p();
+  M.record(pl, ["c.p1.speed"], true, "know", T0);
+  var s = M.state(pl, "c.p1.speed");
+  s.box = 99;
+  s.misconception = true;
+  assert.strictEqual(pl.concepts["c.p1.speed"].box, 1, "mutating the returned state must not affect stored data");
+  assert.strictEqual(pl.concepts["c.p1.speed"].misconception, false, "mutating the returned state must not affect stored data");
+});
+
+test("a guess-correct answer overrides scheduling even from a high box", function(){
+  var pl = p();
+  M.record(pl, ["c.p1.speed"], true, "know", T0);
+  M.record(pl, ["c.p1.speed"], true, "know", T0);
+  M.record(pl, ["c.p1.speed"], true, "know", T0);
+  var boxBefore = M.state(pl, "c.p1.speed").box;
+  assert.ok(boxBefore >= 3, "expected the concept promoted to box 3 or higher, got " + boxBefore);
+  var guessAt = T0 + 5*DAY;
+  M.record(pl, ["c.p1.speed"], true, "guess", guessAt);
+  var s = M.state(pl, "c.p1.speed");
+  assert.strictEqual(s.box, boxBefore, "a guess must not move the box");
+  assert.strictEqual(s.due, guessAt + DAY, "a guess-correct answer is always due tomorrow, not the box interval");
+});
+
+test("a lucky guess does not clear a misconception", function(){
+  var pl = p();
+  M.record(pl, ["c.p1.speed"], false, "know", T0);
+  M.record(pl, ["c.p1.speed"], true, "guess", T0 + DAY);
+  var s = M.state(pl, "c.p1.speed");
+  assert.strictEqual(s.misconception, true, "a guess must not repair a misconception");
+  assert.strictEqual(M.weights(pl)["c.p1.speed"], 3, "still weighted as a misconception");
+  M.record(pl, ["c.p1.speed"], true, "pretty", T0 + 2*DAY);
+  assert.strictEqual(M.state(pl, "c.p1.speed").misconception, false, "a confident correct answer clears it");
+});

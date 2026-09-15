@@ -10,7 +10,9 @@ function blank(){ return { box:0, fragile:false, misconception:false, due:0, see
 
 function state(player, id){
   if (!player.concepts) player.concepts = {};
-  return player.concepts[id] || blank();
+  var s = player.concepts[id];
+  if (!s) return blank();
+  return Object.assign({}, s);
 }
 
 function record(player, conceptIds, correct, confidence, nowMs){
@@ -20,7 +22,7 @@ function record(player, conceptIds, correct, confidence, nowMs){
     s.seen++;
     if (correct){
       s.ok++;
-      s.misconception = false;
+      if (confidence !== "guess"){ s.misconception = false; }
       if (confidence === "guess"){ s.fragile = true; }
       else { s.fragile = false; s.box = Math.min(MAX_BOX, s.box + 1); }
     } else {
