@@ -75,17 +75,17 @@ window.ACADEMY_EXTRAS = {
   m2: {
     idea: "Your brand is the slot you own in a customer's head. If you do not choose it, the market assigns you one.",
     speak: [
-      {prompt:"The mango stand", words:["Slot","Mango","Chosen"], points:[
+      {id:"s.m2.positioning.a", c:["c.m2.positioning","c.m2.brand"], prompt:"The mango stand", words:["Slot","Mango","Chosen"], points:[
         "Five fruit stands, but everyone knows the one with the sweet mangoes.",
         "People walk past four stands for it: being for someone beats being for everyone.",
         "Memory stores one slot per business; unclaimed slots default to 'one of the others'.",
         "'One of the others' competes on price only."]},
-      {prompt:"Why customers haggle", words:["Interchangeable","Specialist","Price"], points:[
+      {id:"s.m2.diagnosis-map.a", c:["c.m2.diagnosis-map","c.m2.positioning"], prompt:"Why customers haggle", words:["Interchangeable","Specialist","Price"], points:[
         "When a business looks like every other, price is the only thing left to compare.",
         "Nobody haggles with the specialist.",
         "Haggling is not a price problem, it is a positioning problem.",
         "Fix what makes you different, and the haggling quiets down."]},
-      {prompt:"The wine label", words:["Label","Expect","Power"], points:[
+      {id:"s.m2.perceived-value.a", c:["c.m2.perceived-value"], prompt:"The wine label", words:["Label","Expect","Power"], points:[
         "Same wine, two labels: people pay more for the beautiful one and swear it tastes better.",
         "Customers decide what you probably cost before you tell them.",
         "Looking premium is not vanity, it is pricing power.",
