@@ -155,17 +155,17 @@ window.ACADEMY_EXTRAS = {
   m6: {
     idea: "You are not trying to win the deal. You are trying to be the most useful fifteen minutes of that owner's month.",
     speak: [
-      {prompt:"The conversation spine", words:["Listen","Diagnose","Recommend"], points:[
+      {id:"s.m6.spine.a", c:["c.m6.spine","c.m6.two-thirds","c.m6.one-recommendation"], prompt:"The conversation spine", words:["Listen","Diagnose","Recommend"], points:[
         "Listen and dig before you explain: the prospect talks two thirds of the time.",
         "Diagnose silently: the stated problem and the real problem differ half the time.",
         "Say the real problem back in their own words before proposing anything.",
         "One recommendation, not a menu, and a concrete next step with a date."]},
-      {prompt:"Ask an insider question", words:["Moment","Ask","Silence"], points:[
+      {id:"s.m6.insider-question.a", c:["c.m6.insider-question","c.m6.tuesday-move"], prompt:"Ask an insider question", words:["Moment","Ask","Silence"], points:[
         "Name a painful moment only insiders know: the late return, the 11 pm request.",
         "Ask how they handle it, then be quiet.",
         "They conclude on their own that you have stood where they stand.",
         "A question can carry more proof than a portfolio."]},
-      {prompt:"A story in thirty seconds", words:["Situation","Turn","Familiar"], points:[
+      {id:"s.m6.story-arc.a", c:["c.m6.story-arc","c.m6.close-lite"], prompt:"A story in thirty seconds", words:["Situation","Turn","Familiar"], points:[
         "Situation: a rental owner confirmed every booking himself, at all hours.",
         "Turn: requests now land on his phone, one tap approves, emails send themselves.",
         "Takeaway: he kept every yes and lost the running around.",
