@@ -37,11 +37,37 @@ window.ACADEMY_OPEN = {
       why:"Each complaint names a symptom. The match is the real fault sitting underneath it." }
   ],
   p2: [
+    { id:"o.p2.bottleneck-bill.a", c:["c.p2.bottleneck-bill"], use:"module",
+      ask:"A client says her admin doesn't really cost her anything, she does it herself for free. How do you show her what it actually costs?",
+      rubric:{ must:[["hours","multiply","calculate","fifty-two","do the math"],
+                      ["yearly","forever","ongoing","recurring","adds up"]],
+               nice:[["real number","concrete","specific","her own numbers"]],
+               miss:[{ match:["expensive","costly","pricey"],
+                       say:"Saying it's expensive isn't the same as running the actual numbers. The formula, not the adjective, is what convinces her." }] },
+      model:"You do the math with her own numbers: hours spent each week times what her hour is worth times fifty two weeks, which turns ten hours into a real yearly figure like twenty six thousand euros. That number keeps repeating every year until the bottleneck is fixed, and nobody argues with their own numbers.",
+      why:"The bottleneck bill turns a vague feeling of busyness into a number a client can't unsee." },
+    { id:"o.p2.phone-test.a", c:["c.p2.phone-test"], use:"module",
+      ask:"An owner insists everything runs fine because he personally handles it all. What question actually gets him to feel the problem?",
+      rubric:{ must:[["unreachable","disconnect","offline","switch off","two weeks"],
+                      ["bottleneck","dependent","reliant","without him","stuck point"]],
+               nice:[["watch his face","pause","honest answer"]],
+               miss:[{ match:["hire","staff","employee","assistant"],
+                       say:"Hiring might eventually help, but the question is about proving he's the single point everything squeezes through, not about staffing yet." }] },
+      model:"You ask if he could switch his phone off for two weeks and come back to a business that ran completely normally. Watch his face when he answers: if every booking and question squeezes through him, that isn't dedication, it's a queue with a yearly bill attached.",
+      why:"The phone test turns an abstract idea into a question the owner has to answer about his own life." },
     { id:"x.p2.bottleneck.a", c:["c.p2.bottleneck","c.p2.workflow"], use:"module",
       ask:"Match each complaint to what is actually broken.",
       pairs:[ {l:"'I retype every booking into the calendar'", r:"Manual entry"},
               {l:"'Nobody knows which list is current'", r:"No single source of truth"},
               {l:"'It only jams on Saturdays'", r:"A bottleneck"} ],
-      why:"Each complaint names a symptom, and the match is the real fault behind it." }
+      why:"Each complaint names a symptom, and the match is the real fault behind it." },
+    { id:"o.p2.process-map.a", c:["c.p2.process-map"], use:"mastery",
+      ask:"Before you write a single line of code for a new client, what's the actual first deliverable, and why does handing it over first matter?",
+      rubric:{ must:[["write down","list","document","mapping","step by step"],
+                      ["no cost","before building anything","earns trust","first time anyone"]],
+               miss:[{ match:["price","quote","proposal","cost estimate"],
+                       say:"A price isn't the first deliverable. The first thing is writing down how the business actually works today, before any number is discussed." }] },
+      model:"Before building anything we sit down and write out exactly what the business repeats every day, step by step, including the WhatsApp back and forth. Handing that list over first costs nothing, and it's often the first time anyone has ever seen their own workflow on paper, which is what earns the trust to build the bigger thing.",
+      why:"Process mapping is free, and it's usually the first time an owner has ever seen their own business written down." }
   ]
 };

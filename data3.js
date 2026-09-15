@@ -30,22 +30,22 @@ window.ACADEMY_EXTRAS = {
   p2: {
     idea: "Nobody buys software. They buy their evenings back: find the bottleneck, remove it.",
     speak: [
-      {prompt:"The phone test", words:["Phone","Stuck","Evenings"], points:[
+      {id:"s.p2.phone-test.a", c:["c.p2.phone-test","c.p2.bottleneck"], prompt:"The phone test", words:["Phone","Stuck","Evenings"], points:[
         "Could you turn your phone off for two weeks without the business stopping?",
         "If not, you are the bottleneck: every booking and question squeezes through you.",
         "That is not dedication, it is a queue, and queues have a yearly bill.",
         "The fix is not working harder, it is moving repeated work into a system."]},
-      {prompt:"Automation versus AI", words:["Rules","Judgment","Order"], points:[
+      {id:"s.p2.automation.a", c:["c.p2.automation"], prompt:"Automation versus AI", words:["Rules","Judgment","Order"], points:[
         "Automation is rules: when a booking confirms, send the email. Reliable, boring, valuable.",
         "AI is judgment: reading, writing, sorting, answering.",
         "Rules first, AI second: most businesses need the rules, cheaper and reliable.",
         "Half the AI stories owners hear are actually just rules."]},
-      {prompt:"One tap on Bonaire", words:["Chaos","Turn","Calm"], points:[
+      {id:"s.p2.human-loop.a", c:["c.p2.human-loop","c.p2.automation"], prompt:"One tap on Bonaire", words:["Chaos","Turn","Calm"], points:[
         "A scooter rental where every request, confirmation and reminder ran through the owner.",
         "Now customers request online and the booking lands on his phone: one tap approves.",
         "Emails send themselves, in his own branding.",
         "He did not lose control, he lost the running around."]},
-      {prompt:"The bottleneck bill", words:["Hours","Rate","52"], points:[
+      {id:"s.p2.bottleneck-bill.a", c:["c.p2.bottleneck-bill","c.p2.bottleneck"], prompt:"The bottleneck bill", words:["Hours","Rate","52"], points:[
         "Hours per week on a repeated task, times what an hour is worth, times 52 weeks.",
         "Ten hours a week at fifty an hour is 26,000 a year, every year.",
         "Do the math live with the client's own numbers, and round down.",
