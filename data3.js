@@ -55,17 +55,17 @@ window.ACADEMY_EXTRAS = {
   m1: {
     idea: "Every website term maps to one of three things a client cares about: more customers, looking professional, less hassle.",
     speak: [
-      {prompt:"SEO without the fear", words:["Phonebook","Words","Reviews"], points:[
+      {id:"s.m1.seo.a", c:["c.m1.seo","c.m1.local-seo"], prompt:"SEO without the fear", words:["Phonebook","Words","Reviews"], points:[
         "Google is the phonebook now, and it puts the clearest, most useful businesses first.",
         "Your site must say what you sell in the words customers search with.",
         "For local businesses the map box pays most: reviews, photos, opening hours.",
         "Anyone guaranteeing number one on Google is lying, and you can happily say so."]},
-      {prompt:"Who owns your domain?", words:["Deed","Drawer","Keys"], points:[
+      {id:"s.m1.domain.a", c:["c.m1.domain"], prompt:"Who owns your domain?", words:["Deed","Drawer","Keys"], points:[
         "Your web address is the deed to your shop.",
         "Some builders keep the deed in their own drawer, and then you can never leave.",
         "Check tonight: if your domain is not in your name, fix that before anything else.",
         "Our policy: you own the domain, the accounts and the data. Always."]},
-      {prompt:"The house metaphor", words:["Address","Land","Key"], points:[
+      {id:"s.m1.domain.b", c:["c.m1.domain","c.m1.hosting","c.m1.cms"], prompt:"The house metaphor", words:["Address","Land","Key"], points:[
         "The domain is the address, hosting is the land the site lives on.",
         "The design is the facade, the backend is the machinery inside.",
         "The CMS is your own key: change prices and photos yourself in a minute.",
