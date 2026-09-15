@@ -62,6 +62,28 @@ function build(g){
           });
         }
         if (byId[id]) throw new Error("duplicate item id: " + id);
+        if (id && !id.startsWith("legacy.")) {
+          var formatMap = {
+            "quiz": "q",
+            "translate": "t",
+            "diagnose": "d",
+            "open": "o",
+            "match": "x",
+            "flash": "f",
+            "speak": "s"
+          };
+          var idLetter = id.charAt(0);
+          var expectedLetter = formatMap[format];
+          if (idLetter !== expectedLetter) {
+            var fileLocation;
+            if (idLetter === "q" || idLetter === "t" || idLetter === "d") {
+              fileLocation = "its pack's own " + formatMap[idLetter === "q" ? "quiz" : (idLetter === "t" ? "translate" : "diagnose")] + " array in data1.js or data2.js, marked use:\"mastery\" if it is meant only for the final exams";
+            } else {
+              fileLocation = "data5.js with the ACADEMY_OPEN structure";
+            }
+            throw new Error("item " + id + " claims format " + idLetter + " but was loaded as " + format + ". This item belongs in " + fileLocation);
+          }
+        }
         var item = { id:id, pack:m.id, format:format, concepts:concepts, use:use, data:raw };
         byId[id] = item;
         items.push(item);

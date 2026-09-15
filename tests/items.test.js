@@ -12,7 +12,7 @@ function fixture(){
       cards:[{t:"Load time", d:"d", s:"s", id:"f.p1.speed.a", c:["c.p1.speed"]}],
       quiz:[{ id:"q.p1.speed.a", c:["c.p1.speed"], q:"Q?", a:["right","wrong"], why:"w" },
             { q:"untagged legacy", a:["a","b"], why:"w" }],
-      translate:[], diagnose:[] }],
+      translate:[], diagnose:[], speak:[] }],
     ACADEMY_PART2: [],
     ACADEMY_EXTRAS: {},
     ACADEMY_MORE: {},
@@ -64,10 +64,10 @@ test("a malformed id throws", function(){
 
 test("speak-format items with s. prefix load correctly", function(){
   var f = fixture();
-  f.ACADEMY_PART1[0].cards = [{t:"Speak it", d:"d", s:"s", id:"s.p1.speak-test.a", c:["c.p1.speed"]}];
+  f.ACADEMY_PART1[0].speak = [{t:"Speak it", d:"d", s:"s", id:"s.p1.speak-test.a", c:["c.p1.speed"]}];
   var B = IT.build(f);
   assert.ok(B.byId["s.p1.speak-test.a"]);
-  assert.strictEqual(B.byId["s.p1.speak-test.a"].format, "flash");
+  assert.strictEqual(B.byId["s.p1.speak-test.a"].format, "speak");
 });
 
 test("build does not mutate the source globals, so a second build on the same globals yields the same item count", function(){
@@ -102,6 +102,23 @@ test("a c field that is not an array throws, naming the item id", function(){
   assert.throws(function(){ IT.build(f); }, function(err){
     return /q\.p1\.speed\.a/.test(err.message) && /array/i.test(err.message);
   });
+});
+
+test("loader rejects an item with q. prefix placed in ACADEMY_OPEN structure", function(){
+  var f = fixture();
+  f.ACADEMY_OPEN.p1[0].id = "q.p1.value-prop.a";
+  assert.throws(function(){ IT.build(f); }, function(err){
+    return /q\.p1\.value-prop\.a/.test(err.message) &&
+           /data1\.js.*data2\.js/.test(err.message);
+  });
+});
+
+test("loader accepts correctly placed o. item in ACADEMY_OPEN structure", function(){
+  var f = fixture();
+  assert.strictEqual(f.ACADEMY_OPEN.p1[0].id, "o.p1.speed.a");
+  var B = IT.build(f);
+  assert.ok(B.byId["o.p1.speed.a"]);
+  assert.strictEqual(B.byId["o.p1.speed.a"].format, "open");
 });
 
 test("the real data files load without throwing", function(){
