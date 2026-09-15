@@ -88,8 +88,19 @@
   .pack h3 { margin:0 0 .4rem; font-size:1.22rem; font-weight:700; }
   .pack .desc { font-size:.95rem; opacity:.85; margin:0 0 1rem; flex:1; }
   .pack .recall { display:flex; justify-content:space-between; font-size:.82rem; opacity:.9; margin-bottom:.4rem; }
-  .pack .bar { height:5px; border-radius:99px; background:rgba(128,128,128,.28); margin-bottom:1.1rem; }
-  .pack .bar i { display:block; height:5px; border-radius:99px; background:currentColor; }
+  .pack .bar { height:8px; border-radius:99px; background:rgba(255,255,255,.22); overflow:hidden; margin-bottom:1.1rem; }
+  .pack .bar i { display:block; height:100%; border-radius:99px; width:0;
+    transition:width .85s cubic-bezier(.22,.9,.3,1); }
+  .lvbar { height:10px; border-radius:99px; background:var(--line); overflow:hidden; margin:.5rem 0 .2rem; }
+  .lvbar i { display:block; height:100%; border-radius:99px;
+    background:linear-gradient(90deg, var(--coral), var(--coral-dark));
+    transition:width .85s cubic-bezier(.22,.9,.3,1); }
+  .levelblock { margin:.6rem 0 0; max-width:380px; }
+  .lvline { display:flex; align-items:baseline; gap:.5rem; }
+  .lvico { font-size:1.5rem; }
+  .lvname { font-weight:700; font-size:1.1rem; }
+  .lvxp { margin-left:auto; color:var(--soft); font-size:.9rem; }
+  .lvnext { font-size:.82rem; margin:.1rem 0 .5rem; }
   .pack .actions { display:flex; align-items:center; justify-content:space-between; gap:.8rem; flex-wrap:wrap; }
   .pack .actions .textlink { color:inherit; }
   .pack .done { font-size:.78rem; font-weight:700; letter-spacing:.08em; }
@@ -102,8 +113,8 @@
   .legend .li { display:flex; align-items:center; gap:.55rem; font-size:.88rem; }
   .legend .dot { width:.7rem; height:.7rem; border-radius:3px; flex:none; }
   .legend .pct { margin-left:auto; font-weight:700; font-variant-numeric:tabular-nums; }
-  .ladder { display:flex; gap:.4rem; flex-wrap:wrap; margin:1rem 0 1.4rem; }
-  .ladder .stepp { flex:1 1 100px; background:var(--paper); border:1.5px solid var(--line);
+  .ladder { display:flex; gap:.4rem; flex-wrap:wrap; justify-content:center; margin:1rem 0 1.4rem; }
+  .ladder .stepp { flex:1 1 80px; max-width:130px; background:var(--paper); border:1.5px solid var(--line);
     border-radius:12px; padding:.7rem .5rem; text-align:center; }
   .ladder .stepp .e { font-size:1.5rem; }
   .ladder .stepp .n2 { font-weight:700; font-size:.8rem; margin-top:.15rem; }
@@ -177,6 +188,25 @@
     padding:.85rem 1.1rem; border-radius:0 10px 10px 0; font-size:.93rem; margin:1rem 0; }
   .confrow { display:flex; gap:.5rem; flex-wrap:wrap; margin:.4rem 0 1rem; }
   .confrow .chip.sel { border-color:var(--coral); color:var(--coral-dark); }
+  .teach { border:1px solid var(--line); border-left:3px solid var(--coral);
+    border-radius:10px; padding:.85rem 1rem; margin:.7rem 0; background:var(--paper); }
+  .teach p { margin:.4rem 0 0; font-size:.92rem; line-height:1.5; }
+  .teach .clientline { font-style:italic; }
+  .termrow { display:flex; gap:.4rem; flex-wrap:wrap; }
+  .chip.term { cursor:pointer; border-style:dashed; }
+  .opt[disabled] { opacity:.45; cursor:not-allowed; }
+  .btn[disabled] { opacity:.45; cursor:not-allowed; }
+  textarea#openans { width:100%; font:inherit; font-size:1rem; padding:.8rem;
+    border:1px solid var(--line); border-radius:10px; background:var(--paper); color:var(--ink);
+    resize:vertical; margin:.4rem 0 .8rem; }
+  .matchgrid { display:flex; flex-direction:column; gap:.5rem; margin:.6rem 0 1rem; }
+  .matchrow { display:flex; gap:.6rem; align-items:center; flex-wrap:wrap;
+    border:1px solid var(--line); border-radius:10px; padding:.6rem .7rem; }
+  .matchrow .ml { flex:1 1 55%; font-size:.95rem; }
+  .matchrow select { flex:1 1 40%; font:inherit; padding:.45rem; border-radius:8px;
+    border:1px solid var(--line); background:var(--paper); color:var(--ink); }
+  .matchrow.correct { border-color:#3F7D5F; }
+  .matchrow.wrong { border-color:#B0452F; }
   /* idea interstitial */
   .idea { background:var(--teal); color:var(--teal-ink); border-radius:16px; padding:2rem 1.8rem; margin:.5rem 0 1.2rem; }
   .idea .eyebrow { color:var(--blue); }
@@ -214,7 +244,50 @@
     font-size:.82rem; color:var(--soft); }
   .playerpick { display:flex; gap:.6rem; flex-wrap:wrap; margin:1rem 0; }
   a { color:var(--ink); }
-  @media (prefers-reduced-motion: reduce) { .flashinner, .fg, .progressline i { transition:none; } }
+  .rankup { border:1px solid var(--coral); border-radius:12px; padding:.7rem 1rem;
+    margin:0 0 1rem; background:var(--paper); font-size:.95rem; }
+  .xpsplash { position:fixed; left:50%; bottom:18%; transform:translateX(-50%);
+    display:flex; align-items:center; gap:.4rem; pointer-events:none; z-index:60;
+    color:var(--coral); font-weight:700; font-size:1.05rem;
+    animation:xpfloat 1.2s ease-out forwards; }
+  .xpsplash svg { width:44px; height:30px; }
+  @keyframes xpfloat {
+    0%   { opacity:0; transform:translate(-50%, 14px) scale(.85); }
+    18%  { opacity:1; transform:translate(-50%, 0) scale(1.06); }
+    35%  { transform:translate(-50%, -2px) scale(1); }
+    100% { opacity:0; transform:translate(-50%, -46px) scale(1); }
+  }
+  /* cinematic */
+  .cine { position:fixed; inset:0; z-index:200; overflow-y:auto;
+    background:radial-gradient(circle at 80% 0%, rgba(157,191,210,.25), transparent 55%),
+      linear-gradient(160deg,#0B1F22,#1E3A3D 55%,#0B1F22); color:var(--teal-ink);
+    padding:3.2rem 1.4rem 2.4rem; }
+  .cineskip { position:fixed; top:1.1rem; right:1.1rem; z-index:201; background:transparent;
+    border:1px solid rgba(239,233,219,.4); color:var(--teal-ink); border-radius:999px;
+    padding:.5rem 1.1rem; font-weight:600; font-size:.82rem; }
+  .cinein { max-width:640px; margin:0 auto; text-align:center; }
+  .cinein .eyebrow { color:var(--blue); }
+  .cinetitle { font-weight:700; font-size:clamp(1.5rem,4vw,2.2rem); margin:.3rem 0 1.6rem; letter-spacing:-.01em; }
+  .cine .ladder { justify-content:center; }
+  .rung { flex:1 1 90px; display:flex; flex-direction:column; align-items:center; gap:.2rem;
+    background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); border-radius:12px;
+    padding:.8rem .4rem; opacity:.2; transform:translateX(-10px);
+    transition:opacity .5s ease, transform .5s ease; }
+  .rung.lit { opacity:1; transform:translateX(0); }
+  .rung .rico { font-size:1.6rem; }
+  .rung .rname { font-weight:700; font-size:.78rem; }
+  .rung .rxp { font-family:ui-monospace,"SF Mono",Menlo,monospace; font-size:.62rem; color:var(--blue); }
+  .cinefinal { opacity:0; transition:opacity .6s ease; margin-top:2rem; }
+  .cinefinal.show { opacity:1; }
+  .finalcard { background:var(--paper); color:var(--ink); border-radius:16px; padding:2.2rem 1.6rem; }
+  .finalcard .fico { font-size:2.6rem; }
+  .finalcard h1 { font-size:1.6rem; margin:.4rem 0 .5rem; }
+  @media (prefers-reduced-motion: reduce) {
+    .flashinner, .ring .fg, .progressline i { transition:none; }
+    .xpsplash { animation:none; opacity:1; }
+    .pack .bar i, .lvbar i { transition:none; }
+    .rung, .cinefinal { transition:none; }
+  }
   @media (max-width:640px){
     .topin { padding:.85rem 1rem; }
     nav.main { width:100%; overflow-x:auto; }
@@ -243,22 +316,29 @@
   <span>~&lt; salty code studio</span>
 </div></footer>
 
-<script src="data1.js"></script>
-<script src="data2.js"></script>
-<script src="data3.js"></script>
-<script src="data4.js"></script>
+<!-- Version cache-bust query string: increment v= whenever any of these files change -->
+<script src="config.js?v=2"></script>
+<script src="engine/util.js?v=2"></script>
+<script src="engine/concepts.js?v=2"></script>
+<script src="engine/storage.js?v=2"></script>
+<script src="engine/mastery.js?v=2"></script>
+<script src="engine/rubric.js?v=2"></script>
+<script src="engine/ai.js?v=2"></script>
+<script src="data1.js?v=2"></script>
+<script src="data2.js?v=2"></script>
+<script src="data3.js?v=2"></script>
+<script src="data4.js?v=2"></script>
+<script src="data5.js?v=2"></script>
+<script src="engine/items.js?v=2"></script>
+<script src="engine/generate.js?v=2"></script>
+<script src="views-mastery.js?v=2"></script>
 <script>
 (function(){
 "use strict";
-var MODS = (window.ACADEMY_PART1||[]).concat(window.ACADEMY_PART2||[]);
-var EXTRAS = window.ACADEMY_EXTRAS||{};
-MODS.forEach(function(m){ var e=EXTRAS[m.id]; if(e){ m.idea=e.idea; m.speak=e.speak; } });
-var MORE = window.ACADEMY_MORE||{};
-MODS.forEach(function(m){ var x=MORE[m.id]; if(x){
-  if (x.quiz) m.quiz = (m.quiz||[]).concat(x.quiz);
-  if (x.diagnose) m.diagnose = (m.diagnose||[]).concat(x.diagnose);
-  if (x.translate) m.translate = (m.translate||[]).concat(x.translate);
-}});
+var IDX = window.SA_ITEMS.build(window);
+var MODS = IDX.packs;
+var CN = window.SA_CONCEPTS, MY = window.SA_MASTERY, GEN = window.SA_GENERATE;
+function NOW(){ return Date.now(); }
 var META = {
   p1:{big:"CONVERT", desc:"Why websites lose customers, and the speed-clarity-proof fix."},
   p2:{big:"UNBLOCK", desc:"Find the bottleneck, untangle the terminology, explain the useful fix."},
@@ -288,21 +368,22 @@ var THEMES = {
       g:"radial-gradient(circle at 85% 10%, rgba(255,170,120,.4), transparent 55%), linear-gradient(140deg,#8A4432,#54251B)"}
 };
 function TH(id){ return THEMES[id] || THEMES.p1; }
-var KEY = "salty-academy-game-v1";
+var KEY = window.SA_STORAGE.KEY;
 var RANKS = [[0,"Worm","🪱"],[150,"Bait","🪝"],[400,"Small Fish","🐡"],[800,"Fish","🐠"],[1400,"Big Tuna","🐟"],[2200,"Boat","🚤"],[3200,"Fleet","⛵"]];
 var XP = { sprint:10, cards:5, speak:8, bossQ:10, bossPass:50 };
 var CONF_BONUS = { guess:0, pretty:1, know:3 };
 var BOSS_N = 10, BOSS_PASS = 8;
 
-var S = load();
-function load(){ try { return JSON.parse(localStorage.getItem(KEY)||"{}"); } catch(e){ return {}; } }
+var S = window.SA_STORAGE.load(function(k){ return localStorage.getItem(k); });
 function save(){ localStorage.setItem(KEY, JSON.stringify(S)); }
 if (!S.players) S.players = {};
 function P(){ return S.players[S.current]; }
 function newPlayer(name){
-  S.players[name] = { xp:0, correct:{}, wrongQueue:[], badges:[], boss:{}, streak:0, lastDay:null, plays:0 };
+  S.players[name] = window.SA_STORAGE.blankPlayer();
   S.current = name; save();
 }
+var migrationNotice = !!S.migratedFromV1;
+if (migrationNotice){ delete S.migratedFromV1; save(); }
 function today(){ return new Date().toISOString().slice(0,10); }
 function touchStreak(){
   var p = P(), t = today();
@@ -317,6 +398,12 @@ function rankObj(xp){ var r = RANKS[0]; RANKS.forEach(function(x){ if (xp>=x[0])
 function rank(xp){ return rankObj(xp)[1]; }
 function rankIco(xp){ return rankObj(xp)[2]; }
 function nextRank(xp){ for (var i=0;i<RANKS.length;i++){ if (xp<RANKS[i][0]) return RANKS[i]; } return null; }
+function rankPct(xp){
+  var cur = rankObj(xp), nx = nextRank(xp);
+  if (!nx) return 100;
+  var span = nx[0] - cur[0];
+  return span > 0 ? Math.round(100 * (xp - cur[0]) / span) : 0;
+}
 var BADGES = {
   streak7:{ico:"🔥",name:"7-day streak"},
   perfect:{ico:"💯",name:"Perfect mastery round"},
@@ -325,52 +412,103 @@ var BADGES = {
 };
 MODS.forEach(function(m){ BADGES["boss-"+m.id] = {ico:m.icon, name:m.num+" mastered"}; });
 function grant(id){ var p=P(); if (p.badges.indexOf(id)<0){ p.badges.push(id); save(); } }
-function itemsOf(m){
-  var out = [];
-  (m.cards||[]).forEach(function(c,i){ out.push("c:"+m.id+":"+i); });
-  (m.quiz||[]).forEach(function(q,i){ out.push("q:"+m.id+":"+i); });
-  (m.translate||[]).forEach(function(q,i){ out.push("t:"+m.id+":"+i); });
-  (m.diagnose||[]).forEach(function(q,i){ out.push("d:"+m.id+":"+i); });
-  return out;
-}
-function mastery(m){
-  var p=P(), ids=itemsOf(m), n=0;
-  ids.forEach(function(id){ if (p.correct[id]) n++; });
-  return ids.length ? Math.round(100*n/ids.length) : 0;
-}
-function totalMastery(){
-  var s=0; MODS.forEach(function(m){ s+=mastery(m); });
-  return Math.round(s/MODS.length);
-}
+function itemsOf(m){ return (IDX.byPack[m.id] || []).map(function(it){ return it.id; }); }
+function mastery(m){ return MY.packMastery(P(), m.id); }
+function totalMastery(){ return MY.totalMastery(P()); }
 function recalled(m){
-  var p=P(), n=0;
-  (m.cards||[]).forEach(function(c,i){ if (p.correct["c:"+m.id+":"+i]) n++; });
+  var p = P(), right = p.right || {}, n = 0;
+  (IDX.byPack[m.id] || []).forEach(function(it){
+    if (it.format === "flash" && right[it.id]) n++;
+  });
   return n;
 }
 function toRevisit(m){
-  var p=P(), n=0;
-  p.wrongQueue.forEach(function(id){ if (id.split(":")[1]===m.id) n++; });
+  var p = P(), n = 0;
+  (p.wrongQueue || []).forEach(function(id){
+    var it = IDX.byId[id];
+    if (it && it.pack === m.id) n++;
+  });
   return n;
 }
-function markCorrect(id){ var p=P(); if(!p.correct[id]){ p.correct[id]=1; } save(); checkAll(); }
-function markWrong(id){ var p=P(); if (p.wrongQueue.indexOf(id)<0) p.wrongQueue.push(id); save(); }
-function clearWrong(id){ var p=P(); var i=p.wrongQueue.indexOf(id); if(i>=0) p.wrongQueue.splice(i,1); save(); }
+/* One call from every answer path: records the concept movement, the seen flag and the review queue. */
+function recordAnswer(item, correct, confidence){
+  var p = P();
+  if (!p.right) p.right = {};
+  p.seen[item.id] = (p.seen[item.id] || 0) + 1;
+  if (correct) p.right[item.id] = 1;
+  MY.record(p, item.concepts, correct, confidence, NOW());
+  var at = p.wrongQueue.indexOf(item.id);
+  if (correct){ if (at >= 0) p.wrongQueue.splice(at, 1); }
+  else if (confidence === "know"){
+    if (at >= 0) p.wrongQueue.splice(at, 1);
+    p.wrongQueue.unshift(item.id);
+  } else {
+    if (at < 0) p.wrongQueue.push(item.id);
+  }
+  save();
+  checkAll();
+}
 function checkAll(){
-  var p=P(), all=true;
-  MODS.forEach(function(m){ (m.cards||[]).forEach(function(c,i){ if(!p.correct["c:"+m.id+":"+i]) all=false; }); });
+  var p=P(), right = p.right || {}, all=true;
+  IDX.items.forEach(function(it){ if (it.format==="flash" && !right[it.id]) all=false; });
   if (all) grant("words");
   if (MODS.every(function(m){ return p.boss[m.id]; })) grant("master");
 }
-function addXP(n){ var p=P(); var before=rank(p.xp); p.xp+=n; save();
-  if (rank(p.xp)!==before) toastRank = rank(p.xp); }
+function addXP(n){
+  var p = P(), before = rank(p.xp);
+  p.xp += n; save();
+  if (n > 0) splash(n);
+  if (rank(p.xp) !== before) toastRank = rank(p.xp);
+}
 var toastRank = null;
+var activeSplash = null;
+function splash(n){
+  if (!n) return;
+  if (activeSplash){
+    clearTimeout(activeSplash.timer);
+    if (activeSplash.el.parentNode) activeSplash.el.parentNode.removeChild(activeSplash.el);
+    activeSplash = null;
+  }
+  var d = document.createElement("div");
+  d.className = "xpsplash";
+  d.setAttribute("aria-hidden", "true");
+  d.innerHTML = '<svg viewBox="0 0 60 40"><path d="M4 32 q 12 -22 26 -6 q 10 10 26 -14" '
+    + 'fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>'
+    + '<span>+' + n + ' xp</span>';
+  document.body.appendChild(d);
+  var rec = { el: d, timer: null };
+  rec.timer = setTimeout(function(){
+    if (d.parentNode) d.parentNode.removeChild(d);
+    if (activeSplash === rec) activeSplash = null;
+  }, 1200);
+  activeSplash = rec;
+}
 function shuffle(a){ a=a.slice(); for (var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
 function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
 function el(html){ var d=document.createElement("div"); d.innerHTML=html; return d; }
 function mod(id){ return MODS.filter(function(x){return x.id===id;})[0]; }
 var app = document.getElementById("app");
 var view = "learn";
+var barVisHandler = null;
 function render(html){ app.innerHTML = html; window.scrollTo(0,0); syncNav(); }
+function raiseBars(){
+  var bars = document.querySelectorAll(".bar i[data-w]");
+  function snap(){ bars.forEach(function(i){ i.style.width = i.getAttribute("data-w") + "%"; }); }
+  if (barVisHandler){ document.removeEventListener("visibilitychange", barVisHandler); barVisHandler = null; }
+  if (document.hidden){
+    snap();
+  } else {
+    requestAnimationFrame(function(){ requestAnimationFrame(snap); });
+  }
+  barVisHandler = function(){
+    if (!document.hidden){
+      snap();
+      document.removeEventListener("visibilitychange", barVisHandler);
+      barVisHandler = null;
+    }
+  };
+  document.addEventListener("visibilitychange", barVisHandler);
+}
 function syncNav(){
   document.querySelectorAll("#nav button[data-v]").forEach(function(b){
     b.classList.toggle("active", b.getAttribute("data-v")===view);
@@ -413,10 +551,18 @@ function learn(){
     + '<p class="eyebrow">Your next five minutes</p>'
     + '<h1>Less script.<br><span class="dim">More understanding.</span></h1>'
     + '<p class="sub">Pick a subject. Test what sticks. Say it your way.</p>'
-    + '<div class="chips">'
-    + '<span class="chip">'+rankIco(p.xp)+' <b>'+esc(rank(p.xp))+'</b>'+(nr? ' <span class="muted">· '+(nr[0]-p.xp)+' xp to '+nr[2]+' '+esc(nr[1])+'</span>':'')+'</span>'
-    + '<span class="chip">🔥 <b>'+p.streak+'</b> day'+(p.streak===1?'':'s')+'</span>'
-    + '</div></div>'
+    + '<div class="levelblock">'
+    + '<div class="lvline"><span class="lvico">' + rankIco(p.xp) + '</span>'
+    + '<span class="lvname">' + esc(rank(p.xp)) + '</span>'
+    + '<span class="lvxp">' + p.xp + ' xp</span></div>'
+    + (nr
+       ? '<div class="lvbar"><i style="width:' + rankPct(p.xp) + '%"></i></div>'
+         + '<p class="muted lvnext">' + (nr[0]-p.xp) + ' xp to ' + nr[2] + ' ' + esc(nr[1]) + '</p>'
+       : '<p class="muted lvnext">Top of the ladder. ' + rankIco(p.xp) + '</p>')
+    + '<div class="chips"><span class="chip">🔥 <b>' + p.streak + '</b> day' + (p.streak===1?'':'s') + '</span>'
+    + '<span class="chip">🧠 <b>' + totalMastery() + '%</b> understood</span></div>'
+    + '</div>'
+    + '</div>'
     + '<div onclick="GA.nav(\'progress\')" style="cursor:pointer">'+donut(150,"Your catch so far")+'</div>'
     + '</div>';
   if (p.last && p.last.mod && mod(p.last.mod)){
@@ -424,6 +570,13 @@ function learn(){
     h += '<div class="resume"><div class="grow"><b>A Sprint is waiting for you.</b><br>'
       + '<span class="muted">'+lm.num+' · '+esc(lm.title)+'</span></div>'
       + '<button class="btn" onclick="GA.sprintRun(\''+lm.id+'\')">Continue →</button></div>';
+  }
+  if (migrationNotice){
+    h += '<div class="resume" style="border-color:var(--line)"><div class="grow">'
+      + '<b>Your questions were rewritten.</b><br><span class="muted">'
+      + 'The pack bars start fresh because they now track understanding per concept, not questions ticked off. '
+      + 'Your xp, your rank and the packs you mastered are all still here.</span></div></div>';
+    migrationNotice = false;
   }
   if (p.wrongQueue.length){
     h += '<div class="resume" style="border-color:var(--line)"><div class="grow"><b>'+p.wrongQueue.length+' item'+(p.wrongQueue.length===1?'':'s')+' to revisit.</b><br>'
@@ -440,8 +593,11 @@ function learn(){
       + '<div class="big">'+esc(meta.big)+'</div>'
       + '<h3>'+esc(m.title)+'</h3>'
       + '<p class="desc">'+esc(meta.desc)+'</p>'
-      + '<div class="recall"><span>'+rc+' of '+tot+' recalled</span><span>'+(rev? rev+' to revisit':'')+'</span></div>'
-      + '<div class="bar"><i style="width:'+pct+'%"></i></div>'
+      + '<div class="recall"><span>'+rc+' of '+tot+' recalled</span></div>'
+      + '<div class="bar"><i style="width:0;background:linear-gradient(90deg,'
+      + t.acc + ',' + t.btn + ')" data-w="' + pct + '"></i></div>'
+      + '<div class="recall" style="margin-top:.35rem"><span>'+pct+'% understood</span>'
+      + '<span>'+(rev ? rev+' to revisit' : '')+'</span></div>'
       + '<div class="actions">'
       + '<button class="btn" style="background:'+t.btn+';color:'+t.btnInk+'" onclick="GA.sprintRun(\''+m.id+'\')">Start a Sprint ↗</button>'
       + '<button class="textlink" onclick="GA.cards(\''+m.id+'\')">Flashcards</button>'
@@ -451,6 +607,7 @@ function learn(){
       + '</div>';
   });
   h += '</div>';
+  h += window.SA_VIEWS.finalsCard();
   h += '<div class="teaser"><span class="q">“</span><div class="grow">'
     + '<p class="eyebrow" style="margin-bottom:.2rem;color:var(--coral-dark)">Talk from Three</p>'
     + '<b>Three words. Your explanation.</b><br><span class="muted">A 30-second prompt to practise before filming. No recording required.</span></div>'
@@ -458,7 +615,17 @@ function learn(){
   h += '<div class="panel" style="margin-top:1.4rem"><p class="eyebrow" style="margin-bottom:.3rem">Live training</p>'
     + '<p class="muted" style="margin:0">The Arena makes it yours: open a Claude session and say <b>"run me a prospect"</b> for live sales roleplay, or <b>"quiz me on module 2"</b> for deep drills.</p></div>';
   render(h);
-  if (toastRank){ setTimeout(function(){ alert("Rank up! You are now "+toastRank+" 🌊"); toastRank=null; }, 150); }
+  raiseBars();
+  if (toastRank){
+    var t = toastRank; toastRank = null;
+    var b = el('<div class="rankup">' + rankIco(P().xp) + ' Rank up. You are now <b>' + esc(t) + '</b>.</div>');
+    app.insertBefore(b.firstChild, app.firstChild);
+  }
+  var p0 = P();
+  if (p0.completed && !p0.completedShown){
+    p0.completedShown = true; save();
+    window.SA_VIEWS.cinematic(function(){ learn(); });
+  }
 }
 
 function pickPlayer(){
@@ -521,9 +688,11 @@ function speakHome(filter){
   MODS.forEach(function(m){
     if (!m.speak || (filter!=="all" && filter!==m.id)) return;
     var t = TH(m.id);
+    var speakItems = (IDX.byPack[m.id] || []).filter(function(it){ return it.format === "speak"; });
     m.speak.forEach(function(s,i){
       n++;
-      var done = P().correct["s:"+m.id+":"+i];
+      var si = speakItems[i];
+      var done = si && P().seen[si.id];
       h += '<button class="scard" style="border-top:4px solid '+t.acc+'" onclick="GA.speakOne(\''+m.id+'\','+i+')">'
         + '<span class="n" style="color:'+t.acc+'">'+("0"+n).slice(-2)+' · 30 seconds · '+m.num+(done?' · ✓ done':'')+'</span>'
         + '<h3>'+esc(s.prompt)+'</h3>'
@@ -610,7 +779,9 @@ function progressView(){
     var px = S.players[n].xp;
     h += '<tr class="'+(i===0?'rank1':'')+'"><td>'+(i+1)+'</td><td>'+esc(n)+'</td><td>'+px+'</td><td>'+rankIco(px)+' '+esc(rank(px))+'</td><td>'+S.players[n].streak+'</td></tr>';
   });
-  h += '</table></div><h2>Badges</h2><div>';
+  h += '</table></div>';
+  h += window.SA_VIEWS.achievements();
+  h += '<h2>Badges</h2><div>';
   Object.keys(BADGES).forEach(function(id){
     var b=BADGES[id], got = P().badges.indexOf(id)>=0;
     h += '<span class="badge'+(got?'':' locked')+'">'+b.ico+' '+esc(b.name)+'</span>';
@@ -621,41 +792,46 @@ function progressView(){
 
 /* ---------- play engine ---------- */
 var run = null;
-function wrapItems(m, kind, arr){ return (arr||[]).map(function(d,i){ return {kind:kind, id:kind[0]+":"+m.id+":"+i, data:d, mod:m}; }); }
-function poolMC(m){
-  return wrapItems(m,"quiz",m.quiz).concat(wrapItems(m,"translate",m.translate)).concat(wrapItems(m,"diagnose",m.diagnose));
+var runToken = 0;
+function wrap(it){ return { kind:it.format, id:it.id, data:it.data, mod:mod(it.pack), item:it }; }
+function modulePool(m){
+  return (IDX.byPack[m.id] || []).filter(function(it){
+    return it.use === "module" && ["quiz","translate","diagnose","open","match"].indexOf(it.format) >= 0;
+  }).map(wrap);
 }
-function startRun(mode, m, items, back){
-  run = { mode:mode, mod:m, items:items, i:0, score:0, xp:0, back:back||view };
+function startRun(mode, m, items, back, extra){
+  runToken++;
+  run = { mode:mode, mod:m, items:items, i:0, score:0, xp:0, back:back||view, token:runToken };
+  if (extra){ Object.keys(extra).forEach(function(k){ run[k] = extra[k]; }); }
   touchStreak(); var p=P(); p.plays++; if (m) p.last={mod:m.id}; save();
 }
 function sprintRun(id){
   var m = mod(id);
-  startRun("sprint", m, shuffle(poolMC(m)).slice(0,8), "sprint");
+  startRun("sprint", m, shuffle(modulePool(m)).slice(0,8), "sprint");
   ideaScreen(m, "sprint");
 }
 function bossRun(id){
   var m = mod(id);
-  startRun("boss", m, shuffle(poolMC(m)).slice(0,BOSS_N), "sprint");
+  startRun("boss", m, shuffle(modulePool(m)).slice(0,BOSS_N), "sprint");
   ideaScreen(m, "boss");
 }
 function cardsRun(id){
   var m = mod(id);
-  startRun("cards", m, shuffle(wrapItems(m,"cards",m.cards)), "learn");
+  var pool = (IDX.byPack[m.id] || []).filter(function(it){ return it.format === "flash"; }).map(wrap);
+  startRun("cards", m, shuffle(pool), "learn");
   step();
 }
 function speakOne(id, i){
   var m = mod(id);
-  startRun("speak", m, [{kind:"speak", id:"s:"+m.id+":"+i, data:m.speak[i], mod:m}], "speak");
+  var speakItems = (IDX.byPack[m.id] || []).filter(function(it){ return it.format === "speak"; });
+  startRun("speak", m, [wrap(speakItems[i])], "speak");
   step();
 }
 function reviewRun(){
-  var p=P(), items=[];
-  p.wrongQueue.slice(0,12).forEach(function(id){
-    var parts=id.split(":"), kindMap={c:"cards",q:"quiz",t:"translate",d:"diagnose",s:"speak"};
-    var m = mod(parts[1]); if (!m) return;
-    var arr = m[kindMap[parts[0]]];
-    if (arr && arr[+parts[2]]) items.push({kind:kindMap[parts[0]], id:id, data:arr[+parts[2]], mod:m});
+  var p = P(), items = [];
+  p.wrongQueue.slice(0, 12).forEach(function(id){
+    var it = IDX.byId[id];
+    if (it) items.push({ kind: it.format, id: it.id, data: it.data, mod: mod(it.pack), item: it });
   });
   startRun("review", null, items, "learn");
   step();
@@ -674,17 +850,20 @@ function ideaScreen(m, mode){
     + '</div></div>');
 }
 function playbar(title){
-  return '<div class="playbar"><button onclick="GA.quitRun()">← Back</button><span class="grow"></span><span>'+esc(title)+'</span></div>';
+  return '<div class="playbar"><button id="backbtn" onclick="GA.quitRun()">← Back</button><span class="grow"></span><span>'+esc(title)+'</span></div>';
 }
 function step(){
   if (!run || run.i >= run.items.length) return results();
   var it = run.items[run.i];
-  var label = (run.mode==="review" ? "Review" : run.mod.num+' · '+(run.mode==="boss"?"Mastery":run.mode==="cards"?"Flashcards":run.mode==="speak"?"Talk from Three":"Salty Sprint"));
+  var label = (run.mode==="review" ? "Review" : run.mode==="mastery" ? "Mastery " + run.testNo
+    : run.mod.num+' · '+(run.mode==="boss"?"Mastery":run.mode==="cards"?"Flashcards":run.mode==="speak"?"Talk from Three":"Salty Sprint"));
   var h = playbar(label + ' · ' + (run.i+1) + '/' + run.items.length)
     + '<div class="progressline"><i style="width:'+Math.round(100*run.i/run.items.length)+'%"></i></div>'
     + '<div class="narrow">';
-  if (it.kind==="cards") h += renderCard(it);
+  if (it.kind==="cards" || it.kind==="flash") h += renderCard(it);
   else if (it.kind==="speak") h += renderSpeak(it);
+  else if (it.kind==="open") h += renderOpen(it);
+  else if (it.kind==="match") h += renderMatch(it);
   else h += renderMC(it);
   h += '</div>';
   view = run.back;
@@ -718,30 +897,69 @@ function renderMC(it){
   var eyebrow = it.kind==="quiz" ? "Name the concept" : it.kind==="translate" ? "Pick the human answer" : "Diagnose the real problem";
   var opts = d.a.map(function(txt,i){ return {txt:txt, ok:i===0}; });
   it.shuffled = shuffle(opts);
-  it.conf = "pretty";
+  it.conf = null;
   var h = '<p class="eyebrow">'+eyebrow+'</p>';
   if (isQuote){ h += '<p class="qtext">What is really going on?</p><div class="quote">'+esc(prompt)+'</div>'; }
   else h += '<p class="qtext">'+esc(prompt)+'</p>';
-  it.shuffled.forEach(function(o,i){
-    h += '<button class="opt" id="opt'+i+'" onclick="GA.answer('+i+')"><span class="letter">'+String.fromCharCode(65+i)+'</span><span>'+esc(o.txt)+'</span></button>';
-  });
-  h += '<p class="muted" style="margin:1rem 0 .3rem">How sure are you?</p>'
+  h += '<p class="muted" style="margin:.2rem 0 .3rem">First: how sure are you?</p>'
     + '<div class="confrow">'
-    + '<button class="chip" id="conf-guess" onclick="GA.conf(\'guess\')">Guessing</button>'
-    + '<button class="chip sel" id="conf-pretty" onclick="GA.conf(\'pretty\')">Pretty sure</button>'
+    + '<button class="chip" id="conf-guess" onclick="GA.conf(\'guess\')">I am guessing</button>'
+    + '<button class="chip" id="conf-pretty" onclick="GA.conf(\'pretty\')">Pretty sure</button>'
+    + '<button class="chip" id="conf-know" onclick="GA.conf(\'know\')">I know this</button>'
+    + '</div>';
+  it.shuffled.forEach(function(o,i){
+    h += '<button class="opt" id="opt'+i+'" disabled onclick="GA.answer('+i+')">'
+      + '<span class="letter">'+String.fromCharCode(65+i)+'</span><span>'+esc(o.txt)+'</span></button>';
+  });
+  h += '<p class="muted" id="confhint" style="font-size:.78rem">Pick one of the three above to unlock the answers. Being honest here is the whole point.</p>';
+  return h;
+}
+function renderOpen(it){
+  var d = it.data;
+  it.conf = null;
+  return '<p class="eyebrow">In your own words</p>'
+    + '<p class="qtext">' + esc(d.ask) + '</p>'
+    + '<p class="muted" style="margin:.2rem 0 .3rem">First: how sure are you?</p>'
+    + '<div class="confrow">'
+    + '<button class="chip" id="conf-guess" onclick="GA.conf(\'guess\')">I am guessing</button>'
+    + '<button class="chip" id="conf-pretty" onclick="GA.conf(\'pretty\')">Pretty sure</button>'
     + '<button class="chip" id="conf-know" onclick="GA.conf(\'know\')">I know this</button>'
     + '</div>'
-    + '<p class="muted" style="font-size:.78rem">No timer. Think it through.</p>';
+    + '<textarea id="openans" rows="4" placeholder="Two or three sentences is plenty. Write it the way you would say it out loud."></textarea>'
+    + '<button class="btn wide" id="opensubmit" disabled onclick="GA.submitOpen()">Check my answer</button>'
+    + '<p class="muted" id="confhint" style="font-size:.78rem">Pick one of the three above first.</p>';
+}
+function renderMatch(it){
+  var d = it.data;
+  it.conf = null;
+  it.picks = {};
+  it.left = d.pairs.map(function(p, i){ return { i:i, txt:p.l }; });
+  it.right = window.SA_UTIL.shuffle(d.pairs.map(function(p, i){ return { i:i, txt:p.r }; }));
+  var h = '<p class="eyebrow">Match them up</p><p class="qtext">' + esc(d.ask) + '</p>'
+    + '<p class="muted" style="margin:.2rem 0 .3rem">First: how sure are you?</p>'
+    + '<div class="confrow">'
+    + '<button class="chip" id="conf-guess" onclick="GA.conf(\'guess\')">I am guessing</button>'
+    + '<button class="chip" id="conf-pretty" onclick="GA.conf(\'pretty\')">Pretty sure</button>'
+    + '<button class="chip" id="conf-know" onclick="GA.conf(\'know\')">I know this</button>'
+    + '</div><div class="matchgrid">';
+  it.left.forEach(function(l){
+    h += '<div class="matchrow"><div class="ml">' + esc(l.txt) + '</div><select class="mr" id="m'+l.i+'">'
+      + '<option value="">pick one</option>';
+    it.right.forEach(function(r){ h += '<option value="'+r.i+'">' + esc(r.txt) + '</option>'; });
+    h += '</select></div>';
+  });
+  h += '</div><button class="btn wide" id="matchsubmit" disabled onclick="GA.submitMatch()">Check</button>'
+    + '<p class="muted" id="confhint" style="font-size:.78rem">Pick one of the three above first.</p>';
   return h;
 }
 function results(){
   if (!run) return learn();
   var p=P(), n=run.items.length, sc=run.score, m=run.mod;
-  var labels = {sprint:"Salty Sprint", boss:"Mastery round", cards:"Flashcards", speak:"Talk from Three", review:"Review"};
+  var labels = {sprint:"Salty Sprint", boss:"Mastery round", cards:"Flashcards", speak:"Talk from Three", review:"Review", mastery:"Finals"};
   if (!p.history) p.history = [];
   p.history.push({ t: Date.now(), pack: m?m.id:null, label: labels[run.mode]||run.mode, score: sc, n: n });
   if (p.history.length > 40) p.history = p.history.slice(-40);
-  var passedBoss=false, perfect=false;
+  var passedBoss=false, perfect=false, passedTest=false, need=0;
   if (run.mode==="boss" && m){
     if (sc>=BOSS_PASS){ passedBoss=true;
       if (!p.boss[m.id]){ p.boss[m.id]=1; grant("boss-"+m.id); addXP(XP.bossPass); run.xp+=XP.bossPass; }
@@ -749,28 +967,125 @@ function results(){
       checkAll();
     }
   }
+  if (run.mode === "mastery"){
+    need = Math.ceil(run.items.length * 0.7);
+    passedTest = sc >= need;
+    if (passedTest){
+      if (!p.finals) p.finals = {};
+      if (!p.finals[run.testNo]){ p.finals[run.testNo] = NOW(); addXP(120); run.xp += 120; }
+      if (p.finals[1] && p.finals[2] && p.finals[3] && !p.completed){
+        p.completed = NOW();
+        p.completedShown = false;
+      }
+    }
+  }
   save();
-  var emoji = run.mode==="boss" ? (passedBoss ? (perfect?"👑":"⚔️") : "🫧") : (sc===n && n>1 ? "🌊" : "👍");
+  var emoji = run.mode==="boss" ? (passedBoss ? (perfect?"👑":"⚔️") : "🫧")
+    : run.mode==="mastery" ? (passedTest ? "⚔️" : "🫧")
+    : (sc===n && n>1 ? "🌊" : "👍");
   var line = run.mode==="boss"
     ? (passedBoss ? (perfect? "Flawless. "+m.num+" never stood a chance." : m.num+" mastered.")
        : sc+"/"+n+", you need "+BOSS_PASS+". Read, drill, come back.")
+    : run.mode==="mastery"
+    ? (passedTest ? "Mastery "+run.testNo+" passed. "+sc+" of "+n+"."
+       : "Mastery "+run.testNo+": "+sc+" of "+n+", you need "+need+". Read, drill, come back.")
     : (run.mode==="speak" ? "Practice makes fluent." : sc+" of "+n+" · +"+run.xp+" xp");
   var back = run.back, mid = m ? m.id : null, mode = run.mode;
-  var h = playbar(run.mode==="review"?"Review":(m?m.num:""))
+  var h = playbar(run.mode==="review" ? "Review" : run.mode==="mastery" ? ("Mastery "+run.testNo) : (m?m.num:""))
     + '<div class="narrow center"><div class="result-big">'+emoji+'</div>'
     + '<h1 style="font-size:1.7rem">'+esc(line)+'</h1>'
     + '<p class="muted">Total: '+p.xp+' xp · '+esc(rank(p.xp))+(p.wrongQueue.length? ' · '+p.wrongQueue.length+' to revisit':'')+'</p><br>';
   if (mode==="sprint" && mid) h += '<button class="btn wide" onclick="GA.sprintRun(\''+mid+'\')">Sprint again</button>';
   if (mode==="boss" && mid && !passedBoss) h += '<button class="btn wide" onclick="GA.bossRun(\''+mid+'\')">Try the mastery round again</button>';
   if (mode==="cards" && mid) h += '<button class="btn wide" onclick="GA.cards(\''+mid+'\')">Another round of cards</button>';
-  h += '<button class="btn wide dark" onclick="GA.nav(\''+back+'\')">Done</button></div>';
+  if (mode==="mastery" && !passedTest) h += '<button class="btn wide" onclick="GA.mastery('+run.testNo+')">Try it again</button>';
+  if (p.completed && !p.completedShown){
+    h += '<button class="btn wide dark" onclick="GA.cinematic()">See your journey →</button>';
+  } else {
+    h += '<button class="btn wide dark" onclick="GA.nav(\''+back+'\')">Done</button>';
+  }
+  h += '</div>';
   run = null;
   render(h);
+}
+
+function teachPanel(item, headline){
+  var d = item.data;
+  var primary = item.concepts.length ? CN.byId(item.concepts[0]) : null;
+  var h = '<div class="why">' + (headline || "")
+    + esc(d.why || "") + '</div>';
+  if (primary){
+    h += '<div class="teach"><p class="eyebrow">The idea underneath</p>'
+      + '<b>' + esc(primary.name) + '</b>'
+      + '<p>' + esc(primary.plain) + '</p>'
+      + '<p class="muted"><b>For example:</b> ' + esc(primary.example) + '</p>'
+      + '<p class="clientline"><b>Say it to a client:</b> &ldquo;' + esc(primary.client) + '&rdquo;</p>'
+      + '</div>';
+  }
+  var extra = CN.findInText([d.q, d.setup, d.say, d.ask, d.why, (d.a||[])[0]].join(" "))
+    .filter(function(c){ return !primary || c.id !== primary.id; })
+    .slice(0, 4);
+  if (extra.length){
+    h += '<p class="muted" style="margin:.7rem 0 .3rem">Terms in this question, tap to open:</p><div class="termrow">';
+    extra.forEach(function(c){
+      h += '<button class="chip term" onclick="GA.term(\'' + esc(c.id) + '\')">' + esc(c.name) + '</button>';
+    });
+    h += '</div><div id="termbox"></div>';
+  }
+  return h;
+}
+
+function showOpenResult(it, r){
+  var d = it.data;
+  var icon = r.state === "understood" ? "🌊" : r.state === "partial" ? "〰️" : "🫧";
+  var word = r.state === "understood" ? "Understood" : r.state === "partial" ? "Partly understood" : "Not yet";
+  var h = "";
+
+  if (r.lowConfidence){
+    /* The grader is not sure, so it does not pretend. The learner decides, honestly. */
+    h = '<div id="selfgrade"><div class="why"><b>I am not sure how to score that one.</b><br>'
+      + 'Read the model answer and tell me honestly.</div>'
+      + '<div class="teach"><b>The answer we were looking for</b><p>' + esc(d.model) + '</p></div>'
+      + '<button class="btn wide" onclick="GA.selfGrade(\'understood\')">I said that, in my own words</button>'
+      + '<button class="btn wide dark" onclick="GA.selfGrade(\'partial\')">Half of it</button>'
+      + '<button class="btn wide ghost" onclick="GA.selfGrade(\'notyet\')">No, I missed it</button></div>';
+    document.querySelector(".narrow").appendChild(el(h));
+    window.scrollTo(0, document.body.scrollHeight);
+    return;
+  }
+
+  gradeOpenFinal(it, r.state, '<b>' + icon + ' ' + word + '.</b> ' + esc(r.reason) + ' ' + esc(r.nudge) + '<br>');
+}
+
+function gradeOpenFinal(it, state, headline){
+  if (it.answered) return;
+  it.answered = true;
+  var correct = state === "understood";
+  var conf = it.conf || "pretty";
+  /* Partly understood counts as a miss for the concept box but is not sent to the review queue as a
+     confident error, so it drops one box instead of resetting. That is what "partial" should cost. */
+  recordAnswer(it.item, correct, correct ? conf : (conf === "know" && state === "partial" ? "pretty" : conf));
+  var gain = correct ? (run.mode === "boss" || run.mode === "mastery" ? XP.bossQ : XP.sprint) + (CONF_BONUS[conf] || 0)
+                     : (state === "partial" ? Math.floor(XP.sprint / 2) : 0);
+  if (correct) run.score++;
+  if (state === "partial") run.partial = (run.partial || 0) + 1;
+  run.xp += gain; addXP(gain);
+  var extra = teachPanel(it.item, headline)
+    + '<div class="teach"><b>The answer we were looking for</b><p>' + esc(it.data.model) + '</p></div>'
+    + '<button class="btn wide" onclick="GA.next()">'
+    + (run.i+1 >= run.items.length ? 'Finish' : 'Next') + ' →</button>';
+  var box = document.getElementById("selfgrade");
+  if (box) box.remove();
+  document.querySelector(".narrow").appendChild(el(extra));
+  window.scrollTo(0, document.body.scrollHeight);
 }
 
 /* ---------- interactions ---------- */
 window.GA = {
   nav:function(v){
+    /* Leaving the player mid-run must cancel a pending grade the same way quitRun does,
+       so a late-arriving grade cannot land on whatever view we navigate to next. */
+    if (run) run = null;
     if (v==="learn") learn();
     else if (v==="sprint") sprintHome();
     else if (v==="speak") speakHome();
@@ -786,6 +1101,22 @@ window.GA = {
     learn();
   },
   sprintRun:sprintRun, bossRun:bossRun, cards:cardsRun, speakOne:speakOne, review:reviewRun,
+  mastery:function(n){ window.SA_VIEWS.startMastery(n); },
+  finals:function(){ window.SA_VIEWS.finalsHome(); },
+  cinematic:function(){
+    var p = P();
+    if (!p.completedShown){ p.completedShown = true; save(); }
+    window.SA_VIEWS.cinematic(function(){ learn(); });
+  },
+  cineDone:function(where){
+    window.SA_VIEWS.cineDispose();
+    if (where === "progress") progressView();
+    else GA.cinematic();
+  },
+  cineSkip:function(){
+    var onDone = window.SA_VIEWS.cineDispose();
+    if (onDone) onDone(); else learn();
+  },
   speakFilter:function(f){ speakHome(f); },
   libTab:function(f){ libraryView(f); },
   begin:function(){ step(); },
@@ -798,16 +1129,33 @@ window.GA = {
   },
   card:function(knew){
     var it = run.items[run.i];
-    if (knew){ markCorrect(it.id); clearWrong(it.id); run.score++; run.xp+=XP.cards; addXP(XP.cards); }
-    else markWrong(it.id);
+    if (it.answered) return;
+    it.answered = true;
+    if (knew){ run.score++; run.xp+=XP.cards; addXP(XP.cards); }
+    recordAnswer(it.item, knew, knew ? "pretty" : "guess");
     run.i++; step();
   },
   conf:function(level){
     var it = run.items[run.i]; it.conf = level;
     ["guess","pretty","know"].forEach(function(l){
-      var b=document.getElementById("conf-"+l);
+      var b = document.getElementById("conf-"+l);
       if (b) b.classList.toggle("sel", l===level);
     });
+    document.querySelectorAll(".opt").forEach(function(b){ b.disabled = false; });
+    var openBtn = document.getElementById("opensubmit");
+    if (openBtn) openBtn.disabled = false;
+    var matchBtn = document.getElementById("matchsubmit");
+    if (matchBtn) matchBtn.disabled = false;
+    var hint = document.getElementById("confhint");
+    if (hint) hint.textContent = "No timer. Think it through.";
+  },
+  term:function(id){
+    var c = CN.byId(id), box = document.getElementById("termbox");
+    if (!c || !box) return;
+    box.innerHTML = '<div class="teach"><b>' + esc(c.name) + '</b>'
+      + '<p>' + esc(c.plain) + '</p>'
+      + '<p class="muted"><b>For example:</b> ' + esc(c.example) + '</p>'
+      + '<p class="clientline"><b>Say it to a client:</b> &ldquo;' + esc(c.client) + '&rdquo;</p></div>';
   },
   reveal:function(){
     var it = run.items[run.i], d = it.data;
@@ -822,32 +1170,104 @@ window.GA = {
   },
   speakGrade:function(level){
     var it = run.items[run.i];
-    if (level===2){ markCorrect(it.id); clearWrong(it.id); run.score++; run.xp+=XP.speak; addXP(XP.speak); }
-    else if (level===1){ clearWrong(it.id); run.xp+=Math.floor(XP.speak/2); addXP(Math.floor(XP.speak/2)); }
-    else markWrong(it.id);
+    if (it.answered) return;
+    it.answered = true;
+    if (level===2){ run.score++; run.xp+=XP.speak; addXP(XP.speak); recordAnswer(it.item, true, "pretty"); }
+    else if (level===1){ run.xp+=Math.floor(XP.speak/2); addXP(Math.floor(XP.speak/2)); recordAnswer(it.item, true, "guess"); }
+    else recordAnswer(it.item, false, "guess");
     run.i++; step();
   },
   answer:function(i){
-    var it = run.items[run.i], picked = it.shuffled[i];
+    var it = run.items[run.i];
+    if (!it.conf) return;
+    if (it.answered) return;
+    if (i < 0 || i >= it.shuffled.length) return;
+    var picked = it.shuffled[i];
+    it.answered = true;
     it.shuffled.forEach(function(o,j){
       var b=document.getElementById("opt"+j); b.disabled=true;
       if (o.ok) b.classList.add("correct");
       else if (j===i) b.classList.add("wrong");
     });
     document.querySelectorAll(".confrow button").forEach(function(b){ b.disabled=true; });
-    var gain = (run.mode==="boss" ? XP.bossQ : XP.sprint) + (picked.ok ? (CONF_BONUS[it.conf]||0) : 0);
+    var gain = (run.mode==="boss" || run.mode==="mastery" ? XP.bossQ : XP.sprint) + (picked.ok ? (CONF_BONUS[it.conf]||0) : 0);
     var confNote = "";
-    if (picked.ok){ run.score++; run.xp+=gain; addXP(gain); markCorrect(it.id); clearWrong(it.id);
+    if (picked.ok){ run.score++; run.xp+=gain; addXP(gain);
       if (it.conf==="know") confNote = " Called it, too: +"+CONF_BONUS.know+" xp.";
     } else {
-      markWrong(it.id);
-      if (it.conf==="know"){ var p=P(), qi=p.wrongQueue.indexOf(it.id); if(qi>0){ p.wrongQueue.splice(qi,1); p.wrongQueue.unshift(it.id); save(); }
-        confNote = " You were sure about this one, so it goes to the front of your review queue."; }
+      if (it.conf==="know") confNote = " You were sure about this one, so it goes to the front of your review queue.";
       else if (it.conf==="guess") confNote = " Honest guess, no harm: now you know it.";
     }
+    recordAnswer(it.item, picked.ok, it.conf);
     var d=it.data;
-    var extra = '<div class="why">'+(picked.ok?'<b>Correct.</b> ':'<b>The answer:</b> '+esc(d.a[0])+'<br>')+esc(d.why||"")+esc(confNote)+'</div>'
-      + '<button class="btn wide" onclick="GA.next()">'+(run.i+1>=run.items.length?'Finish':'Next')+' →</button>';
+    var headline = picked.ok
+      ? '<b>Correct.</b> '
+      : '<b>The answer was:</b> ' + esc(d.a[0]) + '<br>';
+    var extra = teachPanel(it.item, headline + esc(confNote) + ' ')
+      + '<button class="btn wide" onclick="GA.next()">'
+      + (run.i+1 >= run.items.length ? 'Finish' : 'Next') + ' →</button>';
+    document.querySelector(".narrow").appendChild(el(extra));
+    window.scrollTo(0, document.body.scrollHeight);
+  },
+  submitOpen:function(){
+    var it = run.items[run.i];
+    if (!it.conf) return;
+    if (it.pending) return;
+    if (it.answered) return;
+    it.pending = true;
+    var answer = document.getElementById("openans").value;
+    document.getElementById("opensubmit").disabled = true;
+    document.getElementById("openans").disabled = true;
+    document.querySelectorAll(".confrow button").forEach(function(b){ b.disabled = true; });
+    var backBtn = document.getElementById("backbtn");
+    if (backBtn) backBtn.disabled = true;
+    /* The grade can resolve after the learner has quit or started a different run (this is
+       dormant with local grading, which resolves same-microtask, but goes live the moment
+       SA_CONFIG.graderUrl is set). Capture this run's identity now and refuse to touch the DOM
+       or record anything unless the run that submitted is still the run on screen, showing the
+       same item. Disabling Back above narrows the window; this guard is what makes it correct. */
+    var pendingRun = run, pendingToken = run.token;
+    window.SA_AI.grade(it.item, answer).then(function(r){
+      it.pending = false;
+      if (!run || run !== pendingRun || run.token !== pendingToken || run.items[run.i] !== it) return;
+      if (!document.querySelector(".narrow")) return;
+      if (backBtn) backBtn.disabled = false;
+      showOpenResult(it, r);
+    });
+  },
+  selfGrade:function(state){
+    var it = run.items[run.i];
+    if (it.answered) return;
+    var p = P();
+    p.openFlags.push({ id: it.item.id, at: NOW(), said: state });
+    if (p.openFlags.length > 50) p.openFlags = p.openFlags.slice(-50);
+    save();
+    document.querySelectorAll(".narrow .btn").forEach(function(b){ b.remove(); });
+    gradeOpenFinal(it, state, "<b>Your call.</b> ");
+  },
+  submitMatch:function(){
+    var it = run.items[run.i], right = 0, total = it.left.length;
+    if (!it.conf) return;
+    if (it.answered) return;
+    it.answered = true;
+    it.left.forEach(function(l){
+      var sel = document.getElementById("m"+l.i);
+      sel.disabled = true;
+      var ok = sel.value !== "" && Number(sel.value) === l.i;
+      sel.parentNode.classList.add(ok ? "correct" : "wrong");
+      if (ok) right++;
+    });
+    document.getElementById("matchsubmit").disabled = true;
+    document.querySelectorAll(".confrow button").forEach(function(b){ b.disabled = true; });
+    var correct = right === total;
+    recordAnswer(it.item, correct, it.conf || "pretty");
+    var gain = correct ? XP.sprint + (CONF_BONUS[it.conf] || 0) : 0;
+    if (correct) run.score++;
+    run.xp += gain; addXP(gain);
+    var headline = '<b>' + right + ' of ' + total + ' matched.</b> ';
+    var extra = teachPanel(it.item, headline)
+      + '<button class="btn wide" onclick="GA.next()">'
+      + (run.i+1 >= run.items.length ? 'Finish' : 'Next') + ' →</button>';
     document.querySelector(".narrow").appendChild(el(extra));
     window.scrollTo(0, document.body.scrollHeight);
   },
@@ -859,6 +1279,11 @@ window.GA = {
     });
   }
 };
+var VCTX = { P:P, S:S, save:save, MODS:MODS, IDX:IDX, RANKS:RANKS, rank:rank, rankIco:rankIco,
+             esc:esc, el:el, render:render, playbar:playbar, startRun:startRun, step:step,
+             addXP:addXP, XP:XP, GEN:GEN, MY:MY, mod:mod, TH:TH, nav:function(v){ GA.nav(v); },
+             setView:function(v){ view = v; } };
+window.SA_VIEWS.init(VCTX);
 learn();
 })();
 </script>
