@@ -115,17 +115,17 @@ window.ACADEMY_EXTRAS = {
   m4: {
     idea: "AI is a fast, well-read junior employee: manage it, review it, and sell the Tuesday afternoon it gives back.",
     speak: [
-      {prompt:"The fast junior", words:["Junior","Briefing","Review"], points:[
+      {id:"s.m4.fast-junior.a", c:["c.m4.fast-junior","c.m4.human-loop"], prompt:"The fast junior", words:["Junior","Briefing","Review"], points:[
         "AI has read everything and types faster than anyone alive, but it started this morning.",
         "Brief it like a new employee: who you are, what good looks like, two examples.",
         "Nothing customer-facing goes out without your eyes on it.",
         "You do not fire a team because a junior joined: you stop paying seniors for junior work."]},
-      {prompt:"Rules before robots", words:["Automation","AI","Order"], points:[
+      {id:"s.m4.ai-workflow.a", c:["c.m4.ai-workflow","c.m4.ai"], prompt:"Rules before robots", words:["Automation","AI","Order"], points:[
         "Most businesses asking about AI actually need plain automation first.",
         "Rules are cheaper, reliable, and show wins in week one.",
         "AI shines on the judgment work: drafting, sorting, answering the twenty questions.",
         "Saying 'you do not need AI yet' is the most trust-building sentence you own."]},
-      {prompt:"The honest fine print", words:["Nonsense","Confidence","Double-check"], points:[
+      {id:"s.m4.hallucination.a", c:["c.m4.hallucination","c.m4.grounding","c.m4.human-loop"], prompt:"The honest fine print", words:["Nonsense","Confidence","Double-check"], points:[
         "AI sometimes states nonsense with full confidence: that is called hallucination.",
         "Anyone selling AI without mentioning it is selling the brochure.",
         "The craft: real business data underneath, and a human on the send button.",
