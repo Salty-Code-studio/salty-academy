@@ -88,8 +88,19 @@
   .pack h3 { margin:0 0 .4rem; font-size:1.22rem; font-weight:700; }
   .pack .desc { font-size:.95rem; opacity:.85; margin:0 0 1rem; flex:1; }
   .pack .recall { display:flex; justify-content:space-between; font-size:.82rem; opacity:.9; margin-bottom:.4rem; }
-  .pack .bar { height:5px; border-radius:99px; background:rgba(128,128,128,.28); margin-bottom:1.1rem; }
-  .pack .bar i { display:block; height:5px; border-radius:99px; background:currentColor; }
+  .pack .bar { height:8px; border-radius:99px; background:rgba(255,255,255,.22); overflow:hidden; margin-bottom:1.1rem; }
+  .pack .bar i { display:block; height:100%; border-radius:99px; width:0;
+    transition:width .85s cubic-bezier(.22,.9,.3,1); }
+  .lvbar { height:10px; border-radius:99px; background:var(--line); overflow:hidden; margin:.5rem 0 .2rem; }
+  .lvbar i { display:block; height:100%; border-radius:99px;
+    background:linear-gradient(90deg, var(--coral), var(--coral-dark));
+    transition:width .85s cubic-bezier(.22,.9,.3,1); }
+  .levelblock { margin:.6rem 0 0; max-width:380px; }
+  .lvline { display:flex; align-items:baseline; gap:.5rem; }
+  .lvico { font-size:1.5rem; }
+  .lvname { font-weight:700; font-size:1.1rem; }
+  .lvxp { margin-left:auto; color:var(--soft); font-size:.9rem; }
+  .lvnext { font-size:.82rem; margin:.1rem 0 .5rem; }
   .pack .actions { display:flex; align-items:center; justify-content:space-between; gap:.8rem; flex-wrap:wrap; }
   .pack .actions .textlink { color:inherit; }
   .pack .done { font-size:.78rem; font-weight:700; letter-spacing:.08em; }
@@ -233,7 +244,24 @@
     font-size:.82rem; color:var(--soft); }
   .playerpick { display:flex; gap:.6rem; flex-wrap:wrap; margin:1rem 0; }
   a { color:var(--ink); }
-  @media (prefers-reduced-motion: reduce) { .flashinner, .fg, .progressline i { transition:none; } }
+  .rankup { border:1px solid var(--coral); border-radius:12px; padding:.7rem 1rem;
+    margin:0 0 1rem; background:var(--paper); font-size:.95rem; }
+  .xpsplash { position:fixed; left:50%; bottom:18%; transform:translateX(-50%);
+    display:flex; align-items:center; gap:.4rem; pointer-events:none; z-index:60;
+    color:var(--coral); font-weight:700; font-size:1.05rem;
+    animation:xpfloat 1.2s ease-out forwards; }
+  .xpsplash svg { width:44px; height:30px; }
+  @keyframes xpfloat {
+    0%   { opacity:0; transform:translate(-50%, 14px) scale(.85); }
+    18%  { opacity:1; transform:translate(-50%, 0) scale(1.06); }
+    35%  { transform:translate(-50%, -2px) scale(1); }
+    100% { opacity:0; transform:translate(-50%, -46px) scale(1); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .flashinner, .fg, .progressline i { transition:none; }
+    .xpsplash { animation:none; opacity:1; }
+    .bar i, .lvbar i { transition:none; }
+  }
   @media (max-width:640px){
     .topin { padding:.85rem 1rem; }
     nav.main { width:100%; overflow-x:auto; }
@@ -343,6 +371,12 @@ function rankObj(xp){ var r = RANKS[0]; RANKS.forEach(function(x){ if (xp>=x[0])
 function rank(xp){ return rankObj(xp)[1]; }
 function rankIco(xp){ return rankObj(xp)[2]; }
 function nextRank(xp){ for (var i=0;i<RANKS.length;i++){ if (xp<RANKS[i][0]) return RANKS[i]; } return null; }
+function rankPct(xp){
+  var cur = rankObj(xp), nx = nextRank(xp);
+  if (!nx) return 100;
+  var span = nx[0] - cur[0];
+  return span > 0 ? Math.round(100 * (xp - cur[0]) / span) : 0;
+}
 var BADGES = {
   streak7:{ico:"🔥",name:"7-day streak"},
   perfect:{ico:"💯",name:"Perfect mastery round"},
@@ -393,9 +427,35 @@ function checkAll(){
   if (all) grant("words");
   if (MODS.every(function(m){ return p.boss[m.id]; })) grant("master");
 }
-function addXP(n){ var p=P(); var before=rank(p.xp); p.xp+=n; save();
-  if (rank(p.xp)!==before) toastRank = rank(p.xp); }
+function addXP(n){
+  var p = P(), before = rank(p.xp);
+  p.xp += n; save();
+  if (n > 0) splash(n);
+  if (rank(p.xp) !== before) toastRank = rank(p.xp);
+}
 var toastRank = null;
+var activeSplash = null;
+function splash(n){
+  if (!n) return;
+  if (activeSplash){
+    clearTimeout(activeSplash.timer);
+    if (activeSplash.el.parentNode) activeSplash.el.parentNode.removeChild(activeSplash.el);
+    activeSplash = null;
+  }
+  var d = document.createElement("div");
+  d.className = "xpsplash";
+  d.setAttribute("aria-hidden", "true");
+  d.innerHTML = '<svg viewBox="0 0 60 40"><path d="M4 32 q 12 -22 26 -6 q 10 10 26 -14" '
+    + 'fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>'
+    + '<span>+' + n + ' xp</span>';
+  document.body.appendChild(d);
+  var rec = { el: d, timer: null };
+  rec.timer = setTimeout(function(){
+    if (d.parentNode) d.parentNode.removeChild(d);
+    if (activeSplash === rec) activeSplash = null;
+  }, 1200);
+  activeSplash = rec;
+}
 function shuffle(a){ a=a.slice(); for (var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
 function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
 function el(html){ var d=document.createElement("div"); d.innerHTML=html; return d; }
@@ -445,10 +505,18 @@ function learn(){
     + '<p class="eyebrow">Your next five minutes</p>'
     + '<h1>Less script.<br><span class="dim">More understanding.</span></h1>'
     + '<p class="sub">Pick a subject. Test what sticks. Say it your way.</p>'
-    + '<div class="chips">'
-    + '<span class="chip">'+rankIco(p.xp)+' <b>'+esc(rank(p.xp))+'</b>'+(nr? ' <span class="muted">· '+(nr[0]-p.xp)+' xp to '+nr[2]+' '+esc(nr[1])+'</span>':'')+'</span>'
-    + '<span class="chip">🔥 <b>'+p.streak+'</b> day'+(p.streak===1?'':'s')+'</span>'
-    + '</div></div>'
+    + '<div class="levelblock">'
+    + '<div class="lvline"><span class="lvico">' + rankIco(p.xp) + '</span>'
+    + '<span class="lvname">' + esc(rank(p.xp)) + '</span>'
+    + '<span class="lvxp">' + p.xp + ' xp</span></div>'
+    + (nr
+       ? '<div class="lvbar"><i style="width:' + rankPct(p.xp) + '%"></i></div>'
+         + '<p class="muted lvnext">' + (nr[0]-p.xp) + ' xp to ' + nr[2] + ' ' + esc(nr[1]) + '</p>'
+       : '<p class="muted lvnext">Top of the ladder. ' + rankIco(p.xp) + '</p>')
+    + '<div class="chips"><span class="chip">🔥 <b>' + p.streak + '</b> day' + (p.streak===1?'':'s') + '</span>'
+    + '<span class="chip">🧠 <b>' + totalMastery() + '%</b> understood</span></div>'
+    + '</div>'
+    + '</div>'
     + '<div onclick="GA.nav(\'progress\')" style="cursor:pointer">'+donut(150,"Your catch so far")+'</div>'
     + '</div>';
   if (p.last && p.last.mod && mod(p.last.mod)){
@@ -480,7 +548,10 @@ function learn(){
       + '<h3>'+esc(m.title)+'</h3>'
       + '<p class="desc">'+esc(meta.desc)+'</p>'
       + '<div class="recall"><span>'+rc+' of '+tot+' recalled</span><span>'+(rev? rev+' to revisit':'')+'</span></div>'
-      + '<div class="bar"><i style="width:'+pct+'%"></i></div>'
+      + '<div class="bar"><i style="width:0;background:linear-gradient(90deg,'
+      + t.acc + ',' + t.btn + ')" data-w="' + pct + '"></i></div>'
+      + '<div class="recall" style="margin-top:.35rem"><span>'+pct+'% understood</span>'
+      + '<span>'+(rev ? rev+' to revisit' : '')+'</span></div>'
       + '<div class="actions">'
       + '<button class="btn" style="background:'+t.btn+';color:'+t.btnInk+'" onclick="GA.sprintRun(\''+m.id+'\')">Start a Sprint ↗</button>'
       + '<button class="textlink" onclick="GA.cards(\''+m.id+'\')">Flashcards</button>'
@@ -497,7 +568,16 @@ function learn(){
   h += '<div class="panel" style="margin-top:1.4rem"><p class="eyebrow" style="margin-bottom:.3rem">Live training</p>'
     + '<p class="muted" style="margin:0">The Arena makes it yours: open a Claude session and say <b>"run me a prospect"</b> for live sales roleplay, or <b>"quiz me on module 2"</b> for deep drills.</p></div>';
   render(h);
-  if (toastRank){ setTimeout(function(){ alert("Rank up! You are now "+toastRank+" 🌊"); toastRank=null; }, 150); }
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      document.querySelectorAll(".bar i[data-w]").forEach(function(i){ i.style.width = i.getAttribute("data-w") + "%"; });
+    });
+  });
+  if (toastRank){
+    var t = toastRank; toastRank = null;
+    var b = el('<div class="rankup">' + rankIco(P().xp) + ' Rank up. You are now <b>' + esc(t) + '</b>.</div>');
+    app.insertBefore(b.firstChild, app.firstChild);
+  }
 }
 
 function pickPlayer(){
