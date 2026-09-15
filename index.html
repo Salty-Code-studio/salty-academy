@@ -113,8 +113,8 @@
   .legend .li { display:flex; align-items:center; gap:.55rem; font-size:.88rem; }
   .legend .dot { width:.7rem; height:.7rem; border-radius:3px; flex:none; }
   .legend .pct { margin-left:auto; font-weight:700; font-variant-numeric:tabular-nums; }
-  .ladder { display:flex; gap:.4rem; flex-wrap:wrap; margin:1rem 0 1.4rem; }
-  .ladder .stepp { flex:1 1 100px; background:var(--paper); border:1.5px solid var(--line);
+  .ladder { display:flex; gap:.4rem; flex-wrap:wrap; justify-content:center; margin:1rem 0 1.4rem; }
+  .ladder .stepp { flex:1 1 80px; max-width:130px; background:var(--paper); border:1.5px solid var(--line);
     border-radius:12px; padding:.7rem .5rem; text-align:center; }
   .ladder .stepp .e { font-size:1.5rem; }
   .ladder .stepp .n2 { font-weight:700; font-size:.8rem; margin-top:.15rem; }
@@ -1105,17 +1105,12 @@ window.GA = {
     window.SA_VIEWS.cinematic(function(){ learn(); });
   },
   cineDone:function(where){
-    var c = document.getElementById("cine");
-    if (c && c.parentNode) c.parentNode.removeChild(c);
-    window.SA_VIEWS.cinematic.onDone = null;
+    window.SA_VIEWS.cineDispose();
     if (where === "progress") progressView();
     else GA.cinematic();
   },
   cineSkip:function(){
-    var c = document.getElementById("cine");
-    if (c && c.parentNode) c.parentNode.removeChild(c);
-    var onDone = window.SA_VIEWS.cinematic.onDone;
-    window.SA_VIEWS.cinematic.onDone = null;
+    var onDone = window.SA_VIEWS.cineDispose();
     if (onDone) onDone(); else learn();
   },
   speakFilter:function(f){ speakHome(f); },
@@ -1191,7 +1186,7 @@ window.GA = {
       else if (j===i) b.classList.add("wrong");
     });
     document.querySelectorAll(".confrow button").forEach(function(b){ b.disabled=true; });
-    var gain = (run.mode==="boss" ? XP.bossQ : XP.sprint) + (picked.ok ? (CONF_BONUS[it.conf]||0) : 0);
+    var gain = (run.mode==="boss" || run.mode==="mastery" ? XP.bossQ : XP.sprint) + (picked.ok ? (CONF_BONUS[it.conf]||0) : 0);
     var confNote = "";
     if (picked.ok){ run.score++; run.xp+=gain; addXP(gain);
       if (it.conf==="know") confNote = " Called it, too: +"+CONF_BONUS.know+" xp.";
@@ -1281,7 +1276,8 @@ window.GA = {
 };
 var VCTX = { P:P, S:S, save:save, MODS:MODS, IDX:IDX, RANKS:RANKS, rank:rank, rankIco:rankIco,
              esc:esc, el:el, render:render, playbar:playbar, startRun:startRun, step:step,
-             addXP:addXP, XP:XP, GEN:GEN, MY:MY, mod:mod, TH:TH, nav:function(v){ GA.nav(v); } };
+             addXP:addXP, XP:XP, GEN:GEN, MY:MY, mod:mod, TH:TH, nav:function(v){ GA.nav(v); },
+             setView:function(v){ view = v; } };
 window.SA_VIEWS.init(VCTX);
 learn();
 })();

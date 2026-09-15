@@ -122,5 +122,5 @@ function build(testNo, player, index, opts){
            packsMissing:packsMissing };
 }
 
-root.SA_GENERATE = { unlocked:unlocked, build:build, pickWeighted:pickWeighted };
+root.SA_GENERATE = { unlocked:unlocked, build:build, pickWeighted:pickWeighted, SPEC:SPEC };
 })(typeof window !== "undefined" ? window : global);
