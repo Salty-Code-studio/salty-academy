@@ -819,7 +819,7 @@ function teachPanel(item, headline){
   if (extra.length){
     h += '<p class="muted" style="margin:.7rem 0 .3rem">Terms in this question, tap to open:</p><div class="termrow">';
     extra.forEach(function(c){
-      h += '<button class="chip term" onclick="GA.term(\'' + c.id + '\')">' + esc(c.name) + '</button>';
+      h += '<button class="chip term" onclick="GA.term(\'' + esc(c.id) + '\')">' + esc(c.name) + '</button>';
     });
     h += '</div><div id="termbox"></div>';
   }
@@ -856,6 +856,8 @@ window.GA = {
   },
   card:function(knew){
     var it = run.items[run.i];
+    if (it.answered) return;
+    it.answered = true;
     if (knew){ run.score++; run.xp+=XP.cards; addXP(XP.cards); }
     recordAnswer(it.item, knew, knew ? "pretty" : "guess");
     run.i++; step();
@@ -891,6 +893,8 @@ window.GA = {
   },
   speakGrade:function(level){
     var it = run.items[run.i];
+    if (it.answered) return;
+    it.answered = true;
     if (level===2){ run.score++; run.xp+=XP.speak; addXP(XP.speak); recordAnswer(it.item, true, "pretty"); }
     else if (level===1){ run.xp+=Math.floor(XP.speak/2); addXP(Math.floor(XP.speak/2)); recordAnswer(it.item, true, "guess"); }
     else recordAnswer(it.item, false, "guess");
@@ -899,6 +903,8 @@ window.GA = {
   answer:function(i){
     var it = run.items[run.i], picked = it.shuffled[i];
     if (!it.conf) return;
+    if (it.answered) return;
+    it.answered = true;
     it.shuffled.forEach(function(o,j){
       var b=document.getElementById("opt"+j); b.disabled=true;
       if (o.ok) b.classList.add("correct");
