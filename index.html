@@ -177,6 +177,13 @@
     padding:.85rem 1.1rem; border-radius:0 10px 10px 0; font-size:.93rem; margin:1rem 0; }
   .confrow { display:flex; gap:.5rem; flex-wrap:wrap; margin:.4rem 0 1rem; }
   .confrow .chip.sel { border-color:var(--coral); color:var(--coral-dark); }
+  .teach { border:1px solid var(--line); border-left:3px solid var(--coral);
+    border-radius:10px; padding:.85rem 1rem; margin:.7rem 0; background:var(--paper); }
+  .teach p { margin:.4rem 0 0; font-size:.92rem; line-height:1.5; }
+  .teach .clientline { font-style:italic; }
+  .termrow { display:flex; gap:.4rem; flex-wrap:wrap; }
+  .chip.term { cursor:pointer; border-style:dashed; }
+  .opt[disabled] { opacity:.45; cursor:not-allowed; }
   /* idea interstitial */
   .idea { background:var(--teal); color:var(--teal-ink); border-radius:16px; padding:2rem 1.8rem; margin:.5rem 0 1.2rem; }
   .idea .eyebrow { color:var(--blue); }
@@ -742,20 +749,21 @@ function renderMC(it){
   var eyebrow = it.kind==="quiz" ? "Name the concept" : it.kind==="translate" ? "Pick the human answer" : "Diagnose the real problem";
   var opts = d.a.map(function(txt,i){ return {txt:txt, ok:i===0}; });
   it.shuffled = shuffle(opts);
-  it.conf = "pretty";
+  it.conf = null;
   var h = '<p class="eyebrow">'+eyebrow+'</p>';
   if (isQuote){ h += '<p class="qtext">What is really going on?</p><div class="quote">'+esc(prompt)+'</div>'; }
   else h += '<p class="qtext">'+esc(prompt)+'</p>';
-  it.shuffled.forEach(function(o,i){
-    h += '<button class="opt" id="opt'+i+'" onclick="GA.answer('+i+')"><span class="letter">'+String.fromCharCode(65+i)+'</span><span>'+esc(o.txt)+'</span></button>';
-  });
-  h += '<p class="muted" style="margin:1rem 0 .3rem">How sure are you?</p>'
+  h += '<p class="muted" style="margin:.2rem 0 .3rem">First: how sure are you?</p>'
     + '<div class="confrow">'
-    + '<button class="chip" id="conf-guess" onclick="GA.conf(\'guess\')">Guessing</button>'
-    + '<button class="chip sel" id="conf-pretty" onclick="GA.conf(\'pretty\')">Pretty sure</button>'
+    + '<button class="chip" id="conf-guess" onclick="GA.conf(\'guess\')">I am guessing</button>'
+    + '<button class="chip" id="conf-pretty" onclick="GA.conf(\'pretty\')">Pretty sure</button>'
     + '<button class="chip" id="conf-know" onclick="GA.conf(\'know\')">I know this</button>'
-    + '</div>'
-    + '<p class="muted" style="font-size:.78rem">No timer. Think it through.</p>';
+    + '</div>';
+  it.shuffled.forEach(function(o,i){
+    h += '<button class="opt" id="opt'+i+'" disabled onclick="GA.answer('+i+')">'
+      + '<span class="letter">'+String.fromCharCode(65+i)+'</span><span>'+esc(o.txt)+'</span></button>';
+  });
+  h += '<p class="muted" id="confhint" style="font-size:.78rem">Pick one of the three above to unlock the answers. Being honest here is the whole point.</p>';
   return h;
 }
 function results(){
@@ -790,6 +798,32 @@ function results(){
   h += '<button class="btn wide dark" onclick="GA.nav(\''+back+'\')">Done</button></div>';
   run = null;
   render(h);
+}
+
+function teachPanel(item, headline){
+  var d = item.data;
+  var primary = item.concepts.length ? CN.byId(item.concepts[0]) : null;
+  var h = '<div class="why">' + (headline || "")
+    + esc(d.why || "") + '</div>';
+  if (primary){
+    h += '<div class="teach"><p class="eyebrow">The idea underneath</p>'
+      + '<b>' + esc(primary.name) + '</b>'
+      + '<p>' + esc(primary.plain) + '</p>'
+      + '<p class="muted"><b>For example:</b> ' + esc(primary.example) + '</p>'
+      + '<p class="clientline"><b>Say it to a client:</b> &ldquo;' + esc(primary.client) + '&rdquo;</p>'
+      + '</div>';
+  }
+  var extra = CN.findInText([d.q, d.setup, d.say, d.ask, d.why, (d.a||[])[0]].join(" "))
+    .filter(function(c){ return !primary || c.id !== primary.id; })
+    .slice(0, 4);
+  if (extra.length){
+    h += '<p class="muted" style="margin:.7rem 0 .3rem">Terms in this question, tap to open:</p><div class="termrow">';
+    extra.forEach(function(c){
+      h += '<button class="chip term" onclick="GA.term(\'' + c.id + '\')">' + esc(c.name) + '</button>';
+    });
+    h += '</div><div id="termbox"></div>';
+  }
+  return h;
 }
 
 /* ---------- interactions ---------- */
@@ -829,9 +863,20 @@ window.GA = {
   conf:function(level){
     var it = run.items[run.i]; it.conf = level;
     ["guess","pretty","know"].forEach(function(l){
-      var b=document.getElementById("conf-"+l);
+      var b = document.getElementById("conf-"+l);
       if (b) b.classList.toggle("sel", l===level);
     });
+    document.querySelectorAll(".opt").forEach(function(b){ b.disabled = false; });
+    var hint = document.getElementById("confhint");
+    if (hint) hint.textContent = "No timer. Think it through.";
+  },
+  term:function(id){
+    var c = CN.byId(id), box = document.getElementById("termbox");
+    if (!c || !box) return;
+    box.innerHTML = '<div class="teach"><b>' + esc(c.name) + '</b>'
+      + '<p>' + esc(c.plain) + '</p>'
+      + '<p class="muted"><b>For example:</b> ' + esc(c.example) + '</p>'
+      + '<p class="clientline"><b>Say it to a client:</b> &ldquo;' + esc(c.client) + '&rdquo;</p></div>';
   },
   reveal:function(){
     var it = run.items[run.i], d = it.data;
@@ -853,6 +898,7 @@ window.GA = {
   },
   answer:function(i){
     var it = run.items[run.i], picked = it.shuffled[i];
+    if (!it.conf) return;
     it.shuffled.forEach(function(o,j){
       var b=document.getElementById("opt"+j); b.disabled=true;
       if (o.ok) b.classList.add("correct");
@@ -869,8 +915,12 @@ window.GA = {
     }
     recordAnswer(it.item, picked.ok, it.conf);
     var d=it.data;
-    var extra = '<div class="why">'+(picked.ok?'<b>Correct.</b> ':'<b>The answer:</b> '+esc(d.a[0])+'<br>')+esc(d.why||"")+esc(confNote)+'</div>'
-      + '<button class="btn wide" onclick="GA.next()">'+(run.i+1>=run.items.length?'Finish':'Next')+' →</button>';
+    var headline = picked.ok
+      ? '<b>Correct.</b> '
+      : '<b>The answer was:</b> ' + esc(d.a[0]) + '<br>';
+    var extra = teachPanel(it.item, headline + esc(confNote) + ' ')
+      + '<button class="btn wide" onclick="GA.next()">'
+      + (run.i+1 >= run.items.length ? 'Finish' : 'Next') + ' →</button>';
     document.querySelector(".narrow").appendChild(el(extra));
     window.scrollTo(0, document.body.scrollHeight);
   },
