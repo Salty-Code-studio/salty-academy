@@ -1083,6 +1083,9 @@ function gradeOpenFinal(it, state, headline){
 /* ---------- interactions ---------- */
 window.GA = {
   nav:function(v){
+    /* Leaving the player mid-run must cancel a pending grade the same way quitRun does,
+       so a late-arriving grade cannot land on whatever view we navigate to next. */
+    if (run) run = null;
     if (v==="learn") learn();
     else if (v==="sprint") sprintHome();
     else if (v==="speak") speakHome();
@@ -1227,6 +1230,7 @@ window.GA = {
     window.SA_AI.grade(it.item, answer).then(function(r){
       it.pending = false;
       if (!run || run !== pendingRun || run.token !== pendingToken || run.items[run.i] !== it) return;
+      if (!document.querySelector(".narrow")) return;
       if (backBtn) backBtn.disabled = false;
       showOpenResult(it, r);
     });
