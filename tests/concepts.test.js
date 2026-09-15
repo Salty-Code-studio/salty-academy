@@ -44,3 +44,22 @@ test("byId and findInText work", function(){
   var hits = C.findInText("the page was slow so she bounced");
   assert.ok(hits.some(function(c){ return c.id === "c.p1.speed"; }));
 });
+
+test("no two concepts in the same pack share an alias", function(){
+  PACKS.forEach(function(pack){
+    var concepts = C.byPack(pack);
+    var aliasToId = {};
+    concepts.forEach(function(c){
+      c.aliases.forEach(function(alias){
+        var normalized = alias.toLowerCase();
+        if(aliasToId[normalized]){
+          var existing = aliasToId[normalized];
+          if(existing !== c.id){
+            throw new Error("Alias collision in pack " + pack + ": \"" + alias + "\" used by both " + existing + " and " + c.id);
+          }
+        }
+        aliasToId[normalized] = c.id;
+      });
+    });
+  });
+});

@@ -581,7 +581,7 @@ var ALL = [
   plain:"The half of the frontend built for the team instead of the customer: the same screens-and-data pattern as the public site, just reading and writing data customers never see.",
   example:"The public booking form and the back office both talk to the same database, but the back office shows every scooter, every payment status and every booking, because the team needs the whole picture, not just one slice of it.",
   client:"The back office usually is not a separate system, it is the other half of the same one: same data, same rules, a different screen built for the people running the business instead of the people booking from it.",
-  aliases:["back office","the other half of the frontend","same data different screen","internal tool"] },
+  aliases:["back office","the other half of the frontend","same data different screen"] },
 
 { id:"c.m5.internal-tool", pack:"m5", name:"Internal tool",
   plain:"Software built only for the team to use, that customers never open or even know exists.",
