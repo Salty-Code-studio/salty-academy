@@ -4,7 +4,7 @@ global.window = {};
 require("../engine/util.js");
 require("../engine/concepts.js");
 var C = global.window.SA_CONCEPTS;
-var PACKS = ["p1","p2","m1","m2","m3","m4","m5","m6"];
+var PACKS = ["p1","p2","m1","m2","m3","m4","m5","m6","m7"];
 
 test("every pack has at least eight concepts", function(){
   PACKS.forEach(function(p){
@@ -15,7 +15,7 @@ test("every pack has at least eight concepts", function(){
 test("ids are unique and well formed", function(){
   var seen = {};
   C.ALL.forEach(function(c){
-    assert.match(c.id, /^c\.(p1|p2|m1|m2|m3|m4|m5|m6)\.[a-z][a-z-]*$/, "bad id " + c.id);
+    assert.match(c.id, /^c\.(p1|p2|m1|m2|m3|m4|m5|m6|m7)\.[a-z][a-z-]*$/, "bad id " + c.id);
     assert.ok(!seen[c.id], "duplicate id " + c.id);
     seen[c.id] = 1;
   });

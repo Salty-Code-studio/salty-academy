@@ -127,6 +127,7 @@ test("the real data files load without throwing", function(){
   global.window = g;
   require("../data1.js"); require("../data2.js"); require("../data3.js"); require("../data4.js");
   try { require("../data5.js"); } catch(e){ /* data5 arrives in Task 8 */ }
+  require("../data6.js");
   global.window = saved;
   var B = IT.build(g);
   assert.ok(B.items.length > 300, "expected the full bank, got " + B.items.length);

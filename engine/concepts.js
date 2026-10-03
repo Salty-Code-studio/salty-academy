@@ -698,6 +698,104 @@ var ALL = [
   client:"Forget the tech words. What this actually gets you is fewer double bookings and a Tuesday afternoon back in your week.",
   aliases:["translation rule","translate the fix","what they actually care about","kitchen table language"] },
 
+
+/* ---- m7 · On Camera: Episode 1 (bonus pack, outside the finals) ---- */
+{ id:"c.m7.promise", pack:"m7", name:"The episode promise",
+  plain:"One sentence the whole episode proves: big companies always had their own software, now a small rental has it too.",
+  example:"Episode 1 shows a 44-scooter rental on Bonaire running from one screen, the way a big chain would.",
+  client:"Big companies always had their own software. Now a shop like yours can too.",
+  aliases:["episode promise","the promise","one sentence","enterprise software small business size"] },
+
+{ id:"c.m7.one-problem", pack:"m7", name:"One problem per episode",
+  plain:"Each episode solves exactly one problem. A second problem becomes its own episode.",
+  example:"Episode 1 is only about who has which scooter and who paid. The website and Google are a different video.",
+  client:"Today is about one thing: knowing who paid. Nothing else.",
+  aliases:["one problem","single problem","one topic","stay on one problem"] },
+
+{ id:"c.m7.owner-tuesday", pack:"m7", name:"The owner's Tuesday",
+  plain:"The ordinary, specific moments of an owner's week. Naming them proves you have been there.",
+  example:"Answering a booking from bed at 11 pm. Scrolling back to see if a student paid March.",
+  client:"You answer bookings from bed, right? Every rental owner we meet does.",
+  aliases:["tuesday","insider moments","normal day","specific moments","11 pm","from bed"] },
+
+{ id:"c.m7.name-moment", pack:"m7", name:"Name the moment, not the category",
+  plain:"Pain lands when you describe one concrete scene, not a label like admin problems.",
+  example:"Not 'admin is a hassle' but 'scrolling a spreadsheet at night to see if March was paid'.",
+  client:"You know that moment you scroll back three months to check one payment? That one.",
+  aliases:["name the moment","specific scene","not the category","concrete moment","scene not label"] },
+
+{ id:"c.m7.three-costs", pack:"m7", name:"Cost it three ways",
+  plain:"Every pain costs time, money or reputation. Say all three, one line each.",
+  example:"Time: hours checking. Money: rentals that ran unpaid. Reputation: slow replies and a mix-up at the counter.",
+  client:"It costs you hours, it costs you money, and it costs you your name with tourists.",
+  aliases:["time money reputation","three costs","cost it","what it costs","reputation"] },
+
+{ id:"c.m7.maths-out-loud", pack:"m7", name:"Do the maths out loud",
+  plain:"Say the bottleneck bill on camera: hours a week times euros per hour times 52. Say the number and let it sit.",
+  example:"5 hours a week at 25 euros is 6,500 euros a year. Then silence.",
+  client:"Five hours a week at 25 euros is 6,500 a year. For checking a spreadsheet.",
+  aliases:["maths out loud","math out loud","times 52","6,500","6500","bottleneck bill","let it sit"] },
+
+{ id:"c.m7.respect-old-way", pack:"m7", name:"Respect the old way",
+  plain:"Never mock the spreadsheet. It got the owner this far, and the viewer uses the same one.",
+  example:"'This worked. Until it didn't.' instead of laughing at the coloured cells.",
+  client:"Your spreadsheet got you here. It's just not built for 44 scooters.",
+  aliases:["respect the old way","never mock","dont mock","it worked until it didnt","normalise","normalize","not your fault"] },
+
+{ id:"c.m7.the-fix", pack:"m7", name:"The three-part fix",
+  plain:"The Little John system in three steps: the board, paid until, and the phone gate.",
+  example:"Board shows every scooter. An unpaid rental turns red. Paid another month? Tap +1 month. New booking? Confirm on Telegram.",
+  client:"One screen for every scooter. Red means chase. New bookings wait for your yes on your phone.",
+  aliases:["the board","paid until","phone gate","telegram","plus one month","+1 month","three part fix"] },
+
+{ id:"c.m7.show-then-say", pack:"m7", name:"Show, then say",
+  plain:"Put it on screen first. Make the claim second, or not at all.",
+  example:"Show the red NOT PAID bar appearing, then say 'you see it without looking for it'.",
+  client:"Let me just show you. Watch what happens when a rental goes unpaid.",
+  aliases:["show then say","show dont tell","show first","on screen first","demonstrate"] },
+
+{ id:"c.m7.admit-mistake", pack:"m7", name:"Admit a real mistake",
+  plain:"Telling one true mistake makes everything else believable.",
+  example:"We first thought Sjonnie's sheets were empty from December. The format had changed. We caught it and fixed it.",
+  client:"Honestly, we got this wrong at first. Here's how we caught it.",
+  aliases:["admit a mistake","our mistake","we got it wrong","wrongs","honest mistake","caught it"] },
+
+{ id:"c.m7.restraint", pack:"m7", name:"Say what you didn't build",
+  plain:"Restraint reads as expertise. Explain what you left out and why.",
+  example:"No online payments. Island customers pay at the desk, so the system works that way.",
+  client:"We didn't add online payments. Your customers pay at the counter, so we built for that.",
+  aliases:["restraint","what we didnt build","pay at the desk","left out","didnt add","no online payments"] },
+
+{ id:"c.m7.the-shift", pack:"m7", name:"The shift",
+  plain:"Why this is possible now: big chains always had custom software, AI made building it affordable for a small shop.",
+  example:"Hertz always had a fleet system. Now a 44-scooter rental on Bonaire has one too.",
+  client:"This used to cost enterprise money. Now it fits your shop.",
+  aliases:["the shift","enterprise money","fits your shop","hertz","big chains","ai made it cheaper"] },
+
+{ id:"c.m7.one-ask", pack:"m7", name:"One ask",
+  plain:"End with a single request. Got this problem? Message us. The free download is a bonus, not a second ask.",
+  example:"No subscribe, like, follow and call stacked together. Just 'send us a message'.",
+  client:"Got this problem? Send us a message.",
+  aliases:["one ask","single ask","one cta","message us","got this problem"] },
+
+{ id:"c.m7.human-moment", pack:"m7", name:"The human moment",
+  plain:"30 to 60 seconds at the very end with no business: a passion, shown not explained.",
+  example:"A drift session, music with family, time with your daughter. One per episode, rotating.",
+  client:"(No words to a client. You just show it.)",
+  aliases:["human moment","human unit","passion","at the end","drifting","no business"] },
+
+{ id:"c.m7.keep-the-promise", pack:"m7", name:"Keep the title's promise",
+  plain:"The first sentence repeats what the title promised. Anything else and viewers leave.",
+  example:"Title says 'who paid', so the first line is about who paid, not a hello and a channel intro.",
+  client:"By the end you'll see how 44 scooters run from one screen.",
+  aliases:["first 30 seconds","keep the promise","repeat the title","hook","no intro"] },
+
+{ id:"c.m7.true-numbers", pack:"m7", name:"Only numbers you can stand behind",
+  plain:"Say real, specific numbers, and client money only with the client's OK.",
+  example:"'44 scooters' and 'same day' are safe. The unpaid amount needs Sjonnie's yes, otherwise 'more than he expected'.",
+  client:"It was more than he expected. That's all I'll say without his OK.",
+  aliases:["true numbers","real numbers","client permission","more than he expected","specific beats impressive"] },
+
 ];
 
 function byId(id){ for (var i=0;i<ALL.length;i++){ if (ALL[i].id===id) return ALL[i]; } return null; }

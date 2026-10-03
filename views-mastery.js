@@ -13,7 +13,7 @@ function init(c){ ctx = c; }
 
 var packIdCache = null;
 function packIds(){
-  if (!packIdCache) packIdCache = ctx.MODS.map(function(m){ return m.id; });
+  if (!packIdCache) packIdCache = ctx.MODS.filter(function(m){ return !m.bonus; }).map(function(m){ return m.id; });
   return packIdCache;
 }
 

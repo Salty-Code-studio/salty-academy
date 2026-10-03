@@ -317,21 +317,22 @@
 </div></footer>
 
 <!-- Version cache-bust query string: increment v= whenever any of these files change -->
-<script src="config.js?v=2"></script>
-<script src="engine/util.js?v=2"></script>
-<script src="engine/concepts.js?v=2"></script>
-<script src="engine/storage.js?v=2"></script>
-<script src="engine/mastery.js?v=2"></script>
-<script src="engine/rubric.js?v=2"></script>
-<script src="engine/ai.js?v=2"></script>
-<script src="data1.js?v=2"></script>
-<script src="data2.js?v=2"></script>
-<script src="data3.js?v=2"></script>
-<script src="data4.js?v=2"></script>
-<script src="data5.js?v=2"></script>
-<script src="engine/items.js?v=2"></script>
-<script src="engine/generate.js?v=2"></script>
-<script src="views-mastery.js?v=2"></script>
+<script src="config.js?v=3"></script>
+<script src="engine/util.js?v=3"></script>
+<script src="engine/concepts.js?v=3"></script>
+<script src="engine/storage.js?v=3"></script>
+<script src="engine/mastery.js?v=3"></script>
+<script src="engine/rubric.js?v=3"></script>
+<script src="engine/ai.js?v=3"></script>
+<script src="data1.js?v=3"></script>
+<script src="data2.js?v=3"></script>
+<script src="data3.js?v=3"></script>
+<script src="data4.js?v=3"></script>
+<script src="data5.js?v=3"></script>
+<script src="data6.js?v=3"></script>
+<script src="engine/items.js?v=3"></script>
+<script src="engine/generate.js?v=3"></script>
+<script src="views-mastery.js?v=3"></script>
 <script>
 (function(){
 "use strict";
@@ -347,7 +348,8 @@ var META = {
   m3:{big:"GROW",    desc:"The pipeline, the garden and the faucet, and marketing without the jargon."},
   m4:{big:"AI",      desc:"Models, prompts and agents, explained as time saved instead of hype."},
   m5:{big:"SYSTEMS", desc:"Databases, APIs and booking engines: how business software fits together."},
-  m6:{big:"SELL",    desc:"The conversation spine, insider questions, and stories that carry proof."}
+  m6:{big:"SELL",    desc:"The conversation spine, insider questions, and stories that carry proof."},
+  m7:{big:"FILM",    desc:"Episode 1, Little John: the pain, the proof and the beats, so you talk without a script."}
 };
 var THEMES = {
   p1:{acc:"#D65F46", ink:"#EFE9DB", btn:"#E8735A", btnInk:"#fff",
@@ -365,7 +367,9 @@ var THEMES = {
   m5:{acc:"#3E8A96", ink:"#E4EAEA", btn:"#57A7B3", btnInk:"#0E2226",
       g:"radial-gradient(circle at 85% 10%, rgba(87,167,179,.35), transparent 55%), linear-gradient(140deg,#33454C,#1B2A30)"},
   m6:{acc:"#B0452F", ink:"#F6E7DC", btn:"#E8735A", btnInk:"#fff",
-      g:"radial-gradient(circle at 85% 10%, rgba(255,170,120,.4), transparent 55%), linear-gradient(140deg,#8A4432,#54251B)"}
+      g:"radial-gradient(circle at 85% 10%, rgba(255,170,120,.4), transparent 55%), linear-gradient(140deg,#8A4432,#54251B)"},
+  m7:{acc:"#C4932F", ink:"#F3EBDA", btn:"#E0B04F", btnInk:"#1E1606",
+      g:"radial-gradient(circle at 85% 10%, rgba(224,176,79,.4), transparent 55%), linear-gradient(140deg,#2A2A2E,#141417)"}
 };
 function TH(id){ return THEMES[id] || THEMES.p1; }
 var KEY = window.SA_STORAGE.KEY;

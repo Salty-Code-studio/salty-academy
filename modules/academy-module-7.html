@@ -1,0 +1,499 @@
+<title>Academy M7 · On Camera, Episode 1</title>
+<style>
+  :root {
+    --sand: #F5F1E8;
+    --ink: #16282E;
+    --surf: #0E7C86;
+    --dune: #8A7F6A;
+    --hairline: #DDD5C4;
+    --card: #FDFBF6;
+    --surf-soft: rgba(14, 124, 134, 0.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --sand: #0F1B1E;
+      --ink: #EDE6D6;
+      --surf: #4FB3BC;
+      --dune: #9A917E;
+      --hairline: #24373C;
+      --card: #14232780;
+      --surf-soft: rgba(79, 179, 188, 0.1);
+    }
+  }
+  :root[data-theme="light"] {
+    --sand: #F5F1E8;
+    --ink: #16282E;
+    --surf: #0E7C86;
+    --dune: #8A7F6A;
+    --hairline: #DDD5C4;
+    --card: #FDFBF6;
+    --surf-soft: rgba(14, 124, 134, 0.08);
+  }
+  :root[data-theme="dark"] {
+    --sand: #0F1B1E;
+    --ink: #EDE6D6;
+    --surf: #4FB3BC;
+    --dune: #9A917E;
+    --hairline: #24373C;
+    --card: #14232780;
+    --surf-soft: rgba(79, 179, 188, 0.1);
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--sand);
+    color: var(--ink);
+    font-family: "Iowan Old Style", "Palatino", Georgia, serif;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    margin: 0;
+    padding: 0 1.25rem;
+  }
+  .wrap { max-width: 44rem; margin: 0 auto; padding: 3.5rem 0 6rem; }
+  .mark {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: 1.1rem; letter-spacing: 0.02em;
+    color: var(--surf);
+  }
+  .eyebrow {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--dune); margin: 0 0 0.6rem;
+  }
+  h1 {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: clamp(2rem, 5vw, 2.9rem);
+    line-height: 1.08; letter-spacing: -0.015em; margin: 0.4rem 0 1rem;
+    text-wrap: balance;
+  }
+  h2 {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: 1.45rem; letter-spacing: -0.01em;
+    margin: 0 0 0.9rem; text-wrap: balance;
+  }
+  h3 {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", sans-serif;
+    font-weight: 600; font-size: 1.08rem; margin: 1.6rem 0 0.4rem;
+  }
+  p { margin: 0 0 1.05rem; }
+  section { border-top: 1px solid var(--hairline); padding-top: 2.4rem; margin-top: 2.6rem; }
+  .lede { font-size: 1.15rem; }
+  .muted { color: var(--dune); }
+  .toc { list-style: none; padding: 0; margin: 1.4rem 0 0; display: flex; flex-direction: column; gap: 0.45rem; }
+  .toc a {
+    color: var(--ink); text-decoration: none;
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif; font-weight: 500; font-size: 0.95rem;
+  }
+  .toc a:hover, .toc a:focus-visible { color: var(--surf); }
+  .toc .n {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; color: var(--surf); margin-right: 0.6rem;
+  }
+  a:focus-visible { outline: 2px solid var(--surf); outline-offset: 3px; border-radius: 2px; }
+  .callout {
+    background: var(--surf-soft);
+    border-left: 2px solid var(--surf);
+    padding: 1rem 1.2rem; margin: 1.4rem 0;
+    font-size: 1rem;
+  }
+  .callout .eyebrow { color: var(--surf); margin-bottom: 0.35rem; }
+  .callout p:last-child { margin-bottom: 0; }
+  .statrow { display: flex; gap: 1rem; flex-wrap: wrap; margin: 1.5rem 0; }
+  .stat {
+    flex: 1 1 240px; background: var(--card); border: 1px solid var(--hairline);
+    padding: 1.15rem 1.25rem;
+  }
+  .stat .big {
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: 2.2rem; letter-spacing: -0.02em;
+    color: var(--surf); line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat .src {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--dune); margin-top: 0.7rem;
+  }
+  .stat p { font-size: 0.94rem; margin: 0.4rem 0 0; }
+  .tablewrap { overflow-x: auto; margin: 1.5rem 0; border: 1px solid var(--hairline); }
+  table { border-collapse: collapse; width: 100%; min-width: 620px; font-size: 0.95rem; }
+  th {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--dune); text-align: left; font-weight: 500;
+    padding: 0.8rem 1rem; border-bottom: 1px solid var(--hairline);
+  }
+  td { padding: 0.8rem 1rem; border-bottom: 1px solid var(--hairline); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td.term {
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+    font-weight: 600; font-size: 0.92rem; white-space: nowrap;
+  }
+  td.say { color: var(--surf); font-style: italic; }
+  .beat {
+    background: var(--card); border: 1px solid var(--hairline);
+    padding: 1.4rem 1.5rem; margin: 1.3rem 0;
+  }
+  .beat h3 { margin-top: 0; }
+  .beat ol { margin: 0.6rem 0 0; padding-left: 1.3rem; }
+  .beat ol li { margin-bottom: 0.55rem; }
+  .beat .hookline { font-style: italic; color: var(--surf); }
+  .beat .close {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.8rem; letter-spacing: 0.06em; margin-top: 0.9rem;
+    color: var(--dune);
+  }
+  .drill { margin: 1.2rem 0; padding: 0; list-style: none; counter-reset: drill; }
+  .drill li {
+    counter-increment: drill; position: relative;
+    padding: 0.85rem 0 0.85rem 2.6rem; border-bottom: 1px solid var(--hairline);
+  }
+  .drill li::before {
+    content: "Q" counter(drill);
+    position: absolute; left: 0; top: 0.95rem;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; color: var(--surf); letter-spacing: 0.05em;
+  }
+  .drill li:last-child { border-bottom: none; }
+  .pushback { margin: 1.2rem 0; }
+  .pushback dt {
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+    font-weight: 600; font-size: 0.98rem; margin-top: 1.2rem;
+  }
+  .pushback dt::before { content: "\201C"; color: var(--surf); }
+  .pushback dt::after { content: "\201D"; color: var(--surf); }
+  .pushback dd { margin: 0.35rem 0 0; font-size: 0.98rem; }
+  ul { padding-left: 1.25rem; }
+  ul li { margin-bottom: 0.5rem; }
+  strong { font-weight: 600; }
+  footer {
+    border-top: 1px solid var(--hairline); margin-top: 3.5rem; padding-top: 1.5rem;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dune);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+  }
+</style>
+<style>
+  .anchors { display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 0.7rem 0 0.2rem; }
+  .anchors span {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase;
+    border: 1px solid var(--surf); color: var(--surf); padding: 0.2rem 0.55rem;
+  }
+  .beat .time {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; letter-spacing: 0.1em; color: var(--dune); margin: 0 0 0.2rem;
+  }
+  .beat dl { margin: 0.8rem 0 0; }
+  .beat dt {
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+    font-weight: 600; font-size: 0.86rem; margin-top: 0.7rem;
+  }
+  .beat dd { margin: 0.15rem 0 0; font-size: 0.98rem; }
+  .check { color: var(--dune); font-size: 0.92rem; }
+</style>
+<div class="wrap">
+  <header>
+    <div class="mark">~&lt; salty code studio</div>
+    <p class="eyebrow" style="margin-top:2.2rem">Academy · Module 7 · On Camera</p>
+    <h1>Episode 1: The software that runs a scooter rental</h1>
+    <p class="lede">This is not a script. It is what you need to know so you can talk from your head. Learn the pain. Learn the proof. Learn the beats. Then you film like you're telling a friend about it.</p>
+    <p class="muted">Front: Rudo. Owner's voice: Monischa. Business: Little John Scooters, Bonaire. Length: 12 to 20 minutes. Language: English.</p>
+    <ul class="toc">
+      <li><a href="#job"><span class="n">01</span>The job of this episode</a></li>
+      <li><a href="#viewer"><span class="n">02</span>Who is watching</a></li>
+      <li><a href="#pain"><span class="n">03</span>Pitching the pain</a></li>
+      <li><a href="#proof"><span class="n">04</span>The proof you can stand on</a></li>
+      <li><a href="#beats"><span class="n">05</span>The episode, beat by beat</a></li>
+      <li><a href="#authority"><span class="n">06</span>How trust gets built on camera</a></li>
+      <li><a href="#three"><span class="n">07</span>Say it three ways</a></li>
+      <li><a href="#avoid"><span class="n">08</span>Words that cost you trust</a></li>
+      <li><a href="#youtube"><span class="n">09</span>Packaging for YouTube</a></li>
+      <li><a href="#drills"><span class="n">10</span>Teach-back drills</a></li>
+    </ul>
+  </header>
+
+  <section id="job">
+    <p class="eyebrow">01 · The point</p>
+    <h2>The job of this episode</h2>
+    <p>Episode 1 is the promise of the whole channel. One sentence:</p>
+    <div class="callout">
+      <p class="eyebrow">The promise</p>
+      <p><strong>Big companies always had their own software. Now a 44-scooter rental on Bonaire has it too.</strong></p>
+    </div>
+    <p>You are not selling in this video. You are marking territory. A rental owner should finish it thinking three things:</p>
+    <ul>
+      <li><strong>"That's my problem."</strong> They saw their own Tuesday on screen.</li>
+      <li><strong>"He's solved it before."</strong> They saw it working in a real shop.</li>
+      <li><strong>"I could talk to him."</strong> Calm, honest, no hype.</li>
+    </ul>
+    <p>One problem only. <strong>Who has which scooter, and who paid?</strong> Everything else is a different episode. If you catch yourself drifting into the website or Google, stop. That's another episode.</p>
+  </section>
+
+  <section id="viewer">
+    <p class="eyebrow">02 · The one person</p>
+    <h2>Who is watching</h2>
+    <p>Talk to one person. Not "guys." Not "everyone."</p>
+    <div class="beat">
+      <h3>The owner</h3>
+      <p>Runs 20 to 80 scooters, cars or boats. Island or tourist town. Works the counter himself. Knows every vehicle by number. Runs the business from his head, a spreadsheet and WhatsApp. It works. Mostly. He's tired.</p>
+      <p class="muted">He doesn't care about code. He cares about his evenings, his cash and his name.</p>
+    </div>
+    <h3>His Tuesday</h3>
+    <p>These are the moments you name. Insiders know them. Outsiders don't. Naming them is the proof.</p>
+    <ul>
+      <li>A customer messages at 11 at night. He answers from bed.</li>
+      <li>He opens the spreadsheet. Red means unpaid. Green means paid. Orange means in the shop. He coloured every cell by hand.</li>
+      <li>A student rents for five months. Pays month by month. Was March paid? He scrolls back to check.</li>
+      <li>Someone walks in. "Do you have two for Friday?" He has to check before he can say yes.</li>
+      <li>He's sick for a day. Nobody else can read his system.</li>
+    </ul>
+    <p class="check">Sjonnie approved the episode. On the day, ask him which of these he actually lived. Use his words, not ours.</p>
+  </section>
+
+  <section id="pain">
+    <p class="eyebrow">03 · The craft</p>
+    <h2>Pitching the pain</h2>
+    <p>People don't buy software. They buy the end of a feeling. Your job in the first two minutes is to make that feeling clear. Not bigger. Clearer.</p>
+    <h3>Rule 1. Name the moment, not the category.</h3>
+    <p>"Admin problems" means nothing. "Scrolling a spreadsheet at 11 pm to see if March was paid" hits. The specific moment does the work.</p>
+    <h3>Rule 2. Cost it three ways.</h3>
+    <div class="tablewrap">
+      <table>
+        <tr><th>Cost</th><th>What it looks like</th><th>Say it like</th></tr>
+        <tr><td class="term">Time</td><td>Hours a week checking, colouring, answering</td><td class="say">"That's a part-time job nobody's paying you for."</td></tr>
+        <tr><td class="term">Money</td><td>Rentals that ran on unpaid. Nobody noticed.</td><td class="say">"The money isn't lost. It's just not in your pocket."</td></tr>
+        <tr><td class="term">Reputation</td><td>Slow replies. A mix-up at the counter.</td><td class="say">"Tourists don't remember the scooter. They remember the wait."</td></tr>
+      </table>
+    </div>
+    <h3>Rule 3. Do the maths out loud.</h3>
+    <p>The bottleneck bill: <strong>hours a week × € per hour × 52.</strong> Ask Sjonnie his real hours. If it's 5 hours at €25, that's €6,500 a year. Say the number. Let it sit. Don't explain it twice.</p>
+    <h3>Rule 4. Never mock the old way.</h3>
+    <p>The spreadsheet got him this far. Respect it. "This worked. Until it didn't." The viewer uses the same spreadsheet. Laugh at it and you laugh at him.</p>
+    <h3>Rule 5. Normalise it.</h3>
+    <p>"Every rental we've met runs like this." That's true, and it takes away the shame. Shame closes people. Normal opens them.</p>
+  </section>
+
+  <section id="proof">
+    <p class="eyebrow">04 · The receipts</p>
+    <h2>The proof you can stand on</h2>
+    <p>Only say what's true. These are true:</p>
+    <div class="statrow">
+      <div class="stat"><div class="big">44</div><p>scooters, each one on a single board. Every plate, every booking, one screen.</p><div class="src">Little John fleet</div></div>
+      <div class="stat"><div class="big">1 tap</div><p>New booking pings Sjonnie on Telegram. Confirm or decline from his phone.</p><div class="src">Live since Aug 2026</div></div>
+    </div>
+    <h3>Before</h3>
+    <ul>
+      <li>A rental overview spreadsheet. Cells coloured by hand: red unpaid, green paid, orange in the shop.</li>
+      <li>Bookings by WhatsApp and the old website.</li>
+      <li>Long rentals (students, months at a time) tracked by memory and scrolling.</li>
+    </ul>
+    <h3>After</h3>
+    <ul>
+      <li><strong>The board.</strong> Every scooter, every day. Unpaid rentals show red and striped. "NOT PAID" on hover. You see it without looking for it.</li>
+      <li><strong>Paid until.</strong> One date per rental. A student pays another month? Tap "+1 month". Done.</li>
+      <li><strong>The phone gate.</strong> A booking comes in. Sjonnie gets it on Telegram. Confirm or decline. The customer gets a branded email.</li>
+      <li><strong>Pay at the desk.</strong> No online payments forced on him. Island customers pay at the counter, so the system works that way.</li>
+      <li><strong>His history.</strong> We imported his old sheets back to February 2025. Nothing was thrown away.</li>
+    </ul>
+    <div class="callout">
+      <p class="eyebrow">The line you can say</p>
+      <p>Sjonnie linked his phone and confirmed real bookings from Telegram the same day. That's the whole test. Does the owner actually use it? He did.</p>
+    </div>
+    <h3>Numbers: ask first</h3>
+    <p>When we imported his sheets, we found rentals marked unpaid that added up to real money. That's a powerful moment. <strong>Ask Sjonnie before you say the amount.</strong> If he says no, say "thousands" or "more than he expected." The moment still lands.</p>
+    <p class="check">Also confirm with Sjonnie: did double-bookings ever happen? Only say it if yes.</p>
+  </section>
+
+  <section id="beats">
+    <p class="eyebrow">05 · The shape</p>
+    <h2>The episode, beat by beat</h2>
+    <p>Each beat has a job, three anchor words and a trap. Learn the anchors. The sentences come by themselves.</p>
+
+    <div class="beat">
+      <p class="time">0:00 · AT THE DESK</p>
+      <h3>1. The hook</h3>
+      <p><strong>Job:</strong> name the problem. Say what they'll get.</p>
+      <div class="anchors"><span>spreadsheet</span><span>who paid</span><span>one screen</span></div>
+      <dl>
+        <dt>Shot</dt><dd>Little John counter. Scooters behind you.</dd>
+        <dt>Shape</dt><dd>The moment. Then the promise. "By the end you'll see how 44 scooters run from one screen."</dd>
+        <dt>Trap</dt><dd>Saying hi, your name, the channel. Nobody cares yet. Earn it first.</dd>
+      </dl>
+    </div>
+
+    <div class="beat">
+      <p class="time">0:30 · STILL AT THE DESK</p>
+      <h3>2. Why it hurts</h3>
+      <p><strong>Job:</strong> make the cost clear. Time, money, name.</p>
+      <div class="anchors"><span>red cells</span><span>11 pm</span><span>bottleneck bill</span></div>
+      <dl>
+        <dt>Monischa asks</dt><dd>"How often does this happen?" · "What did that cost him?"</dd>
+        <dt>Shape</dt><dd>Show the old spreadsheet (blur names). Walk through the colours. Then the maths.</dd>
+        <dt>Trap</dt><dd>Making fun of the spreadsheet. See rule 4.</dd>
+      </dl>
+    </div>
+
+    <div class="beat">
+      <p class="time">2:00 · ON SCREEN</p>
+      <h3>3. The fix</h3>
+      <p><strong>Job:</strong> show it, step by step. One feature per pain.</p>
+      <div class="anchors"><span>the board</span><span>paid until</span><span>the phone</span></div>
+      <dl>
+        <dt>Order</dt><dd>Board first (the big picture). Then an unpaid rental turning red. Then "+1 month." Then a booking landing on Telegram.</dd>
+        <dt>Monischa asks</dt><dd>"What if they pay cash?" · "What if he's off island?" · "Can his staff use it?"</dd>
+        <dt>Trap</dt><dd>Showing every button. Show the three things that kill the three pains. Stop.</dd>
+      </dl>
+    </div>
+
+    <div class="beat">
+      <p class="time">12:00 · BACK AT THE DESK</p>
+      <h3>4. It working</h3>
+      <p><strong>Job:</strong> prove it's real. Not a demo. A shop.</p>
+      <div class="anchors"><span>real booking</span><span>Telegram</span><span>Sjonnie</span></div>
+      <dl>
+        <dt>Shot</dt><dd>Sjonnie's phone buzzing. Him tapping confirm. If he'll say one line on camera, gold.</dd>
+        <dt>Trap</dt><dd>Faking it. If no booking comes in while filming, say so and show yesterday's.</dd>
+      </dl>
+    </div>
+
+    <div class="beat">
+      <p class="time">14:00 · TO CAMERA</p>
+      <h3>5. The shift</h3>
+      <p><strong>Job:</strong> zoom out. Why this is possible now.</p>
+      <div class="anchors"><span>Hertz</span><span>enterprise money</span><span>your shop</span></div>
+      <dl>
+        <dt>Shape</dt><dd>Big rental chains always had this. It cost a fortune. AI made building it cheaper. Now it fits a shop like this one.</dd>
+        <dt>The closer</dt><dd class="hookline">"This used to cost enterprise money. Now it fits your shop."</dd>
+        <dt>Trap</dt><dd>An AI lecture. One minute. Then move on.</dd>
+      </dl>
+    </div>
+
+    <div class="beat">
+      <p class="time">15:00 · TO CAMERA</p>
+      <h3>6. One ask</h3>
+      <p><strong>Job:</strong> open the door. Once.</p>
+      <div class="anchors"><span>your problem</span><span>message us</span><span>calculator</span></div>
+      <dl>
+        <dt>Shape</dt><dd>"Got this problem? Send us a message." Plus the free bottleneck bill calculator in the description.</dd>
+        <dt>Trap</dt><dd>Two asks. Subscribe, like, follow, call, download. Pick one. The download is a bonus, not a second ask.</dd>
+      </dl>
+    </div>
+
+    <div class="beat">
+      <p class="time">END · 30 TO 60 SECONDS</p>
+      <h3>7. The human moment</h3>
+      <p><strong>Job:</strong> let them meet you. No business.</p>
+      <div class="anchors"><span>one passion</span><span>no pitch</span><span>short</span></div>
+      <dl>
+        <dt>Ideas</dt><dd>A drift session. Working on the car. Music with family. Your daughter. Pick one per episode. Rotate.</dd>
+        <dt>Trap</dt><dd>Explaining it. Just show it. The people who stay to the end will get it.</dd>
+      </dl>
+    </div>
+  </section>
+
+  <section id="authority">
+    <p class="eyebrow">06 · Being the one</p>
+    <h2>How trust gets built on camera</h2>
+    <p>Authority isn't claimed. It's noticed. Six habits make people notice.</p>
+    <ul>
+      <li><strong>Insider words.</strong> "Plate number." "Turnaround." "Late return with the next renter waiting." Only someone who's been there talks like this.</li>
+      <li><strong>Show, then say.</strong> Screen first. Claim second. Or no claim at all.</li>
+      <li><strong>Admit a mistake.</strong> True one: when we first read Sjonnie's sheets, we thought they were empty from December. They weren't. The format had changed. We caught it and fixed it. Saying that makes everything else believable.</li>
+      <li><strong>Say what you didn't build.</strong> "No online payments. His customers pay at the desk. So we built it that way." Restraint reads as expertise.</li>
+      <li><strong>Slow down.</strong> Nervous people rush. Experts pause. Finish the sentence. Breathe. Next.</li>
+      <li><strong>Specific beats impressive.</strong> "44 scooters" beats "a large fleet." "Same day" beats "fast."</li>
+    </ul>
+    <div class="callout">
+      <p class="eyebrow">The test</p>
+      <p>Would Sjonnie nod if he watched it? If yes, every other owner will too.</p>
+    </div>
+  </section>
+
+  <section id="three">
+    <p class="eyebrow">07 · Fluency</p>
+    <h2>Say it three ways</h2>
+    <p>Know each idea at three levels. Use the one the moment needs.</p>
+    <div class="tablewrap">
+      <table>
+        <tr><th>Idea</th><th>Pro</th><th>Everyday</th><th>Kitchen table</th></tr>
+        <tr><td class="term">One board</td><td>A single source of truth for the fleet</td><td>Every scooter, every booking, one screen</td><td>"You stop asking 'where's number 12?'"</td></tr>
+        <tr><td class="term">Paid until</td><td>Per-rental payment coverage date</td><td>One date tells you if they're paid up</td><td>"Red means chase. Nothing else to check."</td></tr>
+        <tr><td class="term">Phone gate</td><td>Approval workflow via Telegram</td><td>New bookings wait for your yes</td><td>"You stay the boss. From the beach."</td></tr>
+        <tr><td class="term">Custom software</td><td>Built around your own process</td><td>It works the way you already work</td><td>"You don't change for the software. It changes for you."</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section id="avoid">
+    <p class="eyebrow">08 · Guardrails</p>
+    <h2>Words that cost you trust</h2>
+    <div class="tablewrap">
+      <table>
+        <tr><th>Don't say</th><th>Why</th><th>Say instead</th></tr>
+        <tr><td class="term">"Game changer"</td><td>Hype. Owners tune out.</td><td class="say">The number. "Same day."</td></tr>
+        <tr><td class="term">"Database, backend, API"</td><td>Jargon. He can't picture it.</td><td class="say">"The system." "The board."</td></tr>
+        <tr><td class="term">"Revolutionise"</td><td>Nobody's revolution is scooters.</td><td class="say">"Makes this one job disappear."</td></tr>
+        <tr><td class="term">"Easy, anyone can do it"</td><td>Then why hire you?</td><td class="say">"Simple to use. Built with care."</td></tr>
+        <tr><td class="term">Client revenue</td><td>Not ours to share.</td><td class="say">"More than he expected." Unless Sjonnie OKs it.</td></tr>
+        <tr><td class="term">"Guys, smash that like"</td><td>Kills the calm.</td><td class="say">Nothing. One ask, at the end.</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section id="youtube">
+    <p class="eyebrow">09 · Getting watched</p>
+    <h2>Packaging for YouTube</h2>
+    <h3>Title options</h3>
+    <ul>
+      <li>The software that runs a scooter rental</li>
+      <li>How a 44-scooter rental knows who paid</li>
+      <li>We replaced a rental's spreadsheet. Here's the system.</li>
+    </ul>
+    <p class="muted">Pick the one you'd search for. People find YouTube by searching.</p>
+    <h3>Thumbnail</h3>
+    <p>Two halves. Left: red and green spreadsheet. Right: the clean board. Three words at most: "Who paid?" Your face optional, but real.</p>
+    <h3>The first 30 seconds</h3>
+    <p>The title made a promise. Repeat it in the first sentence. If the title says "who paid," the first line is about who paid. Anything else and they leave.</p>
+    <h3>What to watch after it's live</h3>
+    <div class="tablewrap">
+      <table>
+        <tr><th>Number</th><th>What it tells you</th></tr>
+        <tr><td class="term">Click rate</td><td>Did the title and thumbnail work?</td></tr>
+        <tr><td class="term">Still watching at 0:30</td><td>Did the hook keep the promise?</td></tr>
+        <tr><td class="term">Average watch time</td><td>Did the middle hold?</td></tr>
+        <tr><td class="term">Messages from owners</td><td>The one that pays. Count them.</td></tr>
+      </table>
+    </div>
+    <p>Mark each one up, down or same every week. Big review at 90 days.</p>
+  </section>
+
+  <section id="drills">
+    <p class="eyebrow">10 · Practice</p>
+    <h2>Teach-back drills</h2>
+    <p>Answer out loud. No notes. If you stumble, reread that section and try again tomorrow.</p>
+    <ol class="drill">
+      <li>Say the promise of this episode in one sentence.</li>
+      <li>Name three moments from a rental owner's Tuesday. Make them specific.</li>
+      <li>Cost the problem in time, money and reputation. One line each.</li>
+      <li>Do the bottleneck bill out loud with 5 hours a week at €25.</li>
+      <li>Walk through the fix in three steps: board, paid until, phone.</li>
+      <li>Monischa asks "What if they pay cash?" Answer in under 15 seconds.</li>
+      <li>Tell the mistake story. Situation, what went wrong, how we caught it.</li>
+      <li>Explain why big chains always had this and a shop now can too. Under 30 seconds.</li>
+      <li>Give the one ask. Then stop talking.</li>
+      <li>Say "paid until" three ways: pro, everyday, kitchen table.</li>
+    </ol>
+    <div class="callout">
+      <p class="eyebrow">Practice with Claude</p>
+      <p>Say <strong>"quiz me on module 7"</strong> and I'll run these drills. Or say <strong>"play the owner"</strong> and I'll be a skeptical rental owner watching your episode, interrupting with the questions real owners ask.</p>
+    </div>
+    <div class="callout">
+      <p class="eyebrow">Before you film</p>
+      <p>Sjonnie has approved the episode. Still ask him three facts on the day: how many hours a week the old way cost him, did double-bookings ever happen, and will he say one line on camera?</p>
+    </div>
+  </section>
+
+  <footer>~&lt; Academy · Module 7 · Salty Code Studio · learn it, then say it your way</footer>
+</div>

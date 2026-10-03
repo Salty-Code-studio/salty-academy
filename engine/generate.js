@@ -43,10 +43,13 @@ function build(testNo, player, index, opts){
   opts = opts || {};
   var rng = opts.rng || Math.random;
   var spec = SPEC[testNo];
-  var packIds = Object.keys(index.byPack);
+  /* Bonus packs (M7 On Camera) have their own mastery round but stay out of the finals. */
+  var bonus = {};
+  (index.packs || []).forEach(function(m){ if (m.bonus) bonus[m.id] = 1; });
+  var packIds = Object.keys(index.byPack).filter(function(pk){ return !bonus[pk]; });
   var conceptW = spec.weighted ? M.weights(player) : null;
 
-  function allowed(it){ return !spec.formats || spec.formats.indexOf(it.format) >= 0; }
+  function allowed(it){ return !bonus[it.pack] && (!spec.formats || spec.formats.indexOf(it.format) >= 0); }
   function unseen(it){ return !(player.seen && player.seen[it.id]); }
 
   function weightOf(it){

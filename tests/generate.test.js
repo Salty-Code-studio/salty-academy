@@ -187,3 +187,19 @@ test("test 3 leans on the learner's weak concepts, and the draw is not determini
     "every generated test had the exact same full set of item ids across all " +
     WEAK_TRIALS + " builds, which would mean nothing in the whole test varies at all");
 });
+
+test("bonus packs (M7) never enter the finals", function(){
+  var idx = index();
+  idx.byPack.m7 = [];
+  ["quiz","diagnose","open","match","translate","flash"].forEach(function(fmt){
+    var it = { id: fmt.charAt(0)+".m7.bonus.a", pack:"m7", format:fmt, concepts:[], use:"module", data:{} };
+    idx.items.push(it); idx.byPack.m7.push(it); idx.byId[it.id] = it;
+  });
+  idx.packs = PACKS.map(function(id){ return {id:id}; }).concat([{id:"m7", bonus:true}]);
+  var p = allMastered(player());
+  [1,2,3].forEach(function(n){
+    var t = G.build(n, p, idx, {});
+    t.items.forEach(function(i){ assert.notStrictEqual(i.pack, "m7", "test " + n + " drew a bonus item"); });
+    assert.deepStrictEqual(t.packsMissing, [], "test " + n + " reports a missing pack");
+  });
+});
